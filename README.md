@@ -1,11 +1,12 @@
 # Proiect9_PC_UndaVerde
 
------Manager-------
+Manager
 - 
------TEAM DEV------
+Team Dev
 - 
------TEAM DOCS-----
+Team Docs
 -
------TEAM TEST-----
+Team testing
+-
 
 
