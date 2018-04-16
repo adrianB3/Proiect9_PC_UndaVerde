@@ -1,14 +1,14 @@
 # Proiect9_PC_UndaVerde
 
-Manager
-- 
---> Andreea Carp
-Team Dev
-- 
---> Andrei Chirap
---> Adrian Balnescu
---> Bizdoc Gabriel
-Team Docs
--
+## Project Manager
+- Andreea Carp
+## DevTeam
+- Andrei Chirap
+- Adrian Balanescu
+- Gabriel Bizdoc
+## DesignTeam
+
+## DocsTeam
+
 
 
