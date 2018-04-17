@@ -6,6 +6,8 @@
 - Andrei Chirap @AndreiChirap
 - Adrian-Gabriel Balanescu @adrianB3
 - Gabriel Bizdoc @GabiBVG
+- Raul-Adrian Chincea @RaulChincea
+- Diana Dalea @dianadalea
 ## DesignTeam
 - Anamaria Larisa Bala @AnamariaLarisa
 - Simona-Rebeca Buse @SimonaRebeca
