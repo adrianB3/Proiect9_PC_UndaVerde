@@ -7,8 +7,9 @@
 - Adrian-Gabriel Balanescu @adrianB3
 - Gabriel Bizdoc @GabiBVG
 ## DesignTeam
-
+- Anamaria Larisa Bala @AnamariaLarisa
 ## DocsTeam
+- Anamaria Larisa Bala @AnamariaLarisa
 
 ### How to open project and start working:
 1. Download and install git from here: https://git-scm.com/downloads
