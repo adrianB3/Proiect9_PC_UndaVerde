@@ -28,7 +28,7 @@
   - check it - ` git remote -v `
 4. Change to dev branch - ` git checkout dev ` - do not use master branch! 
 5. Open the project with VisualStudio
-6. Fetch changes made by others - ` git fetch `
+6. Fetch changes made by others - ` git pull `
 7. After you made your changes to the project, push those changes to the repository (on the dev branch or your own branch)
   ```
   git add .
