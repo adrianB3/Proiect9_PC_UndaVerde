@@ -12,6 +12,7 @@
 - Anamaria Larisa Bala @AnamariaLarisa
 - Simona-Rebeca Buse @SimonaRebeca
 - Adrian Coneac @adrianconeac
+- Mario-Razvan Cioara @MarioCioara
 ## DocsTeam
 - Anamaria Larisa Bala @AnamariaLarisa
 - Simona-Rebeca Buse @SimonaRebeca
