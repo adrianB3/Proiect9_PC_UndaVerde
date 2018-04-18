@@ -6,10 +6,17 @@
 - Andrei Chirap @AndreiChirap
 - Adrian-Gabriel Balanescu @adrianB3
 - Gabriel Bizdoc @GabiBVG
+- Raul-Adrian Chincea @RaulChincea
+- Diana Dalea @dianadalea
 ## DesignTeam
 - Anamaria Larisa Bala @AnamariaLarisa
+- Simona-Rebeca Buse @SimonaRebeca
+- Adrian Coneac @adrianconeac
+- Mario-Razvan Cioara @MarioCioara
 ## DocsTeam
 - Anamaria Larisa Bala @AnamariaLarisa
+- Simona-Rebeca Buse @SimonaRebeca
+- Adrian Coneac @adrianconeac
 
 ### How to open project and start working:
 1. Download and install git from here: https://git-scm.com/downloads
