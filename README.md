@@ -1,4 +1,4 @@
-# Proiect9_PC_UndaVerde :alien:
+# Proiect9_PC_UndaVerde
 
 ## Project Manager
 - Andreea Carp
