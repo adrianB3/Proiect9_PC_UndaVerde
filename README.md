@@ -8,6 +8,8 @@
 - Gabriel Bizdoc @GabiBVG
 - Raul-Adrian Chincea @RaulChincea
 - Diana Dalea @dianadalea
+- Andreea Balasoiu @AndreeaBalasoiu
+- Alina Bacalete @AlinaBacalete
 ## DesignTeam
 - Anamaria Larisa Bala @AnamariaLarisa
 - Simona-Rebeca Buse @SimonaRebeca
