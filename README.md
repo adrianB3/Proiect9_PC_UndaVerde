@@ -20,6 +20,7 @@
 - Anamaria Larisa Bala @AnamariaLarisa
 - Simona-Rebeca Buse @SimonaRebeca
 - Adrian Coneac @adrianconeac
+- Raul Cojocaru @raulcojocaru
 
 ### How to open project and start working:
 1. Download and install git from here: https://git-scm.com/downloads
