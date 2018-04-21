@@ -4,6 +4,7 @@
   - Read carefully the project requirments listed in the /ProjectRequirments folder
   - Everybody from the designTeam needs to design (using photoshop or by hand) an interface for the application in this framework
     ![Imgur](https://i.imgur.com/MoLOF0c.png)
+    - Add a short description for each element!
   - Upload your desing to /ideas/design folder
     - Make sure to add a commit message and a description for your interface design
     
