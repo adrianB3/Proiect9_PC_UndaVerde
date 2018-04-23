@@ -24,5 +24,10 @@ namespace P9_UndaVerde
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
