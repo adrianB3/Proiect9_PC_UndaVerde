@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace P9_UndaVerde
 {
     /// <summary>
@@ -23,11 +24,29 @@ namespace P9_UndaVerde
         public MainWindow()
         {
             InitializeComponent();
+
+        }
+        private void mapView_Loaded(object sender, RoutedEventArgs e)
+        {
+            GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerAndCache;
+            
+            mapView.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance;
+            mapView.MinZoom = 2;
+            mapView.MaxZoom = 17;
+           
+            mapView.Zoom = 2;
+            
+            mapView.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            
+            mapView.CanDragMap = true;
+            
+            mapView.DragButton = MouseButton.Left;
+           
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void aplicationExit(object sender, EventArgs e)
         {
-
+            Application.Current.Shutdown();
         }
     }
 }

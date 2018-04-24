@@ -4,11 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:P9_UndaVerde"
+        xmlns:gmaps="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="650" Width="1080" Closed="aplicationExit">
     <Grid>
-        <Label x:Name="label" Content="TEST" HorizontalAlignment="Left" VerticalAlignment="Top" Height="79" Width="113"/>
-        <Button Content="this is a button" HorizontalAlignment="Left" Margin="118,10,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-
+        <gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" />
     </Grid>
 </Window>
