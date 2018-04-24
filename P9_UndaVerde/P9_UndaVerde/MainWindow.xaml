@@ -18,7 +18,7 @@
     <Grid>
         <gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" Width="750" HorizontalAlignment="Left" />
         <materialDesign:Card Padding="32" Width="288" HorizontalAlignment="Right" Margin="0,10,10,0">
-            <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" Margin="0,0,-1,0" HorizontalAlignment="Center">Material Design</TextBlock>
+            <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" Margin="0,0,-1,0" HorizontalAlignment="Center">ProiectPC</TextBlock>
         </materialDesign:Card>
     </Grid>
 </Window>
