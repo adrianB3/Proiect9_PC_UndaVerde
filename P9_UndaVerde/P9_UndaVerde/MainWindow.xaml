@@ -6,8 +6,19 @@
         xmlns:local="clr-namespace:P9_UndaVerde"
         xmlns:gmaps="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation"
         mc:Ignorable="d"
-        Title="MainWindow" Height="650" Width="1080" Closed="aplicationExit">
+        Title="ProiectPC" Height="650" Width="1080" Closed="aplicationExit"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid>
-        <gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" />
+        <gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" Width="750" HorizontalAlignment="Left" />
+        <materialDesign:Card Padding="32" Width="288" HorizontalAlignment="Right" Margin="0,10,10,0">
+            <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" Margin="0,0,-1,0" HorizontalAlignment="Center">Material Design</TextBlock>
+        </materialDesign:Card>
     </Grid>
 </Window>
