@@ -9,5 +9,7 @@
     
   - for optimization of the semaphores time we will use a genetic algorithm as described in here: https://www.codeproject.com/Articles/873559/Implementing-Genetic-Algorithms-in-Csharp
   
+  - for animating the cars, check the documentation: https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/animation-overview
+  
 #### we need to discuss what approach to use ASAP
  
