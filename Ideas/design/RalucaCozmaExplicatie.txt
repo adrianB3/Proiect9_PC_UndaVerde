@@ -1,0 +1,3 @@
+La apasarea butonului start semafoarele vor functiona in unda verde indiferent daca exista vehicule sau nu.
+Ulterior prin apasarea butoanelor Adauga tramvai, masini, pietoni se vor introduce si aceste elemente pentru observarea mai buna a functionalitatii.
+Butonul x10 masini va înmulti numarul de masini cu 10 pentru a observa cum schimbarea acestui numar influenteaza timpul in care semafoarele au culoarea verde
