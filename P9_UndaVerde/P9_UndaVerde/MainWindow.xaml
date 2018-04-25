@@ -24,7 +24,7 @@
         <Slider HorizontalAlignment="Right" Margin="0,129,29,0" VerticalAlignment="Top" IsDirectionReversed="True" Width="269" Height="23"/>
         <GroupBox Header="Controls" HorizontalAlignment="Right" Margin="0,157,29,306" Width="269"/>
         <Button Content="Button" HorizontalAlignment="Right" Margin="0,205,202,0" VerticalAlignment="Top" Width="75" d:LayoutOverrides="Height" RenderTransformOrigin="0.627,2.274"/>
-        <Expander Header="Expander" HorizontalAlignment="Right" Height="51" Margin="0,0,125,233" VerticalAlignment="Bottom" Width="173">
+        <Expander Header="Expander" HorizontalAlignment="Right" Height="Auto" Margin="0,0,125,233" VerticalAlignment="Bottom" Width="173" IsExpanded="False" ExpandDirection="Up">
             <StackPanel Margin="10,4,0,0">
                 <CheckBox Margin="4" Content="Option 1" />
                 <CheckBox Margin="4" Content="Option 2" />
@@ -32,15 +32,9 @@
             </StackPanel>
         </Expander>
 
-        <DatePicker HorizontalAlignment="Right" Margin="0,0,29,10" VerticalAlignment="Bottom" Height="110" Width="269"/>
+        <DatePicker HorizontalAlignment="Right" Margin="0,0,29,10" VerticalAlignment="Bottom" Height="32" Width="269"/>
         <Button Content="Save Configuration" Margin="485,0,318,10" VerticalAlignment="Bottom" d:LayoutOverrides="Height"/>
-        <TabControl HorizontalAlignment="Right" Height="100" Margin="0,0,29,120" VerticalAlignment="Bottom" Width="269">
-            <TabItem Header="Tab1" Margin="-2,-2,-2,2">
-                <Grid Background="#FFE5E5E5"/>
-            </TabItem>
-            <TabItem Header="Tab2">
-                <Grid Background="#FFE5E5E5"/>
-            </TabItem>
-        </TabControl>
+        <RadioButton Content="RadioButton" HorizontalAlignment="Right" Margin="0,0,146,71" VerticalAlignment="Bottom" Height="24" Width="152"/>
+        <RadioButton Content="RadioButton" HorizontalAlignment="Right" Margin="0,0,196,47" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>
