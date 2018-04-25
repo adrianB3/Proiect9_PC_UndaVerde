@@ -6,19 +6,41 @@
         xmlns:local="clr-namespace:P9_UndaVerde"
         xmlns:gmaps="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation"
         mc:Ignorable="d"
-        Title="ProiectPC" Height="650" Width="1080" Closed="aplicationExit"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="TrafficSimTM" Height="650" Width="1080" Closed="aplicationExit"
+        
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"        
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        TextElement.FontWeight="Regular"
-        TextElement.FontSize="13"
-        TextOptions.TextFormattingMode="Ideal"
-        TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}">
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"      
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto">
     <Grid>
         <gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" Width="750" HorizontalAlignment="Left" />
         <materialDesign:Card Padding="32" Width="288" HorizontalAlignment="Right" Margin="0,10,10,0">
             <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" Margin="0,0,-1,0" HorizontalAlignment="Center">ProiectPC</TextBlock>
         </materialDesign:Card>
+        <Slider HorizontalAlignment="Right" Margin="0,129,29,0" VerticalAlignment="Top" IsDirectionReversed="True" Width="269" Height="23"/>
+        <GroupBox Header="Controls" HorizontalAlignment="Right" Margin="0,157,29,306" Width="269"/>
+        <Button Content="Button" HorizontalAlignment="Right" Margin="0,205,202,0" VerticalAlignment="Top" Width="75" d:LayoutOverrides="Height" RenderTransformOrigin="0.627,2.274"/>
+        <Expander Header="Expander" HorizontalAlignment="Right" Height="51" Margin="0,0,125,233" VerticalAlignment="Bottom" Width="173">
+            <StackPanel Margin="10,4,0,0">
+                <CheckBox Margin="4" Content="Option 1" />
+                <CheckBox Margin="4" Content="Option 2" />
+                <CheckBox Margin="4" Content="Option 3" />
+            </StackPanel>
+        </Expander>
+
+        <DatePicker HorizontalAlignment="Right" Margin="0,0,29,10" VerticalAlignment="Bottom" Height="110" Width="269"/>
+        <Button Content="Save Configuration" Margin="485,0,318,10" VerticalAlignment="Bottom" d:LayoutOverrides="Height"/>
+        <TabControl HorizontalAlignment="Right" Height="100" Margin="0,0,29,120" VerticalAlignment="Bottom" Width="269">
+            <TabItem Header="Tab1" Margin="-2,-2,-2,2">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Tab2">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
