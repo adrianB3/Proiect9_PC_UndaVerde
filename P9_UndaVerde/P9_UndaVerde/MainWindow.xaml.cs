@@ -39,15 +39,14 @@ namespace P9_UndaVerde
             mapView.Zoom = 16;
             mapView.Position = new PointLatLng(45.7366683, 21.2277931);
             mapView.ShowCenter = false;
-            mapView.MouseWheelZoomType = MouseWheelZoomType.MousePositionAndCenter;
-            
+            mapView.MouseWheelZoomType = MouseWheelZoomType.MousePositionWithoutCenter;
             mapView.CanDragMap = true;
             
             mapView.DragButton = MouseButton.Left;
+            
 
             PointLatLng start = new PointLatLng(45.747774, 21.226252);
             PointLatLng end = new PointLatLng(45.735784, 21.228215);
-
             GMap.NET.MapProviders.GoogleMapProvider.Instance.ApiKey = "AIzaSyCMPm5rJtNTOivNQ8HdfKQDoUTClnDYH_w";
             MapRoute route = GMap.NET.MapProviders.GoogleMapProvider.Instance.GetRoute(start, end, false, false, 15);
            
@@ -66,6 +65,15 @@ namespace P9_UndaVerde
                 System.Diagnostics.Debug.WriteLine("There is no route");
             }
 
+            GMapMarker car = new GMapMarker(new PointLatLng(45.7366683, 21.2277931));
+            BitmapImage carBitmap = new BitmapImage(new Uri("pack://application:,,,/Resources/car.png"));
+            Image carImg = new Image();
+            carImg.Source = carBitmap;
+            car.Shape = carImg;
+            mapView.Markers.Add(car);
+            MessageBox.Show(car.LocalPositionX.ToString());
+            
+          
         }
 
         private void aplicationExit(object sender, EventArgs e)

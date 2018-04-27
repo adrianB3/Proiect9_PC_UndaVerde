@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:P9_UndaVerde"
         xmlns:gmaps="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation"
         mc:Ignorable="d"
-        Title="TrafficSimTM" Height="650" Width="1080" Closed="aplicationExit"
+        Title="TrafficSimTM" Closed="aplicationExit"
         
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"        
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -16,25 +16,56 @@
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"      
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto">
-    <Grid>
-        <gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" Width="750" HorizontalAlignment="Left" />
-        <materialDesign:Card Padding="32" Width="288" HorizontalAlignment="Right" Margin="0,10,10,0">
-            <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" Margin="0,0,-1,0" HorizontalAlignment="Center">ProiectPC</TextBlock>
-        </materialDesign:Card>
-        <Slider HorizontalAlignment="Right" Margin="0,129,29,0" VerticalAlignment="Top" IsDirectionReversed="True" Width="269" Height="23"/>
-        <GroupBox Header="Controls" HorizontalAlignment="Right" Margin="0,157,29,306" Width="269"/>
-        <Button Content="Button" HorizontalAlignment="Right" Margin="0,205,202,0" VerticalAlignment="Top" Width="75" d:LayoutOverrides="Height" RenderTransformOrigin="0.627,2.274"/>
-        <Expander Header="Expander" HorizontalAlignment="Right" Height="Auto" Margin="0,0,125,233" VerticalAlignment="Bottom" Width="173" IsExpanded="False" ExpandDirection="Up">
-            <StackPanel Margin="10,4,0,0">
-                <CheckBox Margin="4" Content="Option 1" />
-                <CheckBox Margin="4" Content="Option 2" />
-                <CheckBox Margin="4" Content="Option 3" />
-            </StackPanel>
-        </Expander>
+    <Grid VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
 
-        <DatePicker HorizontalAlignment="Right" Margin="0,0,29,10" VerticalAlignment="Bottom" Height="32" Width="269"/>
-        <Button Content="Save Configuration" Margin="485,0,318,10" VerticalAlignment="Bottom" d:LayoutOverrides="Height"/>
-        <RadioButton Content="RadioButton" HorizontalAlignment="Right" Margin="0,0,146,71" VerticalAlignment="Bottom" Height="24" Width="152"/>
-        <RadioButton Content="RadioButton" HorizontalAlignment="Right" Margin="0,0,196,47" VerticalAlignment="Bottom"/>
+        <Ribbon x:Name="Ribbon" SelectedIndex="0" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <!-- Application Menu, located at the left-hand side (down arrow) -->
+            <Ribbon.ApplicationMenu>
+                <RibbonApplicationMenu KeyTip="F">
+                    <RibbonApplicationMenuItem Header="Options"  />
+                    <RibbonApplicationMenuItem Header="Exit"  />
+                </RibbonApplicationMenu>
+            </Ribbon.ApplicationMenu>
+            <!-- Ribbon Tab #1: Home -->
+            <RibbonTab Header="Home" KeyTip="H" >
+                <!-- Home/Clipboard group-->
+                <RibbonGroup x:Name="ClipboardGroup" Header="Clipboard">
+                    <RibbonMenuButton  Label="Paste" KeyTip="V">
+                        <RibbonMenuItem  Header="Keep Text Only" KeyTip="T"/>
+                        <RibbonMenuItem  Header="Paste Special..." KeyTip="S"/>
+                    </RibbonMenuButton>
+                    <RibbonButton  Label="Cut" KeyTip="X" />
+                    <RibbonButton  Label="Copy" KeyTip="C" />
+                    <RibbonButton  Label="Format Painter" KeyTip="FP" />
+                </RibbonGroup>
+                <!-- Home/Colors group-->
+                <RibbonGroup x:Name="Color" Header="Colors">
+                    <RibbonRadioButton  Label="Red" KeyTip="R" IsChecked="True"/>
+                    <RibbonRadioButton Label="Green" KeyTip="G"/>
+                    <RibbonRadioButton  Label="Blue" KeyTip="B"/>
+                </RibbonGroup>
+            </RibbonTab>
+            <!-- Ribbon Tab #2: Launch -->
+            <RibbonTab Header="Launch" KeyTip="L">
+                <!-- Launch/Applications group-->
+                <RibbonGroup x:Name="DesktopApplication" Header="Desktop Applications">
+                </RibbonGroup>
+                <!-- Launch/Games group-->
+                <RibbonGroup x:Name="App" Header="Apps">
+                </RibbonGroup>
+            </RibbonTab>
+        </Ribbon>
+
+        <gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" Grid.Row="1" Width="{DynamicResource {x:Static SystemParameters.PrimaryScreenWidthKey}}" Height="{DynamicResource {x:Static SystemParameters.PrimaryScreenHeightKey}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Button Content="Start Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom" d:LayoutOverrides="Height" Grid.Row="1" Margin="15" Opacity="0.8"/>
+        <Button Content="Stop Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom" d:LayoutOverrides="Height" Grid.Row="1" Margin="160,15,15,15" Opacity="0.8"/>
     </Grid>
 </Window>
