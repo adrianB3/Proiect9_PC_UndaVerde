@@ -58,32 +58,9 @@
             </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
 
-        <Image Margin="0" Grid.Row="1" Source="Resources/road.png" Stretch="UniformToFill"/>
+        <Image Margin="0" Grid.Row="1" Source="Resources/mapp.png" Stretch="UniformToFill"/>
         <Button Content="Start Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Grid.Row="2" Margin="15" Opacity="0.8" Click="startSimulation"/>
         <Button Content="Stop Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="2" Margin="160,15,15,15" Opacity="0.8"/>
-        <Image Grid.Row="1" Height ="25" Width="25" Source="Resources/car.png" Name="car">
-            <Image.RenderTransform>
-                <MatrixTransform x:Name="ImageMatrixTransform"></MatrixTransform>
-            </Image.RenderTransform>
-            <Image.Triggers>
-                <EventTrigger RoutedEvent="MouseDown">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <MatrixAnimationUsingPath
-                                Storyboard.TargetName="ImageMatrixTransform"
-                                Storyboard.TargetProperty="Matrix"
-                                Duration="0:0:10" 
-                                RepeatBehavior="Forever" >  
-                                <MatrixAnimationUsingPath.PathGeometry>
-                                    <PathGeometry  
-                                        Figures="M 10,100 C 35,0 135,0 160,100 180,190 285,200 310,100"
-                                        PresentationOptions:Freeze="True" />
-                                </MatrixAnimationUsingPath.PathGeometry>
-                            </MatrixAnimationUsingPath>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Image.Triggers>
-        </Image>
+       
     </Grid>
 </Window>

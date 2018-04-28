@@ -73,9 +73,9 @@ namespace TrafficSimTM.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap road {
+        public static System.Drawing.Bitmap mapp {
             get {
-                object obj = ResourceManager.GetObject("road", resourceCulture);
+                object obj = ResourceManager.GetObject("mapp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
