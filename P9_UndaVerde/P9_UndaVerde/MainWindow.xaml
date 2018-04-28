@@ -1,12 +1,12 @@
 ﻿<Window x:Class="P9_UndaVerde.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Fluent="urn:fluent-ribbon"
         xmlns:local="clr-namespace:P9_UndaVerde"
-        xmlns:gmaps="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation"
-        mc:Ignorable="d"
         Title="TrafficSimTM" Closed="aplicationExit"
+        xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"  
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"  
+        mc:Ignorable="PresentationOptions"
         
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"        
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -16,56 +16,74 @@
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"      
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto">
-    <Grid VerticalAlignment="Top">
+    
+    <Grid VerticalAlignment="Top" Name="main">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="4*"/>
-            <RowDefinition Height="8*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="1.1*"/>
         </Grid.RowDefinitions>
 
-        <Ribbon x:Name="Ribbon" SelectedIndex="0" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            <!-- Application Menu, located at the left-hand side (down arrow) -->
-            <Ribbon.ApplicationMenu>
-                <RibbonApplicationMenu KeyTip="F">
-                    <RibbonApplicationMenuItem Header="Options"  />
-                    <RibbonApplicationMenuItem Header="Exit"  />
-                </RibbonApplicationMenu>
-            </Ribbon.ApplicationMenu>
-            <!-- Ribbon Tab #1: Home -->
-            <RibbonTab Header="Home" KeyTip="H" >
-                <!-- Home/Clipboard group-->
-                <RibbonGroup x:Name="ClipboardGroup" Header="Clipboard">
-                    <RibbonMenuButton  Label="Paste" KeyTip="V">
-                        <RibbonMenuItem  Header="Keep Text Only" KeyTip="T"/>
-                        <RibbonMenuItem  Header="Paste Special..." KeyTip="S"/>
-                    </RibbonMenuButton>
-                    <RibbonButton  Label="Cut" KeyTip="X" />
-                    <RibbonButton  Label="Copy" KeyTip="C" />
-                    <RibbonButton  Label="Format Painter" KeyTip="FP" />
-                </RibbonGroup>
-                <!-- Home/Colors group-->
-                <RibbonGroup x:Name="Color" Header="Colors">
-                    <RibbonRadioButton  Label="Red" KeyTip="R" IsChecked="True"/>
-                    <RibbonRadioButton Label="Green" KeyTip="G"/>
-                    <RibbonRadioButton  Label="Blue" KeyTip="B"/>
-                </RibbonGroup>
-            </RibbonTab>
-            <!-- Ribbon Tab #2: Launch -->
-            <RibbonTab Header="Launch" KeyTip="L">
-                <!-- Launch/Applications group-->
-                <RibbonGroup x:Name="DesktopApplication" Header="Desktop Applications">
-                </RibbonGroup>
-                <!-- Launch/Games group-->
-                <RibbonGroup x:Name="App" Header="Apps">
-                </RibbonGroup>
-            </RibbonTab>
-        </Ribbon>
+        <Fluent:Ribbon Grid.Row="0">
+            <!--Backstage-->
+            <Fluent:Ribbon.Menu>
+                <Fluent:Backstage>
+                    <Fluent:BackstageTabControl>
+                        <Fluent:BackstageTabItem Header="New" />
+                        <Fluent:BackstageTabItem Header="Print" />
+                        <Fluent:Button Header="Blue" />
+                    </Fluent:BackstageTabControl>
+                </Fluent:Backstage>
+            </Fluent:Ribbon.Menu>
 
-        <gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" Grid.Row="1" Width="{DynamicResource {x:Static SystemParameters.PrimaryScreenWidthKey}}" Height="{DynamicResource {x:Static SystemParameters.PrimaryScreenHeightKey}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-        <Button Content="Start Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom" d:LayoutOverrides="Height" Grid.Row="1" Margin="15" Opacity="0.8"/>
-        <Button Content="Stop Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom" d:LayoutOverrides="Height" Grid.Row="1" Margin="160,15,15,15" Opacity="0.8"/>
+            <!--Tabs-->
+            <Fluent:RibbonTabItem Header="Home">
+                <Fluent:RibbonGroupBox Header="Group">
+                    <Fluent:Button Header="Green"
+                            />
+                    <Fluent:Button Header="Grey" 
+                           />
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+
+            <Fluent:RibbonTabItem Header="Other">
+                <Fluent:RibbonGroupBox Header="OtherGroup">
+
+                    <Button Margin="15" Opacity="0.8">Just a button</Button>
+                    
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+        </Fluent:Ribbon>
+
+        <Image Margin="0" Grid.Row="1" Source="Resources/road.png" Stretch="UniformToFill"/>
+        <Button Content="Start Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Grid.Row="2" Margin="15" Opacity="0.8" Click="startSimulation"/>
+        <Button Content="Stop Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="2" Margin="160,15,15,15" Opacity="0.8"/>
+        <Image Grid.Row="1" Height ="25" Width="25" Source="Resources/car.png" Name="car">
+            <Image.RenderTransform>
+                <MatrixTransform x:Name="ImageMatrixTransform"></MatrixTransform>
+            </Image.RenderTransform>
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="MouseDown">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <MatrixAnimationUsingPath
+                                Storyboard.TargetName="ImageMatrixTransform"
+                                Storyboard.TargetProperty="Matrix"
+                                Duration="0:0:10" 
+                                RepeatBehavior="Forever" >  
+                                <MatrixAnimationUsingPath.PathGeometry>
+                                    <PathGeometry  
+                                        Figures="M 10,100 C 35,0 135,0 160,100 180,190 285,200 310,100"
+                                        PresentationOptions:Freeze="True" />
+                                </MatrixAnimationUsingPath.PathGeometry>
+                            </MatrixAnimationUsingPath>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
     </Grid>
 </Window>

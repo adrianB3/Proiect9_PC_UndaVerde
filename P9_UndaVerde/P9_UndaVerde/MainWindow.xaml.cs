@@ -1,6 +1,4 @@
-﻿using GMap.NET;
-using GMap.NET.WindowsPresentation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -23,62 +22,85 @@ namespace P9_UndaVerde
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Storyboard myStoryboard;
         public MainWindow()
         {
             InitializeComponent();
+            // Create a NameScope for the page so that
+            // we can use Storyboards.
+            NameScope.SetNameScope(this, new NameScope());
 
-        }
-        private void mapView_Loaded(object sender, RoutedEventArgs e)
-        {
-            GMaps.Instance.Mode = AccessMode.ServerAndCache;
+            // Create a button.
+            Button aButton = new Button();
+            aButton.MinWidth = 100;
+            aButton.Content = "A Button";
+
+            // Create a MatrixTransform. This transform
+            // will be used to move the button.
+            MatrixTransform buttonMatrixTransform = new MatrixTransform();
+            aButton.RenderTransform = buttonMatrixTransform;
+
+            // Register the transform's name with the page
+            // so that it can be targeted by a Storyboard.
+            this.RegisterName("ButtonMatrixTransform", buttonMatrixTransform);
+
             
-            mapView.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance;
-            mapView.MinZoom = 2;
-            mapView.MaxZoom = 21;
-           
-            mapView.Zoom = 16;
-            mapView.Position = new PointLatLng(45.7366683, 21.2277931);
-            mapView.ShowCenter = false;
-            mapView.MouseWheelZoomType = MouseWheelZoomType.MousePositionWithoutCenter;
-            mapView.CanDragMap = true;
-            
-            mapView.DragButton = MouseButton.Left;
+            main.Children.Add(aButton);
             
 
-            PointLatLng start = new PointLatLng(45.747774, 21.226252);
-            PointLatLng end = new PointLatLng(45.735784, 21.228215);
-            GMap.NET.MapProviders.GoogleMapProvider.Instance.ApiKey = "AIzaSyCMPm5rJtNTOivNQ8HdfKQDoUTClnDYH_w";
-            MapRoute route = GMap.NET.MapProviders.GoogleMapProvider.Instance.GetRoute(start, end, false, false, 15);
-           
+            // Create the animation path.
+            PathGeometry animationPath = new PathGeometry();
+            PathFigure pFigure = new PathFigure();
+            pFigure.StartPoint = new Point(10, 100);
+            PolyBezierSegment pBezierSegment = new PolyBezierSegment();
+            pBezierSegment.Points.Add(new Point(35, 0));
+            pBezierSegment.Points.Add(new Point(135, 0));
+            pBezierSegment.Points.Add(new Point(160, 100));
+            pBezierSegment.Points.Add(new Point(180, 190));
+            pBezierSegment.Points.Add(new Point(285, 200));
+            pBezierSegment.Points.Add(new Point(310, 100));
+            pFigure.Segments.Add(pBezierSegment);
+            animationPath.Figures.Add(pFigure);
 
-            if (route != null)
+            // Freeze the PathGeometry for performance benefits.
+            animationPath.Freeze();
+
+            // Create a MatrixAnimationUsingPath to move the
+            // button along the path by animating
+            // its MatrixTransform.
+            MatrixAnimationUsingPath matrixAnimation =
+                new MatrixAnimationUsingPath();
+            matrixAnimation.PathGeometry = animationPath;
+            matrixAnimation.Duration = TimeSpan.FromSeconds(5);
+            matrixAnimation.RepeatBehavior = RepeatBehavior.Forever;
+
+            // Set the animation to target the Matrix property
+            // of the MatrixTransform named "ButtonMatrixTransform".
+            Storyboard.SetTargetName(matrixAnimation, "ButtonMatrixTransform");
+            Storyboard.SetTargetProperty(matrixAnimation,
+                new PropertyPath(MatrixTransform.MatrixProperty));
+
+            // Create a Storyboard to contain and apply the animation.
+            Storyboard pathAnimationStoryboard = new Storyboard();
+            pathAnimationStoryboard.Children.Add(matrixAnimation);
+
+            // Start the storyboard when the button is loaded.
+            aButton.Loaded += delegate (object sender, RoutedEventArgs e)
             {
-                GMapRoute mRoute = new GMapRoute(route.Points);
-                {
-                    mRoute.ZIndex = -1;
-                }
-
-                mapView.Markers.Add(mRoute);
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("There is no route");
-            }
-
-            GMapMarker car = new GMapMarker(new PointLatLng(45.7366683, 21.2277931));
-            BitmapImage carBitmap = new BitmapImage(new Uri("pack://application:,,,/Resources/car.png"));
-            Image carImg = new Image();
-            carImg.Source = carBitmap;
-            car.Shape = carImg;
-            mapView.Markers.Add(car);
-            MessageBox.Show(car.LocalPositionX.ToString());
-            
-          
+                // Start the storyboard.
+                pathAnimationStoryboard.Begin(this);
+            };
         }
 
+        
         private void aplicationExit(object sender, EventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void startSimulation(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
