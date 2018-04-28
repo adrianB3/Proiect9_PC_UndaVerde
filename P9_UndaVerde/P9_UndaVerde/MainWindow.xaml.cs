@@ -28,7 +28,7 @@ namespace P9_UndaVerde
             InitializeComponent();
             // Create a NameScope for the page so that
             // we can use Storyboards.
-            NameScope.SetNameScope(this, new NameScope());
+          /*  NameScope.SetNameScope(this, new NameScope());
 
             // Create a button.
             Button aButton = new Button();
@@ -89,18 +89,13 @@ namespace P9_UndaVerde
             {
                 // Start the storyboard.
                 pathAnimationStoryboard.Begin(this);
-            };
+            };*/
         }
 
         
         private void aplicationExit(object sender, EventArgs e)
         {
             Application.Current.Shutdown();
-        }
-
-        private void startSimulation(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

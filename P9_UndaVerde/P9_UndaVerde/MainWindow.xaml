@@ -18,13 +18,65 @@
         TextOptions.TextRenderingMode="Auto">
     
     <Grid VerticalAlignment="Top" Name="main">
+
+        <Grid.Resources>
+            <PathGeometry x:Key="path1" 
+
+                        Figures="M0,0 L10,10 C20,100 30,10 60,120 C30,130 20,170 120,175" />
+            <PathGeometry x:Key="path2" 
+
+                        Figures="M120,175 C130,150 140,180 160,130 C170,150 175,170 190,120 C200,80 200,60 40,40" />
+            <Storyboard x:Key="sb1">
+                <DoubleAnimationUsingPath Storyboard.TargetName="imgTransform"
+
+                                        Storyboard.TargetProperty="X"
+
+                                        PathGeometry="{StaticResource path1}"
+
+                                        Source="X" 
+
+                                        Duration="0:0:2" />
+                <DoubleAnimationUsingPath Storyboard.TargetName="imgTransform"
+
+                                        Storyboard.TargetProperty="Y"
+
+                                        PathGeometry="{StaticResource path1}"
+
+                                        Source="Y" 
+
+                                        Duration="0:0:2" />
+                <DoubleAnimationUsingPath Storyboard.TargetName="imgTransform"
+
+                                        Storyboard.TargetProperty="X"
+
+                                        PathGeometry="{StaticResource path2}"
+
+                                        Source="X" 
+
+                                        Duration="0:0:2"
+
+                                        BeginTime="0:0:3"/>
+                <DoubleAnimationUsingPath Storyboard.TargetName="imgTransform"
+
+                                        Storyboard.TargetProperty="Y"
+
+                                        PathGeometry="{StaticResource path2}"
+
+                                        Source="Y" 
+
+                                        Duration="0:0:2"
+
+                                        BeginTime="0:0:3"/>
+            </Storyboard>
+        </Grid.Resources>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="6*"/>
-            <RowDefinition Height="1.1*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
         <Fluent:Ribbon Grid.Row="0">
@@ -58,9 +110,21 @@
             </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
 
-        <Image Margin="0" Grid.Row="1" Source="Resources/mapp.png" Stretch="UniformToFill"/>
-        <Button Content="Start Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Grid.Row="2" Margin="15" Opacity="0.8" Click="startSimulation"/>
+        <Image x:Name="map" Margin="0" Grid.Row="1" Source="Resources/mapp.png" Stretch="Fill"/>
+        <Button Content="Start Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Grid.Row="2" Margin="15" Opacity="0.8">
+            <Button.Triggers>
+                <EventTrigger RoutedEvent="ButtonBase.Click">
+                    <BeginStoryboard Storyboard="{StaticResource sb1}"></BeginStoryboard>
+                </EventTrigger>
+            </Button.Triggers>
+        </Button>
         <Button Content="Stop Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="2" Margin="160,15,15,15" Opacity="0.8"/>
        
+        <Image x:Name="car" Grid.Row="1" Source="Resources/car.png" Width="45" Height="25">
+            <Image.RenderTransform>
+                <TranslateTransform x:Name="imgTransform"/>
+            </Image.RenderTransform>
+        </Image>
+        
     </Grid>
 </Window>
