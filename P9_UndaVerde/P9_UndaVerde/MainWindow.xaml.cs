@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Maps.MapControl.WPF;
+using Microsoft.Maps.MapControl.WPF.Design;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
 
 namespace P9_UndaVerde
 {
@@ -23,73 +15,12 @@ namespace P9_UndaVerde
     public partial class MainWindow : Window
     {
         private Storyboard myStoryboard;
+        LocationConverter locConverter = new LocationConverter();
         public MainWindow()
         {
+
             InitializeComponent();
-            // Create a NameScope for the page so that
-            // we can use Storyboards.
-          /*  NameScope.SetNameScope(this, new NameScope());
-
-            // Create a button.
-            Button aButton = new Button();
-            aButton.MinWidth = 100;
-            aButton.Content = "A Button";
-
-            // Create a MatrixTransform. This transform
-            // will be used to move the button.
-            MatrixTransform buttonMatrixTransform = new MatrixTransform();
-            aButton.RenderTransform = buttonMatrixTransform;
-
-            // Register the transform's name with the page
-            // so that it can be targeted by a Storyboard.
-            this.RegisterName("ButtonMatrixTransform", buttonMatrixTransform);
-
-            
-            main.Children.Add(aButton);
-            
-
-            // Create the animation path.
-            PathGeometry animationPath = new PathGeometry();
-            PathFigure pFigure = new PathFigure();
-            pFigure.StartPoint = new Point(10, 100);
-            PolyBezierSegment pBezierSegment = new PolyBezierSegment();
-            pBezierSegment.Points.Add(new Point(35, 0));
-            pBezierSegment.Points.Add(new Point(135, 0));
-            pBezierSegment.Points.Add(new Point(160, 100));
-            pBezierSegment.Points.Add(new Point(180, 190));
-            pBezierSegment.Points.Add(new Point(285, 200));
-            pBezierSegment.Points.Add(new Point(310, 100));
-            pFigure.Segments.Add(pBezierSegment);
-            animationPath.Figures.Add(pFigure);
-
-            // Freeze the PathGeometry for performance benefits.
-            animationPath.Freeze();
-
-            // Create a MatrixAnimationUsingPath to move the
-            // button along the path by animating
-            // its MatrixTransform.
-            MatrixAnimationUsingPath matrixAnimation =
-                new MatrixAnimationUsingPath();
-            matrixAnimation.PathGeometry = animationPath;
-            matrixAnimation.Duration = TimeSpan.FromSeconds(5);
-            matrixAnimation.RepeatBehavior = RepeatBehavior.Forever;
-
-            // Set the animation to target the Matrix property
-            // of the MatrixTransform named "ButtonMatrixTransform".
-            Storyboard.SetTargetName(matrixAnimation, "ButtonMatrixTransform");
-            Storyboard.SetTargetProperty(matrixAnimation,
-                new PropertyPath(MatrixTransform.MatrixProperty));
-
-            // Create a Storyboard to contain and apply the animation.
-            Storyboard pathAnimationStoryboard = new Storyboard();
-            pathAnimationStoryboard.Children.Add(matrixAnimation);
-
-            // Start the storyboard when the button is loaded.
-            aButton.Loaded += delegate (object sender, RoutedEventArgs e)
-            {
-                // Start the storyboard.
-                pathAnimationStoryboard.Begin(this);
-            };*/
+           
         }
 
         
@@ -97,5 +28,106 @@ namespace P9_UndaVerde
         {
             Application.Current.Shutdown();
         }
+
+        private void startAnimation(object sender, RoutedEventArgs e)
+        {
+            /*NameScope.SetNameScope(this, new NameScope());
+
+            TranslateTransform translate = new TranslateTransform();
+
+            this.RegisterName("animTranslate", translate);
+            car.RenderTransform = translate;
+
+            PathGeometry animatedPath = new PathGeometry();
+
+            animatedPath.Figures = new PathFigureCollection();
+
+            LineGeometry line = new LineGeometry(new Point(0, 0), new Point(-1000, 0));
+
+            animatedPath.AddGeometry(line);
+
+            animatedPath.Freeze();
+
+            DoubleAnimationUsingPath translateX = new DoubleAnimationUsingPath();
+
+            translateX.PathGeometry = animatedPath;
+
+            translateX.Duration = TimeSpan.FromSeconds(5);
+
+            translateX.Source = PathAnimationSource.X;
+
+            Storyboard.SetTargetName(translateX, "animTranslate");
+            Storyboard.SetTargetProperty(translateX, new PropertyPath(TranslateTransform.XProperty));
+
+            Storyboard animX = new Storyboard();
+
+            animX.Children.Add(translateX);
+
+            animX.Begin(this);*/
+
+            NameScope.SetNameScope(this, new NameScope());
+            MatrixTransform carTransform = new MatrixTransform();
+            car.RenderTransform = carTransform;
+            this.RegisterName("carTransform", carTransform);
+
+            PathGeometry animPath = new PathGeometry();
+            PathFigure pathFigure = new PathFigure();
+            pathFigure.StartPoint = new Point(0, 0);
+            pathFigure.Segments = new PathSegmentCollection();
+            pathFigure.Segments.Add(new LineSegment(new Point(-250,0), false));
+            pathFigure.Segments.Add(new LineSegment(new Point(-250,-200), false));
+            animPath.Figures.Add(pathFigure);
+            animPath.Freeze();
+            MatrixAnimationUsingPath mAnim = new MatrixAnimationUsingPath();
+            mAnim.PathGeometry = animPath;
+            mAnim.Duration = TimeSpan.FromSeconds(3);
+            mAnim.DoesRotateWithTangent = true;
+
+            Storyboard.SetTargetName(mAnim, "carTransform");
+            Storyboard.SetTargetProperty(mAnim, new PropertyPath(MatrixTransform.MatrixProperty));
+
+            Storyboard story = new Storyboard();
+            story.Children.Add(mAnim);
+            story.Begin(this);
+
+        }
+        /*private void addImageToMap(object sender, RoutedEventArgs e)
+        {
+            MapLayer imageLayer = new MapLayer();
+
+
+            Image image = new Image();
+            image.Height = myMap.ActualHeight - myMap.ZoomLevel*10;
+            image.Width = myMap.ActualWidth - myMap.ZoomLevel*10;
+            //Define the URI location of the image
+            BitmapImage myBitmapImage = new BitmapImage();
+            myBitmapImage.BeginInit();
+            myBitmapImage.UriSource = new Uri(@"pack://application:,,,/Resources/car.png");
+            // To save significant application memory, set the DecodePixelWidth or  
+            // DecodePixelHeight of the BitmapImage value of the image source to the desired 
+            // height or width of the rendered image. If you don't do this, the application will 
+            // cache the image as though it were rendered as its normal size rather then just 
+            // the size that is displayed.
+            // Note: In order to preserve aspect ratio, set DecodePixelWidth
+            // or DecodePixelHeight but not both.
+            //Define the image display properties
+            myBitmapImage.DecodePixelHeight = 30;
+            
+            myBitmapImage.EndInit();
+            image.Source = myBitmapImage;
+            image.Opacity = 0.6;
+            image.Stretch = System.Windows.Media.Stretch.None;
+            
+
+            //The map location to place the image at
+            Location location = new Location() { Latitude = 45.737286, Longitude = 21.233488 };
+            //Center the image around the location specified
+            PositionOrigin position = PositionOrigin.Center;
+
+            //Add the image to the defined map layer
+            imageLayer.AddChild(image, location, position);
+            //Add the image layer to the map
+            myMap.Children.Add(imageLayer);
+        }*/
     }
 }
