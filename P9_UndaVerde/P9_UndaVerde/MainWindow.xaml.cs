@@ -1,11 +1,11 @@
-﻿using Microsoft.Maps.MapControl.WPF;
-using Microsoft.Maps.MapControl.WPF.Design;
-using System;
+﻿using System;
+using System.ComponentModel;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
 
 namespace P9_UndaVerde
 {
@@ -14,15 +14,10 @@ namespace P9_UndaVerde
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Storyboard myStoryboard;
-        LocationConverter locConverter = new LocationConverter();
         public MainWindow()
         {
-
             InitializeComponent();
-           
         }
-
         
         private void aplicationExit(object sender, EventArgs e)
         {
@@ -31,40 +26,11 @@ namespace P9_UndaVerde
 
         private void startAnimation(object sender, RoutedEventArgs e)
         {
-            /*NameScope.SetNameScope(this, new NameScope());
-
-            TranslateTransform translate = new TranslateTransform();
-
-            this.RegisterName("animTranslate", translate);
-            car.RenderTransform = translate;
-
-            PathGeometry animatedPath = new PathGeometry();
-
-            animatedPath.Figures = new PathFigureCollection();
-
-            LineGeometry line = new LineGeometry(new Point(0, 0), new Point(-1000, 0));
-
-            animatedPath.AddGeometry(line);
-
-            animatedPath.Freeze();
-
-            DoubleAnimationUsingPath translateX = new DoubleAnimationUsingPath();
-
-            translateX.PathGeometry = animatedPath;
-
-            translateX.Duration = TimeSpan.FromSeconds(5);
-
-            translateX.Source = PathAnimationSource.X;
-
-            Storyboard.SetTargetName(translateX, "animTranslate");
-            Storyboard.SetTargetProperty(translateX, new PropertyPath(TranslateTransform.XProperty));
-
-            Storyboard animX = new Storyboard();
-
-            animX.Children.Add(translateX);
-
-            animX.Begin(this);*/
-
+            
+            Storyboard story = new Storyboard();
+           
+            Canvas.SetLeft(car, canvasCar.ActualWidth);
+            Canvas.SetTop(car, canvasCar.ActualHeight - 265);
             NameScope.SetNameScope(this, new NameScope());
             MatrixTransform carTransform = new MatrixTransform();
             car.RenderTransform = carTransform;
@@ -73,11 +39,14 @@ namespace P9_UndaVerde
             PathGeometry animPath = new PathGeometry();
             PathFigure pathFigure = new PathFigure();
             pathFigure.StartPoint = new Point(0, 0);
-            pathFigure.Segments = new PathSegmentCollection();
-            pathFigure.Segments.Add(new LineSegment(new Point(-250,0), false));
-            pathFigure.Segments.Add(new LineSegment(new Point(-250,-200), false));
+
+            pathFigure.Segments.Add(new LineSegment(new Point(-170, 0), false));
+            //pathFigure.Segments.Add(new ArcSegment(new Point(-100,50), new Size(20,10),15,false,SweepDirection.Clockwise, false));
+            pathFigure.Segments.Add(new LineSegment(new Point(-170, -120), false));
+
             animPath.Figures.Add(pathFigure);
             animPath.Freeze();
+
             MatrixAnimationUsingPath mAnim = new MatrixAnimationUsingPath();
             mAnim.PathGeometry = animPath;
             mAnim.Duration = TimeSpan.FromSeconds(3);
@@ -85,49 +54,107 @@ namespace P9_UndaVerde
 
             Storyboard.SetTargetName(mAnim, "carTransform");
             Storyboard.SetTargetProperty(mAnim, new PropertyPath(MatrixTransform.MatrixProperty));
-
-            Storyboard story = new Storyboard();
             story.Children.Add(mAnim);
+            
+
+
+            Canvas.SetLeft(car1, canvasCar.ActualWidth);
+            Canvas.SetTop(car1, canvasCar.ActualHeight - 257);
+           
+            MatrixTransform carTransform1 = new MatrixTransform();
+            car1.RenderTransform = carTransform1;
+            this.RegisterName("carTransform1", carTransform1);
+
+            PathGeometry animPath1 = new PathGeometry();
+            PathFigure pathFigure1 = new PathFigure();
+            pathFigure1.StartPoint = new Point(0, 0);
+
+            pathFigure1.Segments.Add(new LineSegment(new Point(-210, 0), false));
+            //pathFigure.Segments.Add(new ArcSegment(new Point(-100,50), new Size(20,10),15,false,SweepDirection.Clockwise, false));
+            pathFigure1.Segments.Add(new LineSegment(new Point(-1000, 0), false));
+
+            animPath1.Figures.Add(pathFigure1);
+            animPath1.Freeze();
+
+            MatrixAnimationUsingPath mAnim1 = new MatrixAnimationUsingPath();
+            mAnim1.PathGeometry = animPath1;
+            mAnim1.Duration = TimeSpan.FromSeconds(5);
+            mAnim1.DoesRotateWithTangent = false;
+
+            Storyboard.SetTargetName(mAnim1, "carTransform1");
+            Storyboard.SetTargetProperty(mAnim1, new PropertyPath(MatrixTransform.MatrixProperty));
+            Storyboard story1 = new Storyboard();
+            story1.Children.Add(mAnim1);
+
             story.Begin(this);
+            story1.Begin(this);
 
+            var tokenSource = new CancellationTokenSource();
+            var ct = tokenSource.Token;
+            var UiSyncContext = TaskScheduler.FromCurrentSynchronizationContext();
+
+
+            /*var t1 = Task.Factory.StartNew(() =>
+            {
+
+               pbCalculationProgress1.Value = 10;
+               Thread.Sleep(1000);
+
+            }, ct, TaskCreationOptions.None,UiSyncContext);*/
+
+            /*Dispatcher.BeginInvoke(new Action(delegate
+            {
+                for (int i = 0; i < 100; i++)
+                {
+                    pbCalculationProgress1.Value = i;
+                    Thread.Sleep(100);
+                }
+            }));*/
+
+            Progress<int> progress = new Progress<int>();
+            Task tsk = new Task(() =>
+            {
+                for (int i = 0; i <= 100; i++)
+                {
+                    ((IProgress<int>)progress).Report(i);
+                    Thread.Sleep(50);
+                }
+            });
+
+            progress.ProgressChanged += change;
+
+            tsk.Start();
+            
+
+            BackgroundWorker worker = new BackgroundWorker();
+            pbCalculationProgress.Value = 0;
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += worker_DoWork;
+            worker.ProgressChanged += worker_ProgressChanged;
+            worker.RunWorkerAsync(100);
+                
         }
-        /*private void addImageToMap(object sender, RoutedEventArgs e)
+
+        void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            MapLayer imageLayer = new MapLayer();
+            for (int i = 0; i <= (int)e.Argument; i++)
+            {
+                int progressPercentage = i;
+                (sender as BackgroundWorker).ReportProgress(progressPercentage,i);              
+                Thread.Sleep(100);
+                e.Result = i.ToString();
+            }
+        }
+        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            pbCalculationProgress.Value = e.ProgressPercentage;
+            if (e.UserState != null)
+                labell.Content = e.UserState;
+        }
 
-
-            Image image = new Image();
-            image.Height = myMap.ActualHeight - myMap.ZoomLevel*10;
-            image.Width = myMap.ActualWidth - myMap.ZoomLevel*10;
-            //Define the URI location of the image
-            BitmapImage myBitmapImage = new BitmapImage();
-            myBitmapImage.BeginInit();
-            myBitmapImage.UriSource = new Uri(@"pack://application:,,,/Resources/car.png");
-            // To save significant application memory, set the DecodePixelWidth or  
-            // DecodePixelHeight of the BitmapImage value of the image source to the desired 
-            // height or width of the rendered image. If you don't do this, the application will 
-            // cache the image as though it were rendered as its normal size rather then just 
-            // the size that is displayed.
-            // Note: In order to preserve aspect ratio, set DecodePixelWidth
-            // or DecodePixelHeight but not both.
-            //Define the image display properties
-            myBitmapImage.DecodePixelHeight = 30;
-            
-            myBitmapImage.EndInit();
-            image.Source = myBitmapImage;
-            image.Opacity = 0.6;
-            image.Stretch = System.Windows.Media.Stretch.None;
-            
-
-            //The map location to place the image at
-            Location location = new Location() { Latitude = 45.737286, Longitude = 21.233488 };
-            //Center the image around the location specified
-            PositionOrigin position = PositionOrigin.Center;
-
-            //Add the image to the defined map layer
-            imageLayer.AddChild(image, location, position);
-            //Add the image layer to the map
-            myMap.Children.Add(imageLayer);
-        }*/
+        void change(object sender, int i)
+        {
+            pbCalculationProgress1.Value = i;
+        }
     }
 }
