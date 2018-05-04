@@ -1,0 +1,33 @@
+-- new ideea red time increse/decrease
+
+class Semaphore
+ - bool color
+ - greenWaitTime
+ - redWaitTime
+ - delay
+ 
+get; set for every field
+increaseGreenTime(){
+  +10 second
+}
+return isGreen()
+return isRed()
+
+class car
+- imgSource
+- name
+- dimension - width, height
+- [][] directions
+
+get; set;
+
+class animation 
+ - storyboard
+ - execTime
+ - animationProp
+ 
+ startAnim()
+ PauseAnim()
+ 
+
+Semaphore sem1 = new Semaphore();

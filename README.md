@@ -10,6 +10,7 @@
 - Diana Dalea @dianadalea
 - Andreea Balasoiu @AndreeaBalasoiu
 - Alina Bacalete @AlinaBacalete
+- Voicu Carole @carolevoicu
 ## DesignTeam
 - Anamaria Larisa Bala @AnamariaLarisa
 - Simona-Rebeca Buse @SimonaRebeca
@@ -22,7 +23,6 @@
 - Adrian Coneac @adrianconeac
 - Raul Cojocaru @raulcojocaru
 - Robert Burdusel @robertb21
-- Voicu Carole @carolevoicu
 
 ### How to open project and start working:
 1. Download and install git from here: https://git-scm.com/downloads
