@@ -67,19 +67,21 @@
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
+        <Grid Grid.Row="1" Name="mapGrid">
+            <Image x:Name="map" Margin="0" Source="Resources/mapp.png" Stretch="Fill"/>
 
-        <Image x:Name="map" Margin="0" Grid.Row="1" Source="Resources/mapp.png" Stretch="Fill"/>
+            <Button Content="Start Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Grid.Row="1" Margin="15" Opacity="0.9" Click="startAnimation"/>
+            <Button Content="Pause" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Grid.Row="1" Margin="160,15,15,15" Opacity="0.9" Click="startAnimation"/>
+            <Button Content="Stop Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="1" Margin="240,15,15,15" Opacity="0.9"/>
 
-        <Button Content="Start Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Grid.Row="1" Margin="15" Opacity="0.9" Click="startAnimation"/>
-        <Button Content="Pause" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Grid.Row="1" Margin="160,15,15,15" Opacity="0.9" Click="startAnimation"/>
-        <Button Content="Stop Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="1" Margin="240,15,15,15" Opacity="0.9"/>
-
-        <Canvas Grid.Row="1" Name="canvasCar" >
-            <Image Name="car" Source="Resources/car.png" Width="45" Height="25"/>
-        </Canvas>
-        <Canvas Grid.Row="1" Name="canvas1Car" >
-            <Image Name="car1" Source="Resources/car.png" Width="45" Height="25"/>
-        </Canvas>
+            <!--<Canvas Name="canvasCar" >
+                <Image Name="car" Source="Resources/car.png" Width="45" Height="25"/>
+            </Canvas>
+            <Canvas Grid.Row="1" Name="canvas1Car" >
+                <Image Name="car1" Source="Resources/car.png" Width="45" Height="25"/>
+            </Canvas>-->
+        </Grid>
+        
         <Label Grid.Row="2" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Name="labell"/>
 
         <Grid Grid.Row="2">

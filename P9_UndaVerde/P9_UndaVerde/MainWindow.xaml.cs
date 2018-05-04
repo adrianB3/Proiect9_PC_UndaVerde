@@ -6,11 +6,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using TrafficSimTM;
 
 namespace P9_UndaVerde
 {
-    ///andrei aaa,, andrei e fraier
-    ///Alt comm
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -19,6 +18,7 @@ namespace P9_UndaVerde
         public MainWindow()
         {
             InitializeComponent();
+            
         }
         
         private void aplicationExit(object sender, EventArgs e)
@@ -28,8 +28,11 @@ namespace P9_UndaVerde
 
         private void startAnimation(object sender, RoutedEventArgs e)
         {
-            
-            Storyboard story = new Storyboard();
+
+            Car car2 = new Car("car.png", "car3", 55, 66);
+            car2.createImage();
+
+            /*Storyboard story = new Storyboard();
            
             Canvas.SetLeft(car, canvasCar.ActualWidth);
             Canvas.SetTop(car, canvasCar.ActualHeight - 265);
