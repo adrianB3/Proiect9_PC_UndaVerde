@@ -16,6 +16,7 @@ namespace P9_UndaVerde
     {
         public MainWindow()
         {
+            //Se initiaslizeaza componentele
             InitializeComponent();
         }
         
