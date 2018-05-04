@@ -41,7 +41,7 @@ namespace P9_UndaVerde
             pathFigure.StartPoint = new Point(0, 0);
 
             pathFigure.Segments.Add(new LineSegment(new Point(-170, 0), false));
-            //pathFigure.Segments.Add(new ArcSegment(new Point(-100,50), new Size(20,10),15,false,SweepDirection.Clockwise, false));
+           // pathFigure.Segments.Add(new ArcSegment(new Point(-100,50), new Size(20,10),15,false,SweepDirection.Clockwise, false));
             pathFigure.Segments.Add(new LineSegment(new Point(-170, -120), false));
 
             animPath.Figures.Add(pathFigure);
@@ -124,7 +124,26 @@ namespace P9_UndaVerde
             progress.ProgressChanged += change;
 
             tsk.Start();
-            
+
+            Progress<int> progress1 = new Progress<int>();
+            Task tsk1 = new Task(() =>
+            {
+                int i = 0;
+                Thread.Sleep(1000);
+                i = 1;
+                ((IProgress<int>)progress).Report(i);
+            });
+            progress1.ProgressChanged += change1;
+
+            tsk1.Start();
+            /* Task.Factory.StartNew(() =>
+             {
+                 Thread.Sleep(1000);
+                 label1.Content = "I waited 1 sec to get here";
+             },ct, TaskCreationOptions.None, UiSyncContext);*/
+
+
+
 
             BackgroundWorker worker = new BackgroundWorker();
             pbCalculationProgress.Value = 0;
@@ -155,6 +174,14 @@ namespace P9_UndaVerde
         void change(object sender, int i)
         {
             pbCalculationProgress1.Value = i;
+        }
+
+        void change1(object sender, int i)
+        {
+            if(i == 1)
+            {
+                label1.Content = "I waited 1 second to get here";
+            }
         }
     }
 }
