@@ -9,7 +9,7 @@ using System.Windows.Media.Animation;
 
 namespace P9_UndaVerde
 {
-    ///andrei aaa
+    ///andrei aaa,, andrei e fraier
     ///Alt comm
     /// <summary>
     /// Interaction logic for MainWindow.xaml
