@@ -1,4 +1,4 @@
--- new ideea red time increse/decrease
+-- new ideea red time increse/decrease,  intersection class
 
 class Semaphore
  - bool color
