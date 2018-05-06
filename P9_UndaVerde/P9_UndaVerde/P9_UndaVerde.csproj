@@ -147,8 +147,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Animation.cs" />
     <Compile Include="Car.cs" />
-    <Compile Include="Semaphore.cs" />
+    <Compile Include="SemaphoreUI.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -214,6 +215,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\mapp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\roadIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\semaphore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\fireworks.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.108.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.108.0\build\net46\System.Data.SQLite.Core.targets')" />

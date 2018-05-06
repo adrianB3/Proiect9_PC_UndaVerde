@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 using TrafficSimTM;
 
 namespace P9_UndaVerde
@@ -15,10 +16,11 @@ namespace P9_UndaVerde
     /// </summary>
     public partial class MainWindow : Window
     {
+       
+       
         public MainWindow()
         {
             InitializeComponent();
-            
         }
         
         private void aplicationExit(object sender, EventArgs e)
@@ -28,75 +30,49 @@ namespace P9_UndaVerde
 
         private void startAnimation(object sender, RoutedEventArgs e)
         {
-
-            Car car2 = new Car("car.png", "car3", 55, 66);
-            car2.createImage();
-
-            /*Storyboard story = new Storyboard();
-           
-            Canvas.SetLeft(car, canvasCar.ActualWidth);
-            Canvas.SetTop(car, canvasCar.ActualHeight - 265);
-            NameScope.SetNameScope(this, new NameScope());
-            MatrixTransform carTransform = new MatrixTransform();
-            car.RenderTransform = carTransform;
-            this.RegisterName("carTransform", carTransform);
-
-            PathGeometry animPath = new PathGeometry();
-            PathFigure pathFigure = new PathFigure();
-            pathFigure.StartPoint = new Point(0, 0);
-
-            pathFigure.Segments.Add(new LineSegment(new Point(-170, 0), false));
-           // pathFigure.Segments.Add(new ArcSegment(new Point(-100,50), new Size(20,10),15,false,SweepDirection.Clockwise, false));
-            pathFigure.Segments.Add(new LineSegment(new Point(-170, -120), false));
-
-            animPath.Figures.Add(pathFigure);
-            animPath.Freeze();
-
-            MatrixAnimationUsingPath mAnim = new MatrixAnimationUsingPath();
-            mAnim.PathGeometry = animPath;
-            mAnim.Duration = TimeSpan.FromSeconds(3);
-            mAnim.DoesRotateWithTangent = true;
-
-            Storyboard.SetTargetName(mAnim, "carTransform");
-            Storyboard.SetTargetProperty(mAnim, new PropertyPath(MatrixTransform.MatrixProperty));
-            story.Children.Add(mAnim);
             
-
-
-            Canvas.SetLeft(car1, canvasCar.ActualWidth);
-            Canvas.SetTop(car1, canvasCar.ActualHeight - 257);
-           
-            MatrixTransform carTransform1 = new MatrixTransform();
-            car1.RenderTransform = carTransform1;
-            this.RegisterName("carTransform1", carTransform1);
-
-            PathGeometry animPath1 = new PathGeometry();
-            PathFigure pathFigure1 = new PathFigure();
-            pathFigure1.StartPoint = new Point(0, 0);
-
-            pathFigure1.Segments.Add(new LineSegment(new Point(-210, 0), false));
-            //pathFigure.Segments.Add(new ArcSegment(new Point(-100,50), new Size(20,10),15,false,SweepDirection.Clockwise, false));
-            pathFigure1.Segments.Add(new LineSegment(new Point(-1000, 0), false));
-
-            animPath1.Figures.Add(pathFigure1);
-            animPath1.Freeze();
-
-            MatrixAnimationUsingPath mAnim1 = new MatrixAnimationUsingPath();
-            mAnim1.PathGeometry = animPath1;
-            mAnim1.Duration = TimeSpan.FromSeconds(5);
-            mAnim1.DoesRotateWithTangent = false;
-
-            Storyboard.SetTargetName(mAnim1, "carTransform1");
-            Storyboard.SetTargetProperty(mAnim1, new PropertyPath(MatrixTransform.MatrixProperty));
-            Storyboard story1 = new Storyboard();
-            story1.Children.Add(mAnim1);
-
-            story.Begin(this);
-            story1.Begin(this);
 
             var tokenSource = new CancellationTokenSource();
             var ct = tokenSource.Token;
             var UiSyncContext = TaskScheduler.FromCurrentSynchronizationContext();
+
+            Car car1 = new Car("car.png", "car1", 45, 35, 130, 0);
+            Car car2 = new Car("car.png", "car2", 45, 35, 160, 0);
+
+            Car car3 = new Car("car.png", "car3", 45, 35, 130, 50);
+
+
+            Car car4 = new Car("car.png", "car3", 45, 35, 130, 100);
+
+
+            Car car5 = new Car("car.png", "car3", 45, 35, 130, 150);
+
+
+            Animation anim = new Animation();
+
+
+            Animation anim2 = new Animation();
+
+
+            Animation anim3 = new Animation();
+
+
+            Animation anim4 = new Animation();
+
+
+            Animation anim5 = new Animation();
+
+            car1.createImage();
+            car2.createImage();
+            car3.createImage();
+            car4.createImage();
+            car5.createImage();
+
+            anim.startAnimation(car1,3, 200);
+            anim2.startAnimation(car2,3, 1000);
+            anim3.startAnimation(car3,3, 2000);
+            anim4.startAnimation(car4,3, 2000);
+            anim5.startAnimation(car4,3, 2000);
 
 
             /*var t1 = Task.Factory.StartNew(() =>
@@ -187,6 +163,16 @@ namespace P9_UndaVerde
             {
                 label1.Content = "I waited 1 second to get here";
             }
+        }
+
+        private void windowLoaded(object sender, RoutedEventArgs e)
+        {
+            SemaphoreUI sem1 = new SemaphoreUI("sem1",false,20,20,0,40,100);           
+        }
+
+        private void stopAnimation(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }
