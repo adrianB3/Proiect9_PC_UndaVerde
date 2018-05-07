@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,13 +15,33 @@ namespace P9_UndaVerde
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    /// 
+
+    public class credits
     {
-       
-       
+        public int nr { get; set; }
+        public string Name { get; set; }
+    }
+
+    public partial class MainWindow : Window
+    {       
         public MainWindow()
         {
             InitializeComponent();
+            List<credits> credits = new List<credits>();
+            string names = "Andreea Carp @AndreeaCamelia, Andrei Chirap @AndreiChirap, Adrian-Gabriel Balanescu @adrianB3, Gabriel Bizdoc @GabiBVG ,Raul-Adrian Chincea @RaulChincea, Diana Dalea @dianadalea,Andreea Balasoiu @AndreeaBalasoiu, Alina Bacalete @AlinaBacalete, Voicu Carole @carolevoicu, Anamaria Larisa Bala @AnamariaLarisa, Simona-Rebeca Buse @SimonaRebeca, Adrian Coneac @adrianconeac, Mario-Razvan Cioara @MarioCioara, Raluca-Andreea Cozma @ralucacozma, Raul Cojocaru @raulcojocaru, Robert Burdusel @robertb21";
+            var n = names.Split(',');
+            int index = 1;
+            foreach (string item in n)
+            {
+                credits.Add(new credits() { Name = item , nr = index++});
+            }
+
+            theCreators.ItemsSource = credits;
+
+            SemaphoreUI sem1 = new SemaphoreUI("sem1", false, 20, 20, 0, 40, 100);
+            SemaphoreUI sem2 = new SemaphoreUI("sem2", false, 20, 20, 0, 40, 300);
+            SemaphoreUI sem3 = new SemaphoreUI("sem3", false, 20, 20, 0, 40, 470);
         }
         
         private void aplicationExit(object sender, EventArgs e)
@@ -30,8 +51,6 @@ namespace P9_UndaVerde
 
         private void startAnimation(object sender, RoutedEventArgs e)
         {
-            
-
             var tokenSource = new CancellationTokenSource();
             var ct = tokenSource.Token;
             var UiSyncContext = TaskScheduler.FromCurrentSynchronizationContext();
@@ -39,13 +58,13 @@ namespace P9_UndaVerde
             Car car1 = new Car("car.png", "car1", 45, 35, 130, 0);
             Car car2 = new Car("car.png", "car2", 45, 35, 160, 0);
 
-            Car car3 = new Car("car.png", "car3", 45, 35, 130, 50);
+            Car car3 = new Car("redcar.png", "car3", 45, 35, 130, 50);
 
 
-            Car car4 = new Car("car.png", "car3", 45, 35, 130, 100);
+            Car car4 = new Car("car.png", "car4", 45, 35, 130, 100);
 
 
-            Car car5 = new Car("car.png", "car3", 45, 35, 130, 150);
+            Car car5 = new Car("redcar.png", "car5", 45, 35, 130, 150);
 
 
             Animation anim = new Animation();
@@ -72,7 +91,7 @@ namespace P9_UndaVerde
             anim2.startAnimation(car2,3, 1000);
             anim3.startAnimation(car3,3, 2000);
             anim4.startAnimation(car4,3, 2000);
-            anim5.startAnimation(car4,3, 2000);
+            anim5.startAnimation(car5,3, 2000);
 
 
             /*var t1 = Task.Factory.StartNew(() =>
@@ -90,7 +109,7 @@ namespace P9_UndaVerde
                     pbCalculationProgress1.Value = i;
                     Thread.Sleep(100);
                 }
-            }));*/
+            }));
 
             Progress<int> progress = new Progress<int>();
             Task tsk = new Task(() =>
@@ -116,26 +135,17 @@ namespace P9_UndaVerde
             });
             progress1.ProgressChanged += change1;
 
-            tsk1.Start();
-            /* Task.Factory.StartNew(() =>
-             {
-                 Thread.Sleep(1000);
-                 label1.Content = "I waited 1 sec to get here";
-             },ct, TaskCreationOptions.None, UiSyncContext);*/
-
-
-
-
+           
             BackgroundWorker worker = new BackgroundWorker();
             pbCalculationProgress.Value = 0;
             worker.WorkerReportsProgress = true;
             worker.DoWork += worker_DoWork;
             worker.ProgressChanged += worker_ProgressChanged;
-            worker.RunWorkerAsync(100);
+            worker.RunWorkerAsync(100);*/
                 
         }
 
-        void worker_DoWork(object sender, DoWorkEventArgs e)
+        /*void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             for (int i = 0; i <= (int)e.Argument; i++)
             {
@@ -163,11 +173,11 @@ namespace P9_UndaVerde
             {
                 label1.Content = "I waited 1 second to get here";
             }
-        }
+        }*/
 
         private void windowLoaded(object sender, RoutedEventArgs e)
         {
-            SemaphoreUI sem1 = new SemaphoreUI("sem1",false,20,20,0,40,100);           
+                     
         }
 
         private void stopAnimation(object sender, RoutedEventArgs e)

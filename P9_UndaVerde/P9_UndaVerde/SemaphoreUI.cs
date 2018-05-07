@@ -43,6 +43,9 @@ namespace TrafficSimTM
 
             canv.Children.Add(semImage);
             mainWin.mapGrid.Children.Add(canv);
+
+            //TODO
+            // Add colors to the semaphore
             
         }
 
@@ -60,5 +63,8 @@ namespace TrafficSimTM
         {
             return _color ? false : true;
         }
+
+        // TODO
+        // Add animation method to turn green or red
     }
 }

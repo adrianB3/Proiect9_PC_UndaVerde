@@ -16,12 +16,12 @@
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
-        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"      
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Hack/#Hack"      
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto" 
         Icon="Graphicloads-Flat-Finance-File.ico" 
         WindowStartupLocation="CenterScreen" 
-        Name="mainWin" Width="1245" Height="745" ResizeMode="CanMinimize" MinWidth="1024" MinHeight="745" Loaded="windowLoaded">
+        Name="mainWin" Width="1245" Height="745" ResizeMode="CanMinimize" MinWidth="1245" MinHeight="745" Loaded="windowLoaded">
 
     <Grid VerticalAlignment="Top" x:Name="main">
 
@@ -31,7 +31,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="6*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <Fluent:Ribbon Grid.Row="0">
@@ -40,9 +40,14 @@
                 <Fluent:Backstage>
                     <Fluent:BackstageTabControl>
                         <Fluent:BackstageTabItem Header="About" >
-                            <GroupBox Header="Many thanks to those hard working and intelligent students that made this happen :)">
-                                <!-- TODO -->
-                            </GroupBox>
+                            <ListView Margin="10" Name="theCreators">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn DisplayMemberBinding="{Binding nr}"/>
+                                        <GridViewColumn Header="Many thanks to those hard working and intelligent students :)" DisplayMemberBinding="{Binding Name}"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
                         </Fluent:BackstageTabItem>
                     </Fluent:BackstageTabControl>
                 </Fluent:Backstage>
@@ -57,13 +62,13 @@
                         </Fluent:DropDownButton.Background>
                         <ListBoxItem/>
                     </Fluent:DropDownButton>
-                    <Fluent:DropDownButton Header="CarType" AllowDrop="True" Icon="Resources/car.png" Width="90">
+                    <Fluent:DropDownButton Header="CarType" AllowDrop="True" Width="90">
                         <Fluent:DropDownButton.Background>
-                            <ImageBrush ImageSource="Resources/car.png" Stretch="UniformToFill" Opacity="0.2"/>
+                            <ImageBrush ImageSource="Images/car.png" Stretch="UniformToFill" Opacity="0.2"/>
                         </Fluent:DropDownButton.Background>
                         <ListBoxItem/>
                     </Fluent:DropDownButton>
-                    <Fluent:DropDownButton Header="Animation" AllowDrop="True" Icon="Resources/car.png" Width="90">
+                    <Fluent:DropDownButton Header="Path" AllowDrop="True" Icon="Resources/car.png" Width="90">
                         <Fluent:DropDownButton.Background>
                             <ImageBrush ImageSource="Images/fireworks.png" Stretch="UniformToFill" Opacity="0.2"/>
                         </Fluent:DropDownButton.Background>
@@ -85,22 +90,15 @@
             </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
         <Grid Grid.Row="1" Name="mapGrid">
-            <Image x:Name="map" Margin="0" Source="Resources/mapp.png" Stretch="Fill"/>
+            <Image x:Name="map" Margin="0" Source="Resources/mapp2.png" Stretch="Fill"/>
 
             <Button Content="Start Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Grid.Row="1" Margin="15" Opacity="0.9" Click="startAnimation"/>
             <Button Content="Pause" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Grid.Row="1" Margin="160,15,15,15" Opacity="0.9" />
             <Button Content="Stop Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="1" Margin="240,15,15,15" Opacity="0.9" Click="stopAnimation" />
-
-            <!--<Canvas Name="canvasCar" >
-                <Image Name="car" Source="Resources/car.png" Width="45" Height="25"/>
-            </Canvas>
-            <Canvas Grid.Row="1" Name="canvas1Car" >
-                <Image Name="car1" Source="Resources/car.png" Width="45" Height="25"/>
-            </Canvas>-->
+            <Button Content="Clear" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="1" Margin="380,15,15,15" Opacity="0.9" />
+            
         </Grid>
         
-        <Label Grid.Row="2" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Name="labell"/>
-
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -109,12 +107,21 @@
             <Grid.RowDefinitions>
             </Grid.RowDefinitions>
 
-            <ProgressBar  Height="25" Name="pbCalculationProgress" Grid.Row="2" Margin="0,30,0,0" VerticalAlignment="Top" />
-            <ProgressBar  Height="25" Name="pbCalculationProgress1" Grid.Row="2" Margin="0,70,0,0" />
-
+            <GroupBox Grid.Column="0" Header="LiveStats" Margin="5,5,5,0">
+                <StackPanel>
+                    <Label>asdf</Label>
+                    <Label>asdf</Label>
+                    <Label>asdf</Label>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Grid.Column="1" Header="LiveStats" Margin="5,5,5,0">
+                <StackPanel>
+                    
+                    <Label>asdf</Label>
+                    <Label>asdf</Label>
+                    
+                </StackPanel>
+            </GroupBox>
         </Grid>
-        <Label Name ="label1" Grid.Row="2" Content="" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="100" Margin="0,0,1057,68"/>
-
-        
     </Grid>
 </Window>

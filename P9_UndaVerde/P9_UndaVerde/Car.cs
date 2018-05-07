@@ -29,7 +29,7 @@ namespace TrafficSimTM
 
             BitmapImage carBitmap = new BitmapImage();
             carBitmap.BeginInit();
-            carBitmap.UriSource = new Uri(@"pack://application:,,,/Resources/" + _imgSource, UriKind.RelativeOrAbsolute);
+            carBitmap.UriSource = new Uri(@"pack://application:,,,/Images/" + _imgSource, UriKind.RelativeOrAbsolute);
             carBitmap.EndInit();
             _carImg.Source = carBitmap;
             _carImg.Width = _width;
