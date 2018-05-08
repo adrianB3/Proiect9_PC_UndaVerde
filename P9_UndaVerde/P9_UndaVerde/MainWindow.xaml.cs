@@ -26,12 +26,6 @@ namespace P9_UndaVerde
 
     public partial class MainWindow : Window
     {
-        SemaphoreUI sem1;
-        SemaphoreUI sem2;
-        SemaphoreUI sem3;
-        SemaphoreUI sem4;
-        SemaphoreUI sem5;
-
         Animation carAnim;
 
         private static System.Timers.Timer aTimer;
@@ -49,11 +43,17 @@ namespace P9_UndaVerde
 
             theCreators.ItemsSource = credits;
 
-            sem1 = new SemaphoreUI("sem1", false, 20, 20, 0, 40, 100);
-            sem2 = new SemaphoreUI("sem2", false, 20, 20, 0, 40, 300);
-            sem3 = new SemaphoreUI("sem3", false, 20, 20, 0, 40, 470);
-            sem4 = new SemaphoreUI("sem4", false, 20, 20, 0, 40, 680);
-            sem5 = new SemaphoreUI("sem5", false, 20, 20, 0, 40, 990);
+            List<Point> coodinates = new List<Point>()
+            {
+               new Point (40, 100 ),
+               new Point (40, 300 ),
+               new Point (40, 470 ),
+               new Point (40, 680 ),
+               new Point (40, 990 ),
+            };
+
+            SemaphoreSystem theSystem = new SemaphoreSystem(coodinates);
+
 
     }
         
@@ -83,6 +83,9 @@ namespace P9_UndaVerde
             
             carAnim.startAnimation(car2, 3, 200);
 
+            var timer = new System.Timers.Timer(1000);
+            timer.Elapsed += new ElapsedEventHandler(timer_Elapsed);
+            timer.Enabled = true;
 
             /*var t1 = Task.Factory.StartNew(() =>
             {
@@ -134,6 +137,11 @@ namespace P9_UndaVerde
             worker.RunWorkerAsync(100);*/
            
                 
+        }
+
+        private void timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            liveTime.Text = e.SignalTime.ToShortTimeString();
         }
 
         /*void worker_DoWork(object sender, DoWorkEventArgs e)

@@ -19,7 +19,7 @@ namespace TrafficSimTM
         private int _positionFromRight { get; set; }
         private string _name { get; set; }
 
-        public SemaphoreUI(string name = "",bool color = false, int greenWaitTime = 20, int redWaitTime = 20, int delay = 0, int positionFromTop = 0, int positionFromRight = 0)
+        public SemaphoreUI(string name = "", int positionFromTop = 0, int positionFromRight = 0, bool color = false, int greenWaitTime = 20, int redWaitTime = 20, int delay = 0)
         {
             _color = color;
             _greenWaitTime = greenWaitTime;
