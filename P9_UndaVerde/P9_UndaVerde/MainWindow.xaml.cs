@@ -26,6 +26,7 @@ namespace P9_UndaVerde
 
     public partial class MainWindow : Window
     {
+        SemaphoreSystem theSystem;
         Animation carAnim;
 
         private static System.Timers.Timer aTimer;
@@ -52,7 +53,7 @@ namespace P9_UndaVerde
                new Point (40, 990 ),
             };
 
-            SemaphoreSystem theSystem = new SemaphoreSystem(coodinates);
+            theSystem = new SemaphoreSystem(coodinates);
 
 
     }
@@ -66,9 +67,7 @@ namespace P9_UndaVerde
         {
             var tokenSource = new CancellationTokenSource();
             var ct = tokenSource.Token;
-            var UiSyncContext = TaskScheduler.FromCurrentSynchronizationContext();
-
-            
+            var UiSyncContext = TaskScheduler.FromCurrentSynchronizationContext();           
             
             Car car1 = new Car("car.png", "car1", 45, 35, 130, 0);
             Car car2 = new Car("redcar.png", "car2", 45, 35, 160, 0);
@@ -83,6 +82,7 @@ namespace P9_UndaVerde
             
             carAnim.startAnimation(car2, 3, 200);
 
+            theSystem.StartSystem();
 
             /*var t1 = Task.Factory.StartNew(() =>
             {
@@ -132,8 +132,8 @@ namespace P9_UndaVerde
             worker.DoWork += worker_DoWork;
             worker.ProgressChanged += worker_ProgressChanged;
             worker.RunWorkerAsync(100);*/
-           
-                
+
+
         }
 
         /*void worker_DoWork(object sender, DoWorkEventArgs e)
