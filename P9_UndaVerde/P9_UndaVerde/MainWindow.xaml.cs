@@ -27,7 +27,7 @@ namespace P9_UndaVerde
     public partial class MainWindow : Window
     {
         SemaphoreSystem theSystem;
-        Animation carAnim;
+        Animation carAnim, carAnim1;
 
         private static System.Timers.Timer aTimer;
         public MainWindow()
@@ -44,7 +44,7 @@ namespace P9_UndaVerde
 
             theCreators.ItemsSource = credits;
 
-            List<Point> coodinates = new List<Point>()
+            List<Point> coordinates = new List<Point>()
             {
                new Point (40, 100 ),
                new Point (40, 300 ),
@@ -53,8 +53,7 @@ namespace P9_UndaVerde
                new Point (40, 990 ),
             };
 
-            theSystem = new SemaphoreSystem(coodinates);
-
+            theSystem = new SemaphoreSystem(coordinates);
 
     }
         
@@ -72,17 +71,24 @@ namespace P9_UndaVerde
             Car car1 = new Car("car.png", "car1", 45, 35, 130, 0);
             Car car2 = new Car("redcar.png", "car2", 45, 35, 160, 0);
 
-            carAnim = new Animation(new Point(-1240,0));
+            carAnim = new Animation(new Point(-90,0));
+            carAnim1 = new Animation(new Point(-1240, 0));
 
             car1.createImage();
             car2.createImage();
-            
-
-            carAnim.startAnimation(car1,3, 200);
-            
-            carAnim.startAnimation(car2, 3, 200);
-
+     
             theSystem.StartSystem();
+
+            carAnim.startAnimation(car1, 4, 200);
+            carAnim.story.Completed += (o,s) => {
+                if (theSystem._semaphores[0].isGreen())
+                {
+                    var anim3 = new Animation(new Point(-1024, 0));
+                    anim3.startAnimation(car1, 3, 200);
+                }
+            };
+
+            carAnim1.startAnimation(car2, 3, 200);
 
             /*var t1 = Task.Factory.StartNew(() =>
             {
@@ -175,11 +181,13 @@ namespace P9_UndaVerde
         private void stopAnimation(object sender, RoutedEventArgs e)
         {
             carAnim.stopAnimation();
+            carAnim1.stopAnimation();
         }
 
         private void pauseAnimation(object sender, RoutedEventArgs e)
         {
             carAnim.pauseAnimation();
+            carAnim1.pauseAnimation();
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Windows;
 using System.Diagnostics;
 using System.Threading;
 using System;
+using System.Threading.Tasks;
 
 namespace TrafficSimTM
 {
@@ -12,7 +13,7 @@ namespace TrafficSimTM
         private Stopwatch clk;
         private MainWindow mainWin = Application.Current.Windows[0] as MainWindow;
         private List<Point> _coordinates;
-        private List<SemaphoreUI> _semaphores;
+        public List<SemaphoreUI> _semaphores;
         public SemaphoreSystem(List<Point> coordinates)
         {
             char i = 'a';
@@ -20,23 +21,33 @@ namespace TrafficSimTM
             _coordinates = coordinates;
             foreach (var item in _coordinates)
             {
-                _semaphores.Add(new SemaphoreUI(i++.ToString(), (int)item.X, (int)item.Y));
+                _semaphores.Add(new SemaphoreUI("sem" + i++.ToString(), (int)item.X, (int)item.Y));
             }
         }
 
         public void StartSystem()
         {
-            TimeSpan ts;
-            clk = new Stopwatch();
-            clk.Start();
-            Thread.Sleep(1000);
-            clk.Stop();
+            List<Task> semTsk = new List<Task>();
+            foreach (var item in _semaphores)
+            {
+                semTsk.Add(new Task(async () =>
+            {
+                item.lightUp();
+                await Task.Delay(3000);
+                item._color = true;
+                item.lightUp();
+                await Task.Delay(3000);
+                item._color = false;
+                item.lightUp();
+            }));
+            }
 
-            ts = clk.Elapsed;
-
-            mainWin.liveTime.Text = ts.Seconds.ToString();
-            
+                
+            foreach (var item in semTsk)
+            {
+                item.Start(TaskScheduler.FromCurrentSynchronizationContext());
+            }
+                        
         }
-       
     }
 }

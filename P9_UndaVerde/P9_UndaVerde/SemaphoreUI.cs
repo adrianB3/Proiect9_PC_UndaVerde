@@ -1,5 +1,7 @@
 ﻿using P9_UndaVerde;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,13 +13,16 @@ namespace TrafficSimTM
     class SemaphoreUI
     {
         MainWindow mainWin = Application.Current.Windows[0] as MainWindow;
-        private bool _color { get; set; }
-        private int _greenWaitTime { get; set; }
-        private int _redWaitTime { get; set; }
+        public bool _color { get; set; }
+        public int _greenWaitTime { get; set; }
+        public int _redWaitTime { get; set; }
         private int _delay { get; set; }
         private int _positionFromTop { get; set; }
         private int _positionFromRight { get; set; }
         private string _name { get; set; }
+        Canvas canv = new Canvas();
+        Ellipse redLight = new Ellipse();
+        Ellipse greenLight = new Ellipse();
 
         public SemaphoreUI(string name = "", int positionFromTop = 0, int positionFromRight = 0, bool color = false, int greenWaitTime = 20, int redWaitTime = 20, int delay = 0)
         {
@@ -28,9 +33,7 @@ namespace TrafficSimTM
             _positionFromTop = positionFromTop;
             _positionFromRight = positionFromRight;
             _name = name;
-
-            Canvas canv = new Canvas();
-
+            
             BitmapImage semBitmap = new BitmapImage();
             semBitmap.BeginInit();
             semBitmap.UriSource = new Uri(@"pack://application:,,,/Images/semaphore.png", UriKind.RelativeOrAbsolute);
@@ -41,32 +44,9 @@ namespace TrafficSimTM
             semImage.Width = 40;
             semImage.Name = _name;
             Canvas.SetRight(semImage, _positionFromRight);
-            Canvas.SetTop(semImage, _positionFromTop);
-
-            Ellipse redLight = new Ellipse();
-            SolidColorBrush colorBrush = new SolidColorBrush();
-            colorBrush.Color = Color.FromArgb(255, 255, 0, 0);
-            redLight.Fill = colorBrush;
-            redLight.Width = 13;
-            redLight.Height = 13;
-
-            Canvas.SetRight(redLight, _positionFromRight + 13);
-            Canvas.SetTop(redLight, _positionFromTop + 55);
-
-            Ellipse greenLight = new Ellipse();
-            SolidColorBrush colorBrush1 = new SolidColorBrush();
-            colorBrush1.Color = Color.FromArgb(255, 0, 255, 0);
-            greenLight.Fill = colorBrush1;
-            greenLight.Width = 13;
-            greenLight.Height = 13;
-
-            Canvas.SetRight(greenLight, _positionFromRight + 13);
-            Canvas.SetTop(greenLight, _positionFromTop + 80);
-
-            
+            Canvas.SetTop(semImage, _positionFromTop);           
             canv.Children.Add(semImage);
-            canv.Children.Add(redLight);
-            canv.Children.Add(greenLight);
+                      
             mainWin.mapGrid.Children.Add(canv);
             
         }
@@ -86,6 +66,39 @@ namespace TrafficSimTM
             return _color ? false : true;
         }
 
-        
+        public void lightUp() {
+
+                SolidColorBrush colorBrush = new SolidColorBrush();
+                colorBrush.Color = Color.FromArgb(255, 255, 0, 0);
+                redLight.Fill = colorBrush;
+                redLight.Width = 13;
+                redLight.Height = 13;
+
+                Canvas.SetRight(redLight, _positionFromRight + 13);
+                Canvas.SetTop(redLight, _positionFromTop + 55);
+
+
+                SolidColorBrush colorBrush1 = new SolidColorBrush();
+                colorBrush1.Color = Color.FromArgb(255, 0, 255, 0);
+                greenLight.Fill = colorBrush1;
+                greenLight.Width = 13;
+                greenLight.Height = 13;
+
+                Canvas.SetRight(greenLight, _positionFromRight + 13);
+                Canvas.SetTop(greenLight, _positionFromTop + 80);
+
+                if (_color == false)
+                {
+                    canv.Children.Remove(redLight);
+                    canv.Children.Remove(greenLight);
+                    canv.Children.Add(redLight);
+                }
+                else
+                {
+                    canv.Children.Remove(greenLight);
+                    canv.Children.Remove(redLight);
+                    canv.Children.Add(greenLight);
+                }        
+        }
     }
 }

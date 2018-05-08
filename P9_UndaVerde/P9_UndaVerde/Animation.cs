@@ -54,5 +54,10 @@ namespace TrafficSimTM
         {
             story.Pause(mainWin);
         }
+
+        public void resumeAnimation()
+        {
+            story.Resume(mainWin);
+        }
     }
 }
