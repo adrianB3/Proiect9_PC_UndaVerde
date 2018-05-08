@@ -83,9 +83,6 @@ namespace P9_UndaVerde
             
             carAnim.startAnimation(car2, 3, 200);
 
-            var timer = new System.Timers.Timer(1000);
-            timer.Elapsed += new ElapsedEventHandler(timer_Elapsed);
-            timer.Enabled = true;
 
             /*var t1 = Task.Factory.StartNew(() =>
             {
@@ -137,11 +134,6 @@ namespace P9_UndaVerde
             worker.RunWorkerAsync(100);*/
            
                 
-        }
-
-        private void timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            liveTime.Text = e.SignalTime.ToShortTimeString();
         }
 
         /*void worker_DoWork(object sender, DoWorkEventArgs e)
