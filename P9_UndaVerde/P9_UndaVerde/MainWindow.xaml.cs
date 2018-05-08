@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Timers;
 using TrafficSimTM;
 
 namespace P9_UndaVerde
@@ -24,7 +25,16 @@ namespace P9_UndaVerde
     }
 
     public partial class MainWindow : Window
-    {       
+    {
+        SemaphoreUI sem1;
+        SemaphoreUI sem2;
+        SemaphoreUI sem3;
+        SemaphoreUI sem4;
+        SemaphoreUI sem5;
+
+        Animation carAnim;
+
+        private static System.Timers.Timer aTimer;
         public MainWindow()
         {
             InitializeComponent();
@@ -39,10 +49,13 @@ namespace P9_UndaVerde
 
             theCreators.ItemsSource = credits;
 
-            SemaphoreUI sem1 = new SemaphoreUI("sem1", false, 20, 20, 0, 40, 100);
-            SemaphoreUI sem2 = new SemaphoreUI("sem2", false, 20, 20, 0, 40, 300);
-            SemaphoreUI sem3 = new SemaphoreUI("sem3", false, 20, 20, 0, 40, 470);
-        }
+            sem1 = new SemaphoreUI("sem1", false, 20, 20, 0, 40, 100);
+            sem2 = new SemaphoreUI("sem2", false, 20, 20, 0, 40, 300);
+            sem3 = new SemaphoreUI("sem3", false, 20, 20, 0, 40, 470);
+            sem4 = new SemaphoreUI("sem4", false, 20, 20, 0, 40, 680);
+            sem5 = new SemaphoreUI("sem5", false, 20, 20, 0, 40, 990);
+
+    }
         
         private void aplicationExit(object sender, EventArgs e)
         {
@@ -55,44 +68,24 @@ namespace P9_UndaVerde
             var ct = tokenSource.Token;
             var UiSyncContext = TaskScheduler.FromCurrentSynchronizationContext();
 
+            
+            
             Car car1 = new Car("car.png", "car1", 45, 35, 130, 0);
-            Car car2 = new Car("car.png", "car2", 45, 35, 160, 0);
+            Car car2 = new Car("redcar.png", "car2", 45, 35, 160, 0);
 
-            Car car3 = new Car("redcar.png", "car3", 45, 35, 130, 50);
-
-
-            Car car4 = new Car("car.png", "car4", 45, 35, 130, 100);
-
-
-            Car car5 = new Car("redcar.png", "car5", 45, 35, 130, 150);
-
-
-            Animation anim = new Animation();
-
-
-            Animation anim2 = new Animation();
-
-
-            Animation anim3 = new Animation();
-
-
-            Animation anim4 = new Animation();
-
-
-            Animation anim5 = new Animation();
+            carAnim = new Animation(new Point(-1240,0));
 
             car1.createImage();
             car2.createImage();
-            car3.createImage();
-            car4.createImage();
-            car5.createImage();
+            
 
-            anim.startAnimation(car1,3, 200);
-            anim2.startAnimation(car2,3, 1000);
-            anim3.startAnimation(car3,3, 2000);
-            anim4.startAnimation(car4,3, 2000);
-            anim5.startAnimation(car5,3, 2000);
+            carAnim.startAnimation(car1,3, 200);
+            
+            carAnim.startAnimation(car2, 3, 200);
 
+            var timer = new System.Timers.Timer(1000);
+            timer.Elapsed += new ElapsedEventHandler(timer_Elapsed);
+            timer.Enabled = true;
 
             /*var t1 = Task.Factory.StartNew(() =>
             {
@@ -142,7 +135,13 @@ namespace P9_UndaVerde
             worker.DoWork += worker_DoWork;
             worker.ProgressChanged += worker_ProgressChanged;
             worker.RunWorkerAsync(100);*/
+           
                 
+        }
+
+        private void timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            liveTime.Text = e.SignalTime.ToShortTimeString();
         }
 
         /*void worker_DoWork(object sender, DoWorkEventArgs e)
@@ -175,6 +174,7 @@ namespace P9_UndaVerde
             }
         }*/
 
+
         private void windowLoaded(object sender, RoutedEventArgs e)
         {
                      
@@ -182,7 +182,12 @@ namespace P9_UndaVerde
 
         private void stopAnimation(object sender, RoutedEventArgs e)
         {
-            
+            carAnim.stopAnimation();
+        }
+
+        private void pauseAnimation(object sender, RoutedEventArgs e)
+        {
+            carAnim.pauseAnimation();
         }
     }
 }

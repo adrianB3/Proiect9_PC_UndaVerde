@@ -2,7 +2,9 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace TrafficSimTM
 {
@@ -41,11 +43,31 @@ namespace TrafficSimTM
             Canvas.SetRight(semImage, _positionFromRight);
             Canvas.SetTop(semImage, _positionFromTop);
 
-            canv.Children.Add(semImage);
-            mainWin.mapGrid.Children.Add(canv);
+            Ellipse redLight = new Ellipse();
+            SolidColorBrush colorBrush = new SolidColorBrush();
+            colorBrush.Color = Color.FromArgb(255, 255, 0, 0);
+            redLight.Fill = colorBrush;
+            redLight.Width = 13;
+            redLight.Height = 13;
 
-            //TODO
-            // Add colors to the semaphore
+            Canvas.SetRight(redLight, _positionFromRight + 13);
+            Canvas.SetTop(redLight, _positionFromTop + 55);
+
+            Ellipse greenLight = new Ellipse();
+            SolidColorBrush colorBrush1 = new SolidColorBrush();
+            colorBrush1.Color = Color.FromArgb(255, 0, 255, 0);
+            greenLight.Fill = colorBrush1;
+            greenLight.Width = 13;
+            greenLight.Height = 13;
+
+            Canvas.SetRight(greenLight, _positionFromRight + 13);
+            Canvas.SetTop(greenLight, _positionFromTop + 80);
+
+            
+            canv.Children.Add(semImage);
+            canv.Children.Add(redLight);
+            canv.Children.Add(greenLight);
+            mainWin.mapGrid.Children.Add(canv);
             
         }
 
@@ -64,7 +86,6 @@ namespace TrafficSimTM
             return _color ? false : true;
         }
 
-        // TODO
-        // Add animation method to turn green or red
+        
     }
 }

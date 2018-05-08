@@ -9,6 +9,7 @@ namespace TrafficSimTM
     class Car
     {
         MainWindow mainWin = Application.Current.Windows[0] as MainWindow;
+
         private string _imgSource { get; set; }
         private string _name { get; set; }
         private int _width { get; set; }

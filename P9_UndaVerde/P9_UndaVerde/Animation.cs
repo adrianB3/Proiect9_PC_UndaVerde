@@ -11,12 +11,12 @@ namespace TrafficSimTM
     class Animation
     {
         MainWindow mainWin = Application.Current.Windows[0] as MainWindow;
-        //private Car _animateObject { get; set; }
         public Storyboard story = new Storyboard();
+        Point _endPoint = new Point();
 
-        public Animation()
+        public Animation(Point endPoint)
         {
-            
+            _endPoint = endPoint;
         }
 
         public void startAnimation(Car _animateObject, int animationTime, int delay)
@@ -29,7 +29,7 @@ namespace TrafficSimTM
             PathGeometry animPath = new PathGeometry();
             PathFigure pathFigure = new PathFigure();
             pathFigure.StartPoint = new Point(0, 0);
-            pathFigure.Segments.Add(new LineSegment(new Point(-170, 0), false));
+            pathFigure.Segments.Add(new LineSegment(_endPoint, false));
             
             animPath.Figures.Add(pathFigure);
             animPath.Freeze();
@@ -42,12 +42,17 @@ namespace TrafficSimTM
             Storyboard.SetTargetProperty(mAnim, new PropertyPath(MatrixTransform.MatrixProperty));
             
             story.Children.Add(mAnim);
-            story.Begin(mainWin);
+            story.Begin(mainWin,true);
         }
 
         public void stopAnimation()
         {
-            story.Stop();
+            story.Stop(mainWin);
+        }
+
+        public void pauseAnimation()
+        {
+            story.Pause(mainWin);
         }
     }
 }

@@ -1,11 +1,11 @@
-﻿<Window
+﻿<Window 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Fluent="urn:fluent-ribbon"
         xmlns:local="clr-namespace:P9_UndaVerde"
         xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"  
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        
+        xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"        
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" x:Class="P9_UndaVerde.MainWindow"
         Title="TrafficSimTM" 
@@ -13,15 +13,13 @@
         mc:Ignorable="PresentationOptions d"
         
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
-        TextElement.FontSize="14"
-        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Hack/#Hack"      
+        TextElement.FontSize="14"      
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto" 
         Icon="Graphicloads-Flat-Finance-File.ico" 
         WindowStartupLocation="CenterScreen" 
-        Name="mainWin" Width="1245" Height="745" ResizeMode="CanMinimize" MinWidth="1245" MinHeight="745" Loaded="windowLoaded">
+        Name="mainWin" Width="1245" Height="745" ResizeMode="CanMinimize" MinWidth="1245" MinHeight="745" Loaded="windowLoaded" FontSize="14">
 
     <Grid VerticalAlignment="Top" x:Name="main">
 
@@ -29,12 +27,12 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="6*"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="420"/>
+            <RowDefinition Height="165"/>
         </Grid.RowDefinitions>
 
-        <Fluent:Ribbon Grid.Row="0">
+        <Fluent:Ribbon Grid.Row="0" VerticalAlignment="Stretch">
             <!--Backstage-->
             <Fluent:Ribbon.Menu>
                 <Fluent:Backstage>
@@ -54,7 +52,7 @@
             </Fluent:Ribbon.Menu>
 
             <!--Tabs-->
-            <Fluent:RibbonTabItem Header="Main Settings">
+            <Fluent:RibbonTabItem Header="Main Settings" ActiveTabBackground="#FFDBE0FF">
                 <Fluent:RibbonGroupBox Header="Add new car">
                     <Fluent:DropDownButton Header="Street" AllowDrop="True" Icon="Images/roadIcon.png" Width="90">
                         <Fluent:DropDownButton.Background>
@@ -74,7 +72,7 @@
                         </Fluent:DropDownButton.Background>
                         <ListBoxItem/>
                     </Fluent:DropDownButton>
-                    <Button Content="Add" BorderThickness="0" Margin="10,20,10,10" Background="#FF79B9D8" Foreground="#DDFFFFFF" BorderBrush="White"></Button>
+                    <Button Content="Add" Margin="10,20,10,10"></Button>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
@@ -91,37 +89,67 @@
         </Fluent:Ribbon>
         <Grid Grid.Row="1" Name="mapGrid">
             <Image x:Name="map" Margin="0" Source="Resources/mapp2.png" Stretch="Fill"/>
-
+            <TextBlock Name="liveTime" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Background="White" Margin="10" Height="30" Width="56" FontWeight="Normal" FontSize="20" TextAlignment="Center"/>
             <Button Content="Start Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Grid.Row="1" Margin="15" Opacity="0.9" Click="startAnimation"/>
-            <Button Content="Pause" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Grid.Row="1" Margin="160,15,15,15" Opacity="0.9" />
+            <Button Content="Pause" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Grid.Row="1" Margin="160,15,15,15" Opacity="0.9" Click="pauseAnimation" />
             <Button Content="Stop Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="1" Margin="240,15,15,15" Opacity="0.9" Click="stopAnimation" />
             <Button Content="Clear" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="1" Margin="380,15,15,15" Opacity="0.9" />
+
+        </Grid>
+
+        <Grid Grid.Row="2">
             
+            <!--<GroupBox Grid.Column="0" Grid.Row="0" Header="LiveStats" Margin="5,5,5,0">
+                <StackPanel>
+                    <Label>asdf</Label>
+                    <Label>asdf</Label>
+                    <Label>asdf</Label>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Grid.Column="1" Grid.Row="0" Header="LiveStats" Margin="5,5,5,0">
+                <StackPanel>
+                    <Label>asdf</Label>
+                    <Label>asdf</Label>
+                </StackPanel>
+            </GroupBox>-->
+            <TabControl Margin="5">
+                <TabControl.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                        <GradientStop Color="White" Offset="0"/>
+                        <GradientStop Color="#FFB3DCFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </TabControl.Background>
+                <TabItem Header="LiveStatistics">
+                    <StackPanel>
+                        <Label>asdf</Label>
+                        <Label>asdf</Label>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="LiveStatistics2">
+                    <StackPanel>
+                        <Label>asdf</Label>
+                        <Label>asdf</Label>
+                        <Label>asdf</Label>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="RedPasses">
+                    <ScrollViewer>
+                        <StackPanel>
+                            <Label>asdf</Label>
+                            <Label>asdf</Label>
+                            <Label>asdf</Label>
+                            <Label>asdf</Label>
+                            <Label>asdf</Label>
+                            <Label>asdf</Label>
+                            <Label>asdf</Label>
+                            <Label>asdf</Label>
+                            <Label>asdf</Label>
+                            <Label>asdf</Label>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
         </Grid>
         
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-            </Grid.RowDefinitions>
-
-            <GroupBox Grid.Column="0" Header="LiveStats" Margin="5,5,5,0">
-                <StackPanel>
-                    <Label>asdf</Label>
-                    <Label>asdf</Label>
-                    <Label>asdf</Label>
-                </StackPanel>
-            </GroupBox>
-            <GroupBox Grid.Column="1" Header="LiveStats" Margin="5,5,5,0">
-                <StackPanel>
-                    
-                    <Label>asdf</Label>
-                    <Label>asdf</Label>
-                    
-                </StackPanel>
-            </GroupBox>
-        </Grid>
     </Grid>
 </Window>
