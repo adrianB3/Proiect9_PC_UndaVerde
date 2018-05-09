@@ -16,7 +16,7 @@
  
  
  
-### DevTeam - until friday you need to try to perform the following tasks:
+### DevTeam - until sunday you need to try to perform the following tasks:
  - read the code written so far - Ask questions if you don't understand something!
  - create an intersection class that will contain the necessary SemaphoreUI elements and the necessary methods
  - add intersection objects to the SemaphoreSystem class and try to think of a method to synchronize them
