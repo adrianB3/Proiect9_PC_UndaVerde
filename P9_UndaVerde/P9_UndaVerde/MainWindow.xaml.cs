@@ -27,8 +27,9 @@ namespace P9_UndaVerde
     public partial class MainWindow : Window
     {
         SemaphoreSystem theSystem;
-        Animation carAnim, carAnim1;
-        
+        Animation carAnim, carAnim1, car90Anim, car90Anim2;
+
+       
 
         private static System.Timers.Timer aTimer;
         public MainWindow()
@@ -69,20 +70,28 @@ namespace P9_UndaVerde
             var ct = tokenSource.Token;
             var UiSyncContext = TaskScheduler.FromCurrentSynchronizationContext();
 
+           
+           
             Car car1 = new Car("car.png", "car1", 45, 35, 130, 0);
             Car car2 = new Car("redcar.png", "car2", 45, 35, 160, 0);
             Car train1 = new Car("Train.png", "train1", 140, 80, 180, 0);//train1
             Car train2 = new Car("Train.png", "train2", 140, 80, 160, 0);//train2
-
+            Car car90_1 = new Car("car90.png", "car90_1", 35, 45, 0, 188);//top to bottom
+            Car car90_2 = new Car("car90.png", "car90_2", 35, 45, 0, 390);//top to bottom
+            Car redCar90_3 = new Car("redcar90.png", "redCar90_3", 35, 45, 390, 140);//bottom to top
 
             carAnim = new Animation(new Point(-90,0));
             carAnim1 = new Animation(new Point(-1240, 0));
+            car90Anim = new Animation(new Point(0, 1000));
+            car90Anim2 = new Animation(new Point(0, -440));
 
             car1.createImage();
             car2.createImage();
             train1.createImage();//train
             train2.createImage();
-
+            car90_1.createImage();
+            car90_2.createImage();
+            redCar90_3.createImage();
             theSystem.StartSystem();
 
             carAnim.startAnimation(car1, 4, 200);           
@@ -91,6 +100,10 @@ namespace P9_UndaVerde
             carAnim1.startAnimation(train1, 3, 200);
 
             carAnim.startAnimation(train2, 5, 200);
+            car90Anim.startAnimation(car90_1, 5, 200);
+            car90Anim.startAnimation(car90_2, 3, 200);
+            car90Anim2.startAnimation(redCar90_3, 4, 200);
+
 
             carAnim.story.Completed += delegate {
 
