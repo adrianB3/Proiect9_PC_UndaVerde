@@ -21,5 +21,7 @@
  - create an intersection class that will contain the necessary SemaphoreUI elements and the necessary methods
  - add intersection objects to the SemaphoreSystem class and try to think of a method to synchronize them
  - in order to make the intersection you need to find a way to rotate a SemaphoreUI image and a method to synchronize the SemaphoreUI elements from within the intersection
+ - add comments to main functions
+ - think of the necessary steps for a user to make in order to initialize a simulation
  
  #### The code doesn't need to be perfect, just try to write something and we will discuss it!
