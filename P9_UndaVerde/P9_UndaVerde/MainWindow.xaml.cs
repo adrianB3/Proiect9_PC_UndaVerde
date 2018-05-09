@@ -71,17 +71,26 @@ namespace P9_UndaVerde
 
             Car car1 = new Car("car.png", "car1", 45, 35, 130, 0);
             Car car2 = new Car("redcar.png", "car2", 45, 35, 160, 0);
+            Car train1 = new Car("Train.png", "train1", 140, 80, 180, 0);//train1
+            Car train2 = new Car("Train.png", "train2", 140, 80, 160, 0);//train2
+
 
             carAnim = new Animation(new Point(-90,0));
             carAnim1 = new Animation(new Point(-1240, 0));
 
             car1.createImage();
             car2.createImage();
-     
+            train1.createImage();//train
+            train2.createImage();
+
             theSystem.StartSystem();
 
             carAnim.startAnimation(car1, 4, 200);           
             carAnim1.startAnimation(car2, 3, 200);
+
+            carAnim1.startAnimation(train1, 3, 200);
+
+            carAnim.startAnimation(train2, 5, 200);
 
             carAnim.story.Completed += delegate {
 
