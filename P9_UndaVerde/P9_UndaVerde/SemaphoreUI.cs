@@ -16,7 +16,7 @@ namespace TrafficSimTM
         public bool _color { get; set; }
         public int _greenWaitTime { get; set; }
         public int _redWaitTime { get; set; }
-        private int _delay { get; set; }
+        public int _delay { get; set; }
         private int _positionFromTop { get; set; }
         private int _positionFromRight { get; set; }
         private string _name { get; set; }
@@ -24,7 +24,7 @@ namespace TrafficSimTM
         Ellipse redLight = new Ellipse();
         Ellipse greenLight = new Ellipse();
 
-        public SemaphoreUI(string name = "", int positionFromTop = 0, int positionFromRight = 0, bool color = false, int greenWaitTime = 20, int redWaitTime = 20, int delay = 0)
+        public SemaphoreUI(string name = "", int positionFromTop = 0, int positionFromRight = 0, int delay = 0, bool color = false, int greenWaitTime = 20, int redWaitTime = 20)
         {
             _color = color;
             _greenWaitTime = greenWaitTime;

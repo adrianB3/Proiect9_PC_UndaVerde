@@ -17,11 +17,12 @@ namespace TrafficSimTM
         public SemaphoreSystem(List<Point> coordinates)
         {
             char i = 'a';
+            int delay = 1;
             _semaphores = new List<SemaphoreUI>();
             _coordinates = coordinates;
             foreach (var item in _coordinates)
             {
-                _semaphores.Add(new SemaphoreUI("sem" + i++.ToString(), (int)item.X, (int)item.Y));
+                _semaphores.Add(new SemaphoreUI("sem" + i++.ToString(), (int)item.X, (int)item.Y,delay++));
             }
         }
 
@@ -31,14 +32,18 @@ namespace TrafficSimTM
             foreach (var item in _semaphores)
             {
                 semTsk.Add(new Task(async () =>
-            {
-                item.lightUp();
-                await Task.Delay(3000);
-                item._color = true;
-                item.lightUp();
-                await Task.Delay(3000);
-                item._color = false;
-                item.lightUp();
+                {
+                    while (true)
+                    {
+                        
+                        item.lightUp();
+                        await Task.Delay(3000);
+                        item._color = true;
+                        await Task.Delay(item._delay * 1000);
+                        item.lightUp();
+                        await Task.Delay(3000);
+                        item._color = false;
+                    }              
             }));
             }
 
@@ -47,6 +52,8 @@ namespace TrafficSimTM
             {
                 item.Start(TaskScheduler.FromCurrentSynchronizationContext());
             }
+
+            
                         
         }
     }
