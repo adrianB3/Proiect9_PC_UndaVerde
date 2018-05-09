@@ -14,3 +14,12 @@
   
 #### we need to discuss what approach to use ASAP
  
+ 
+ 
+### DevTeam - until friday you need to try to perform the following tasks:
+ - read the code written so far - Ask questions if you don't understand something!
+ - create an intersection class that will contain the necessary SemaphoreUI elements and the necessary methods
+ - add intersection objects to the SemaphoreSystem class and try to think of a method to synchronize them
+ - in order to make the intersection you need to find a way to rotate a SemaphoreUI image and a method to synchronize the SemaphoreUI elements from within the intersection
+ 
+ #### The code doesn't need to be perfect, just try to write something and we will discuss it!
