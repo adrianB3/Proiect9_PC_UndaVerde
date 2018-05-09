@@ -1,4 +1,4 @@
--- new ideea red time increse/decrease
+-- new ideea red time increse/decrease,  intersection class
 
 class Semaphore
  - bool color
@@ -31,3 +31,8 @@ class animation
  
 
 Semaphore sem1 = new Semaphore();
+
+class SemaphoreDispatcher
++ lista de semafoare
+- timer global
+

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,20 +7,56 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
+using System.Timers;
+using TrafficSimTM;
 
 namespace P9_UndaVerde
 {
-    ///andrei aaa,, andrei e fraier
-    ///Alt comm
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+
+    public class credits
+    {
+        public int nr { get; set; }
+        public string Name { get; set; }
+    }
+
     public partial class MainWindow : Window
     {
+        SemaphoreSystem theSystem;
+        Animation carAnim, carAnim1;
+        
+
+        private static System.Timers.Timer aTimer;
         public MainWindow()
         {
             InitializeComponent();
-        }
+            List<credits> credits = new List<credits>();
+            string names = "Andreea Carp @AndreeaCamelia, Andrei Chirap @AndreiChirap, Adrian-Gabriel Balanescu @adrianB3, Gabriel Bizdoc @GabiBVG ,Raul-Adrian Chincea @RaulChincea, Diana Dalea @dianadalea,Andreea Balasoiu @AndreeaBalasoiu, Alina Bacalete @AlinaBacalete, Voicu Carole @carolevoicu, Anamaria Larisa Bala @AnamariaLarisa, Simona-Rebeca Buse @SimonaRebeca, Adrian Coneac @adrianconeac, Mario-Razvan Cioara @MarioCioara, Raluca-Andreea Cozma @ralucacozma, Raul Cojocaru @raulcojocaru, Robert Burdusel @robertb21";
+            var n = names.Split(',');
+            int index = 1;
+            foreach (string item in n)
+            {
+                credits.Add(new credits() { Name = item , nr = index++});
+            }
+
+            theCreators.ItemsSource = credits;
+
+            List<Point> coordinates = new List<Point>()
+            {
+               new Point (40, 100 ),
+               new Point (40, 300 ),
+               new Point (40, 470 ),
+               new Point (40, 680 ),
+               new Point (40, 990 ),
+            };
+
+            theSystem = new SemaphoreSystem(coordinates);
+
+    }
         
         private void aplicationExit(object sender, EventArgs e)
         {
@@ -28,73 +65,39 @@ namespace P9_UndaVerde
 
         private void startAnimation(object sender, RoutedEventArgs e)
         {
-            
-            Storyboard story = new Storyboard();
-           
-            Canvas.SetLeft(car, canvasCar.ActualWidth);
-            Canvas.SetTop(car, canvasCar.ActualHeight - 265);
-            NameScope.SetNameScope(this, new NameScope());
-            MatrixTransform carTransform = new MatrixTransform();
-            car.RenderTransform = carTransform;
-            this.RegisterName("carTransform", carTransform);
-
-            PathGeometry animPath = new PathGeometry();
-            PathFigure pathFigure = new PathFigure();
-            pathFigure.StartPoint = new Point(0, 0);
-
-            pathFigure.Segments.Add(new LineSegment(new Point(-170, 0), false));
-           // pathFigure.Segments.Add(new ArcSegment(new Point(-100,50), new Size(20,10),15,false,SweepDirection.Clockwise, false));
-            pathFigure.Segments.Add(new LineSegment(new Point(-170, -120), false));
-
-            animPath.Figures.Add(pathFigure);
-            animPath.Freeze();
-
-            MatrixAnimationUsingPath mAnim = new MatrixAnimationUsingPath();
-            mAnim.PathGeometry = animPath;
-            mAnim.Duration = TimeSpan.FromSeconds(3);
-            mAnim.DoesRotateWithTangent = true;
-
-            Storyboard.SetTargetName(mAnim, "carTransform");
-            Storyboard.SetTargetProperty(mAnim, new PropertyPath(MatrixTransform.MatrixProperty));
-            story.Children.Add(mAnim);
-            
-
-
-            Canvas.SetLeft(car1, canvasCar.ActualWidth);
-            Canvas.SetTop(car1, canvasCar.ActualHeight - 257);
-           
-            MatrixTransform carTransform1 = new MatrixTransform();
-            car1.RenderTransform = carTransform1;
-            this.RegisterName("carTransform1", carTransform1);
-
-            PathGeometry animPath1 = new PathGeometry();
-            PathFigure pathFigure1 = new PathFigure();
-            pathFigure1.StartPoint = new Point(0, 0);
-
-            pathFigure1.Segments.Add(new LineSegment(new Point(-210, 0), false));
-            //pathFigure.Segments.Add(new ArcSegment(new Point(-100,50), new Size(20,10),15,false,SweepDirection.Clockwise, false));
-            pathFigure1.Segments.Add(new LineSegment(new Point(-1000, 0), false));
-
-            animPath1.Figures.Add(pathFigure1);
-            animPath1.Freeze();
-
-            MatrixAnimationUsingPath mAnim1 = new MatrixAnimationUsingPath();
-            mAnim1.PathGeometry = animPath1;
-            mAnim1.Duration = TimeSpan.FromSeconds(5);
-            mAnim1.DoesRotateWithTangent = false;
-
-            Storyboard.SetTargetName(mAnim1, "carTransform1");
-            Storyboard.SetTargetProperty(mAnim1, new PropertyPath(MatrixTransform.MatrixProperty));
-            Storyboard story1 = new Storyboard();
-            story1.Children.Add(mAnim1);
-
-            story.Begin(this);
-            story1.Begin(this);
-
             var tokenSource = new CancellationTokenSource();
             var ct = tokenSource.Token;
             var UiSyncContext = TaskScheduler.FromCurrentSynchronizationContext();
 
+            Car car1 = new Car("car.png", "car1", 45, 35, 130, 0);
+            Car car2 = new Car("redcar.png", "car2", 45, 35, 160, 0);
+            Car train1 = new Car("Train.png", "train1", 140, 80, 180, 0);//train1
+            Car train2 = new Car("Train.png", "train2", 140, 80, 160, 0);//train2
+
+
+            carAnim = new Animation(new Point(-90,0));
+            carAnim1 = new Animation(new Point(-1240, 0));
+
+            car1.createImage();
+            car2.createImage();
+            train1.createImage();//train
+            train2.createImage();
+
+            theSystem.StartSystem();
+
+            carAnim.startAnimation(car1, 4, 200);           
+            carAnim1.startAnimation(car2, 3, 200);
+
+            carAnim1.startAnimation(train1, 3, 200);
+
+            carAnim.startAnimation(train2, 5, 200);
+
+            carAnim.story.Completed += delegate {
+
+                carAnim.story.Remove();
+                Animation carAnim2 = new Animation(new Point(-1024, 0));
+                carAnim2.startAnimation(car1, 3, 200);
+            };
 
             /*var t1 = Task.Factory.StartNew(() =>
             {
@@ -111,7 +114,7 @@ namespace P9_UndaVerde
                     pbCalculationProgress1.Value = i;
                     Thread.Sleep(100);
                 }
-            }));*/
+            }));
 
             Progress<int> progress = new Progress<int>();
             Task tsk = new Task(() =>
@@ -137,26 +140,20 @@ namespace P9_UndaVerde
             });
             progress1.ProgressChanged += change1;
 
-            tsk1.Start();
-            /* Task.Factory.StartNew(() =>
-             {
-                 Thread.Sleep(1000);
-                 label1.Content = "I waited 1 sec to get here";
-             },ct, TaskCreationOptions.None, UiSyncContext);*/
-
-
-
-
+           
             BackgroundWorker worker = new BackgroundWorker();
             pbCalculationProgress.Value = 0;
             worker.WorkerReportsProgress = true;
             worker.DoWork += worker_DoWork;
             worker.ProgressChanged += worker_ProgressChanged;
-            worker.RunWorkerAsync(100);
-                
+            worker.RunWorkerAsync(100);*/
+
+
         }
 
-        void worker_DoWork(object sender, DoWorkEventArgs e)
+        
+
+        /*void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             for (int i = 0; i <= (int)e.Argument; i++)
             {
@@ -184,6 +181,24 @@ namespace P9_UndaVerde
             {
                 label1.Content = "I waited 1 second to get here";
             }
+        }*/
+
+
+        private void windowLoaded(object sender, RoutedEventArgs e)
+        {
+                     
+        }
+
+        private void stopAnimation(object sender, RoutedEventArgs e)
+        {
+            carAnim.stopAnimation();
+            carAnim1.stopAnimation();
+        }
+
+        private void pauseAnimation(object sender, RoutedEventArgs e)
+        {
+            carAnim.pauseAnimation();
+            carAnim1.pauseAnimation();
         }
     }
 }
