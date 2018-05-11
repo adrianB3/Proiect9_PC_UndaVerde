@@ -152,6 +152,7 @@
     </ApplicationDefinition>
     <Compile Include="Animation.cs" />
     <Compile Include="Car.cs" />
+    <Compile Include="Intersction.cs" />
     <Compile Include="SemaphoreSystem.cs" />
     <Compile Include="SemaphoreUI.cs" />
     <Page Include="MainWindow.xaml">
