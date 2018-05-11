@@ -17,7 +17,6 @@ namespace P9_UndaVerde
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     /// 
-
     public class credits
     {
         public int nr { get; set; }
@@ -28,10 +27,7 @@ namespace P9_UndaVerde
     {
         SemaphoreSystem theSystem;
         Animation carAnim, carAnim1, car90Anim, car90Anim2;
-
-       
-
-        private static System.Timers.Timer aTimer;
+      
         public MainWindow()
         {
             InitializeComponent();
@@ -57,8 +53,7 @@ namespace P9_UndaVerde
 
             theSystem = new SemaphoreSystem(coordinates);
 
-    }
-        
+    }       
         private void aplicationExit(object sender, EventArgs e)
         {
             Application.Current.Shutdown();
@@ -68,9 +63,7 @@ namespace P9_UndaVerde
         {
             var tokenSource = new CancellationTokenSource();
             var ct = tokenSource.Token;
-            var UiSyncContext = TaskScheduler.FromCurrentSynchronizationContext();
-
-           
+            var UiSyncContext = TaskScheduler.FromCurrentSynchronizationContext();          
            
             Car car1 = new Car("car.png", "car1", 45, 35, 130, 0);
             Car car2 = new Car("redcar.png", "car2", 45, 35, 160, 0);
@@ -111,91 +104,7 @@ namespace P9_UndaVerde
                 Animation carAnim2 = new Animation(new Point(-1024, 0));
                 carAnim2.startAnimation(car1, 3, 200);
             };
-
-            /*var t1 = Task.Factory.StartNew(() =>
-            {
-
-               pbCalculationProgress1.Value = 10;
-               Thread.Sleep(1000);
-
-            }, ct, TaskCreationOptions.None,UiSyncContext);*/
-
-            /*Dispatcher.BeginInvoke(new Action(delegate
-            {
-                for (int i = 0; i < 100; i++)
-                {
-                    pbCalculationProgress1.Value = i;
-                    Thread.Sleep(100);
-                }
-            }));
-
-            Progress<int> progress = new Progress<int>();
-            Task tsk = new Task(() =>
-            {
-                for (int i = 0; i <= 100; i++)
-                {
-                    ((IProgress<int>)progress).Report(i);
-                    Thread.Sleep(50);
-                }
-            });
-
-            progress.ProgressChanged += change;
-
-            tsk.Start();
-
-            Progress<int> progress1 = new Progress<int>();
-            Task tsk1 = new Task(() =>
-            {
-                int i = 0;
-                Thread.Sleep(1000);
-                i = 1;
-                ((IProgress<int>)progress).Report(i);
-            });
-            progress1.ProgressChanged += change1;
-
-           
-            BackgroundWorker worker = new BackgroundWorker();
-            pbCalculationProgress.Value = 0;
-            worker.WorkerReportsProgress = true;
-            worker.DoWork += worker_DoWork;
-            worker.ProgressChanged += worker_ProgressChanged;
-            worker.RunWorkerAsync(100);*/
-
-
         }
-
-        
-
-        /*void worker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            for (int i = 0; i <= (int)e.Argument; i++)
-            {
-                int progressPercentage = i;
-                (sender as BackgroundWorker).ReportProgress(progressPercentage,i);              
-                Thread.Sleep(100);
-                e.Result = i.ToString();
-            }
-        }
-        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            pbCalculationProgress.Value = e.ProgressPercentage;
-            if (e.UserState != null)
-                labell.Content = e.UserState;
-        }
-
-        void change(object sender, int i)
-        {
-            pbCalculationProgress1.Value = i;
-        }
-
-        void change1(object sender, int i)
-        {
-            if(i == 1)
-            {
-                label1.Content = "I waited 1 second to get here";
-            }
-        }*/
-
 
         private void windowLoaded(object sender, RoutedEventArgs e)
         {

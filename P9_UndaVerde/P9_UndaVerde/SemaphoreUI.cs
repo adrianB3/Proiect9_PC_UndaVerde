@@ -20,11 +20,12 @@ namespace TrafficSimTM
         private int _positionFromTop { get; set; }
         private int _positionFromRight { get; set; }
         private string _name { get; set; }
+        private string _orientation { get; set; }
         Canvas canv = new Canvas();
         Ellipse redLight = new Ellipse();
         Ellipse greenLight = new Ellipse();
 
-        public SemaphoreUI(string name = "", int positionFromTop = 0, int positionFromRight = 0, int delay = 0, bool color = false, int greenWaitTime = 20, int redWaitTime = 20)
+        public SemaphoreUI(string name = "", int positionFromTop = 0, int positionFromRight = 0, int delay = 0,string orientation = "normal", bool color = false, int greenWaitTime = 20, int redWaitTime = 20)
         {
             _color = color;
             _greenWaitTime = greenWaitTime;
@@ -33,10 +34,14 @@ namespace TrafficSimTM
             _positionFromTop = positionFromTop;
             _positionFromRight = positionFromRight;
             _name = name;
+            _orientation = orientation;
             
             BitmapImage semBitmap = new BitmapImage();
             semBitmap.BeginInit();
-            semBitmap.UriSource = new Uri(@"pack://application:,,,/Images/semaphore.png", UriKind.RelativeOrAbsolute);
+            if(orientation == "normal")
+                semBitmap.UriSource = new Uri(@"pack://application:,,,/Images/semaphore.png", UriKind.RelativeOrAbsolute);
+            if(orientation == "90left")
+                semBitmap.UriSource = new Uri(@"pack://application:,,,/Images/semaphore_90.png", UriKind.RelativeOrAbsolute);
             semBitmap.EndInit();
             Image semImage = new Image();
             semImage.Source = semBitmap;
@@ -99,6 +104,25 @@ namespace TrafficSimTM
                     canv.Children.Remove(redLight);
                     canv.Children.Add(greenLight);
                 }        
+        }
+
+        public Task StartSemaphoreTsk(CancellationToken ct)
+        {
+            var tsk = new Task(async () =>
+            {
+                while (true)
+                {
+                    lightUp();
+                    await Task.Delay(3000);
+                    _color = true;
+                    await Task.Delay(_delay * 1000);
+                    lightUp();
+                    await Task.Delay(3000);
+                    _color = false;
+                }
+            },ct);
+
+            return tsk;
         }
     }
 }

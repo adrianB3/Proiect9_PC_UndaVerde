@@ -22,39 +22,20 @@ namespace TrafficSimTM
             _coordinates = coordinates;
             foreach (var item in _coordinates)
             {
-                _semaphores.Add(new SemaphoreUI("sem" + i++.ToString(), (int)item.X, (int)item.Y,delay++));
+                _semaphores.Add(new SemaphoreUI("sem" + i++, (int)item.X, (int)item.Y,delay++,"90left"));
             }
         }
 
         public void StartSystem()
         {
-            List<Task> semTsk = new List<Task>();
+            // ----TODO: syncronization with semaphoreSlim----
+            var t = new CancellationTokenSource();
+            var ct = t.Token;
+
             foreach (var item in _semaphores)
             {
-                semTsk.Add(new Task(async () =>
-                {
-                    while (true)
-                    {
-                        
-                        item.lightUp();
-                        await Task.Delay(3000);
-                        item._color = true;
-                        await Task.Delay(item._delay * 1000);
-                        item.lightUp();
-                        await Task.Delay(3000);
-                        item._color = false;
-                    }              
-            }));
-            }
-
-                
-            foreach (var item in semTsk)
-            {
-                item.Start(TaskScheduler.FromCurrentSynchronizationContext());
-            }
-
-            
-                        
+                item.StartSemaphoreTsk(ct);
+            } 
         }
     }
 }
