@@ -42,7 +42,15 @@ namespace TrafficSimTM
             if(orientation == "normal")
                 semBitmap.UriSource = new Uri(@"pack://application:,,,/Images/semaphore.png", UriKind.RelativeOrAbsolute);
             if(orientation == "90left")
-                semBitmap.UriSource = new Uri(@"pack://application:,,,/Images/semaphore_90.png", UriKind.RelativeOrAbsolute);
+                semBitmap.UriSource = new Uri(@"pack://application:,,,/Images/semaphore90l.png", UriKind.RelativeOrAbsolute);
+            if(orientation == "90right")
+            {
+                semBitmap.UriSource=new Uri(@"pack://application:,,,/Images/semaphore_90r.png", UriKind.RelativeOrAbsolute);
+            }
+            if (orientation == "inverse")
+            {
+                semBitmap.UriSource = new Uri(@"pack://application:,,,/Images/semaphore_inverse.png", UriKind.RelativeOrAbsolute);
+            }
             semBitmap.EndInit();
             Image semImage = new Image();
             semImage.Source = semBitmap;

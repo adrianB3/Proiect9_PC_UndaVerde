@@ -13,8 +13,8 @@ namespace TrafficSimTM
 
         List<Point> _intersection1 = new List<Point>() {
 
-             new Point (40, 100 ),
-             new Point (60, 110 ),
+             new Point (40, 70 ),
+             new Point (30, 90 ),
              new Point (100, 130 ),
              new Point (200, 150 ),
 
@@ -48,6 +48,9 @@ namespace TrafficSimTM
         public SemaphoreSystem()
         {
             var intersection1 = new Intersction(_intersection1);
+            var intersection2 = new Intersction(_intersection2);
+            var intersection3 = new Intersction(_intersection3);
+            var intersection4 = new Intersction(_intersection4);
 
         }
 
