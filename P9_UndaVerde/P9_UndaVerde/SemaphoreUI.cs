@@ -21,6 +21,7 @@ namespace TrafficSimTM
         private int _positionFromRight { get; set; }
         private string _name { get; set; }
         private string _orientation { get; set; }
+
         Canvas canv = new Canvas();
         Ellipse redLight = new Ellipse();
         Ellipse greenLight = new Ellipse();

@@ -51,7 +51,7 @@ namespace P9_UndaVerde
                new Point (40, 990 ),
             };
 
-            theSystem = new SemaphoreSystem(coordinates);
+            theSystem = new SemaphoreSystem();
 
     }       
         private void aplicationExit(object sender, EventArgs e)

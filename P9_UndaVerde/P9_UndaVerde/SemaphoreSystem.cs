@@ -10,20 +10,45 @@ namespace TrafficSimTM
 {
     class SemaphoreSystem
     {
-        private Stopwatch clk;
+
+        List<Point> _intersection1 = new List<Point>() {
+
+             new Point (40, 100 ),
+             new Point (60, 110 ),
+             new Point (100, 130 ),
+             new Point (200, 150 ),
+
+        };
+        List<Point> _intersection2 = new List<Point>() {
+
+
+        };
+        List<Point> _intersection3 = new List<Point>() {
+
+
+        };
+        List<Point> _intersection4 = new List<Point>() {
+
+
+        };
+        List<Point> _intersection5 = new List<Point>() {
+
+
+
+        };
+        
+
+
+       // private Stopwatch clk;
         private MainWindow mainWin = Application.Current.Windows[0] as MainWindow;
-        private List<Point> _coordinates;
-        public List<SemaphoreUI> _semaphores;
-        public SemaphoreSystem(List<Point> coordinates)
+
+       
+        
+        
+        public SemaphoreSystem()
         {
-            char i = 'a';
-            int delay = 1;
-            _semaphores = new List<SemaphoreUI>();
-            _coordinates = coordinates;
-            foreach (var item in _coordinates)
-            {
-                _semaphores.Add(new SemaphoreUI("sem" + i++, (int)item.X, (int)item.Y,delay++,"90left"));
-            }
+            var intersection1 = new Intersction(_intersection1);
+
         }
 
         public void StartSystem()
@@ -32,10 +57,7 @@ namespace TrafficSimTM
             var t = new CancellationTokenSource();
             var ct = t.Token;
 
-            foreach (var item in _semaphores)
-            {
-                item.StartSemaphoreTsk(ct);
-            } 
+            
         }
     }
 }
