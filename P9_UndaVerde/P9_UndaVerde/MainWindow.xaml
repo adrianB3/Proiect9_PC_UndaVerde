@@ -11,7 +11,7 @@
         Title="TrafficSimTM" 
         Closed="aplicationExit"  
         mc:Ignorable="PresentationOptions d"
-        
+        xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"      
@@ -19,7 +19,7 @@
         TextOptions.TextRenderingMode="Auto" 
         Icon="Graphicloads-Flat-Finance-File.ico" 
         WindowStartupLocation="CenterScreen" 
-        Name="mainWin" Width="1245" Height="745" ResizeMode="CanMinimize" MinWidth="1245" MinHeight="745" Loaded="windowLoaded" FontSize="14">
+        Name="mainWin" Width="1245" Height="745" ResizeMode="CanMinimize" MinWidth="1245" MinHeight="745" Loaded="windowLoaded" FontSize="14" Background="LightGray">
 
     <Grid VerticalAlignment="Top" x:Name="main">
 
@@ -98,7 +98,7 @@
         </Grid>
 
         <Grid Grid.Row="2">
-            
+
             <!--<GroupBox Grid.Column="0" Grid.Row="0" Header="LiveStats" Margin="5,5,5,0">
                 <StackPanel>
                     <Label>asdf</Label>
@@ -112,11 +112,11 @@
                     <Label>asdf</Label>
                 </StackPanel>
             </GroupBox>-->
-            <TabControl Margin="5">
+            <!--<TabControl Margin="5">
                 <TabControl.Background>
                     <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                         <GradientStop Color="White" Offset="0"/>
-                        <GradientStop Color="#FFB3DCFF" Offset="1"/>
+                        <GradientStop Color="#FF878787" Offset="1"/>
                     </LinearGradientBrush>
                 </TabControl.Background>
                 <TabItem Header="LiveStatistics">
@@ -148,8 +148,22 @@
                         </StackPanel>
                     </ScrollViewer>
                 </TabItem>
-            </TabControl>
+            </TabControl>-->
+            <dragablz:TabablzControl>
+                <dragablz:TabablzControl.InterTabController>
+                    <dragablz:InterTabController />
+                </dragablz:TabablzControl.InterTabController>
+                <TabItem Header="HELLO">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Hello World</TextBlock>
+                </TabItem>
+                <TabItem Header="MATERIAL">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Material Design</TextBlock>
+                </TabItem>
+                <TabItem Header="DESIGN">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Looks Quite Nice</TextBlock>
+                </TabItem>
+            </dragablz:TabablzControl>
         </Grid>
-        
+
     </Grid>
 </Window>
