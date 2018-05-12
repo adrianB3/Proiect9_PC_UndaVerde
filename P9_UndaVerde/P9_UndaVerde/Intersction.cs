@@ -14,14 +14,7 @@ namespace TrafficSimTM
         private List<Point> _coordinates;
 
         List<SemaphoreUI> _semaphores = new List<SemaphoreUI>();
-        /*List<string> _orientations = new List<string>()
-        {
-            "90left",
-            "inverse",
-            "90right",
-            "normal"
-        };*/
-
+        
         public Intersction(List<Point> coordinates)
         {
             _coordinates = coordinates;

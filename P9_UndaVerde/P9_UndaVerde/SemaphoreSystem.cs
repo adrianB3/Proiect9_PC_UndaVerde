@@ -20,20 +20,32 @@ namespace TrafficSimTM
 
         };
         List<Point> _intersection2 = new List<Point>() {
-
+            new Point (40, 70 ),
+            new Point (30, 90 ),
+            new Point (100, 130 ),
+            new Point (200, 150 ),
 
         };
         List<Point> _intersection3 = new List<Point>() {
-
+            new Point (40, 70 ),
+            new Point (30, 90 ),
+            new Point (100, 130 ),
+            new Point (200, 150 ),
 
         };
         List<Point> _intersection4 = new List<Point>() {
-
+            new Point (40, 70 ),
+            new Point (30, 90 ),
+            new Point (100, 130 ),
+            new Point (200, 150 ),
 
         };
         List<Point> _intersection5 = new List<Point>() {
 
-
+            new Point (40, 70 ),
+            new Point (30, 90 ),
+            new Point (100, 130 ),
+            new Point (200, 150 ),
 
         };
         
@@ -51,6 +63,7 @@ namespace TrafficSimTM
             var intersection2 = new Intersction(_intersection2);
             var intersection3 = new Intersction(_intersection3);
             var intersection4 = new Intersction(_intersection4);
+            var intersection5 = new Intersction(_intersection5);
 
         }
 
