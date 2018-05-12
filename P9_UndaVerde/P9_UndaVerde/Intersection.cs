@@ -8,14 +8,14 @@ using System.Windows;
 
 namespace TrafficSimTM
 {
-    class Intersction
+    class Intersection
     {
         private MainWindow mainWin = Application.Current.Windows[0] as MainWindow;
         private List<Point> _coordinates;
 
         List<SemaphoreUI> _semaphores = new List<SemaphoreUI>();
         
-        public Intersction(List<Point> coordinates)
+        public Intersection(List<Point> coordinates)
         {
             _coordinates = coordinates;
             char i = 'a';
