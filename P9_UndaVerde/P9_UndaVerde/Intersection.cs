@@ -11,7 +11,7 @@ namespace TrafficSimTM
     class Intersection
     {
         private MainWindow mainWin = Application.Current.Windows[0] as MainWindow;
-        private List<SemaphoreUI> _semaphores = new List<SemaphoreUI>();
+        public List<SemaphoreUI> _semaphores = new List<SemaphoreUI>();
         
         public Intersection(List<Point> coordinates)
         {

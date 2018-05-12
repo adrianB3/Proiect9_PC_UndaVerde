@@ -52,7 +52,7 @@ namespace TrafficSimTM
 
             BitmapImage semBitmap = new BitmapImage();
             semBitmap.BeginInit();
-            // TODO: RedLight and GreenLight ellipses need to be positioned properly (normal is ok)
+            
             if (orientation == "normal")
             {
                 semBitmap.UriSource = new Uri(@"pack://application:,,,/Images/semaphore.png", UriKind.RelativeOrAbsolute);
@@ -64,26 +64,26 @@ namespace TrafficSimTM
             if (orientation == "90left")
             {
                 semBitmap.UriSource = new Uri(@"pack://application:,,,/Images/semaphore90l.png", UriKind.RelativeOrAbsolute);
-                Canvas.SetRight(redLight, _positionFromRight + 13);
-                Canvas.SetTop(redLight, _positionFromTop + 55);
-                Canvas.SetRight(greenLight, _positionFromRight + 13);
-                Canvas.SetTop(greenLight, _positionFromTop + 80);
+                Canvas.SetRight(redLight, _positionFromRight + 25);
+                Canvas.SetTop(redLight, _positionFromTop + 68);
+                Canvas.SetRight(greenLight, _positionFromRight);
+                Canvas.SetTop(greenLight, _positionFromTop + 68);
             }
             if (orientation == "90right")
             {
                 semBitmap.UriSource=new Uri(@"pack://application:,,,/Images/semaphore_90r.png", UriKind.RelativeOrAbsolute);
-                Canvas.SetRight(redLight, _positionFromRight + 13);
-                Canvas.SetTop(redLight, _positionFromTop + 55);
-                Canvas.SetRight(greenLight, _positionFromRight + 13);
-                Canvas.SetTop(greenLight, _positionFromTop + 80);
+                Canvas.SetRight(redLight, _positionFromRight);
+                Canvas.SetTop(redLight, _positionFromTop + 68);
+                Canvas.SetRight(greenLight, _positionFromRight + 25);
+                Canvas.SetTop(greenLight, _positionFromTop + 68);
             }
             if (orientation == "inverse")
             {
                 semBitmap.UriSource = new Uri(@"pack://application:,,,/Images/semaphore_inverse.png", UriKind.RelativeOrAbsolute);
                 Canvas.SetRight(redLight, _positionFromRight + 13);
-                Canvas.SetTop(redLight, _positionFromTop + 55);
+                Canvas.SetTop(redLight, _positionFromTop + 80);
                 Canvas.SetRight(greenLight, _positionFromRight + 13);
-                Canvas.SetTop(greenLight, _positionFromTop + 80);
+                Canvas.SetTop(greenLight, _positionFromTop + 55);
             }
             semBitmap.EndInit();
             Image semImage = new Image
@@ -116,18 +116,9 @@ namespace TrafficSimTM
         }
 
         public void LightUp() {
-            if (_color == false)
-            {
-                canv.Children.Remove(redLight);
-                canv.Children.Remove(greenLight);
-                canv.Children.Add(redLight);
-            }
-            else
-            {
-                canv.Children.Remove(greenLight);
-                canv.Children.Remove(redLight);
-                canv.Children.Add(greenLight);
-            }  
+            canv.Children.Remove(redLight);
+            canv.Children.Remove(greenLight);
+            canv.Children.Add(_color == false ? redLight : greenLight);
         }
     }
 }
