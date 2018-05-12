@@ -118,7 +118,7 @@ namespace TrafficSimTM
         public void LightUp() {
             canv.Children.Remove(redLight);
             canv.Children.Remove(greenLight);
-            canv.Children.Add(_color == false ? redLight : greenLight);
+            canv.Children.Add(_color ? greenLight : redLight);
         }
     }
 }

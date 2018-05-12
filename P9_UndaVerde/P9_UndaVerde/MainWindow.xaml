@@ -52,7 +52,7 @@
             </Fluent:Ribbon.Menu>
 
             <!--Tabs-->
-            <Fluent:RibbonTabItem Header="Main Settings" ActiveTabBackground="#FFDBE0FF">
+            <Fluent:RibbonTabItem Header="Create Scenario" ActiveTabBackground="#FFDBE0FF">
                 <Fluent:RibbonGroupBox Header="Add new car">
                     <Fluent:DropDownButton Header="Street" AllowDrop="True" Icon="Images/roadIcon.png" Width="90">
                         <Fluent:DropDownButton.Background>
@@ -76,25 +76,23 @@
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
-            <Fluent:RibbonTabItem Header="Other Settings">
+            <Fluent:RibbonTabItem Header="Semaphore Settings">
                 <Fluent:RibbonGroupBox Header="OtherGroup">
                     <Button Margin="15" Opacity="0.8" Content="Just a button"/>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
-            <Fluent:RibbonTabItem Header="Another Other Settings">
-                <Fluent:RibbonGroupBox Header="The group" Width="500">
+            <Fluent:RibbonTabItem Header="Other Settings">
+                <Fluent:RibbonGroupBox Header="The group">
 
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
         <Grid Grid.Row="1" Name="mapGrid">
             <Image x:Name="map" Margin="0" Source="Resources/mapp2.png" Stretch="Fill"/>
-            <TextBlock Name="liveTime" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Background="White" Margin="10" Height="30" Width="56" FontWeight="Normal" FontSize="20" TextAlignment="Center"/>
             <Button Content="Start Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Grid.Row="1" Margin="15" Opacity="0.9" Click="startAnimation"/>
             <Button Content="Pause" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Grid.Row="1" Margin="160,15,15,15" Opacity="0.9" Click="pauseAnimation" />
             <Button Content="Stop Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="1" Margin="240,15,15,15" Opacity="0.9" Click="stopAnimation" />
             <Button Content="Clear" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="1" Margin="380,15,15,15" Opacity="0.9" />
-
         </Grid>
 
         <Grid Grid.Row="2">

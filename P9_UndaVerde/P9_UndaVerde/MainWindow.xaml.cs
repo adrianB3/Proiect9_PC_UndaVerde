@@ -47,6 +47,7 @@ namespace P9_UndaVerde
         private Intersection _intersection1;
         private Intersection _intersection2;
         private Intersection _intersection3;
+        private Animation anim1;
 
         public MainWindow()
         {
@@ -76,7 +77,10 @@ namespace P9_UndaVerde
         
         private void startAnimation(object sender, RoutedEventArgs e)
         {
-            
+            Car car1 = new Car("car.png","car1",45,25,140,0);
+            car1.createImage();
+            anim1 = new Animation(new Point(0,0),new Point(-1000,0));
+            anim1.startAnimation(car1,5,0);
         }
 
         private void windowLoaded(object sender, RoutedEventArgs e)
@@ -86,12 +90,12 @@ namespace P9_UndaVerde
 
         private void stopAnimation(object sender, RoutedEventArgs e)
         {
-            
+            anim1.resumeAnimation();
         }
 
         private void pauseAnimation(object sender, RoutedEventArgs e)
         {
-            
+            anim1.pauseAnimation();
         }
     }
 }
