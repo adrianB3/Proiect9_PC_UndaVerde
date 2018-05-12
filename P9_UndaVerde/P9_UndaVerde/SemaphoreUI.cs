@@ -52,6 +52,7 @@ namespace TrafficSimTM
 
             BitmapImage semBitmap = new BitmapImage();
             semBitmap.BeginInit();
+            // TODO: RedLight and GreenLight ellipses need to be positioned properly (normal is ok)
             if (orientation == "normal")
             {
                 semBitmap.UriSource = new Uri(@"pack://application:,,,/Images/semaphore.png", UriKind.RelativeOrAbsolute);
