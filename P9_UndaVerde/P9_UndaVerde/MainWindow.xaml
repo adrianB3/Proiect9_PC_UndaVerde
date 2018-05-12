@@ -9,9 +9,9 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"        
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" x:Class="P9_UndaVerde.MainWindow"
         Title="TrafficSimTM" 
-        Closed="aplicationExit"  
+        Closed="ApplicationExit"  
         mc:Ignorable="PresentationOptions d"
-        
+        xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"      
@@ -19,7 +19,7 @@
         TextOptions.TextRenderingMode="Auto" 
         Icon="Graphicloads-Flat-Finance-File.ico" 
         WindowStartupLocation="CenterScreen" 
-        Name="mainWin" Width="1245" Height="745" ResizeMode="CanMinimize" MinWidth="1245" MinHeight="745" Loaded="windowLoaded" FontSize="14">
+        Name="mainWin" Width="1245" Height="745" ResizeMode="CanMinimize" MinWidth="1245" MinHeight="745" Loaded="windowLoaded" FontSize="14" Background="LightGray">
 
     <Grid VerticalAlignment="Top" x:Name="main">
 
@@ -52,7 +52,7 @@
             </Fluent:Ribbon.Menu>
 
             <!--Tabs-->
-            <Fluent:RibbonTabItem Header="Main Settings" ActiveTabBackground="#FFDBE0FF">
+            <Fluent:RibbonTabItem Header="Create Scenario" ActiveTabBackground="#FFDBE0FF">
                 <Fluent:RibbonGroupBox Header="Add new car">
                     <Fluent:DropDownButton Header="Street" AllowDrop="True" Icon="Images/roadIcon.png" Width="90">
                         <Fluent:DropDownButton.Background>
@@ -76,29 +76,27 @@
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
-            <Fluent:RibbonTabItem Header="Other Settings">
+            <Fluent:RibbonTabItem Header="Semaphore Settings">
                 <Fluent:RibbonGroupBox Header="OtherGroup">
                     <Button Margin="15" Opacity="0.8" Content="Just a button"/>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
-            <Fluent:RibbonTabItem Header="Another Other Settings">
-                <Fluent:RibbonGroupBox Header="The group" Width="500">
+            <Fluent:RibbonTabItem Header="Other Settings">
+                <Fluent:RibbonGroupBox Header="The group">
 
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
         <Grid Grid.Row="1" Name="mapGrid">
             <Image x:Name="map" Margin="0" Source="Resources/mapp2.png" Stretch="Fill"/>
-            <TextBlock Name="liveTime" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Background="White" Margin="10" Height="30" Width="56" FontWeight="Normal" FontSize="20" TextAlignment="Center"/>
             <Button Content="Start Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Grid.Row="1" Margin="15" Opacity="0.9" Click="startAnimation"/>
             <Button Content="Pause" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Grid.Row="1" Margin="160,15,15,15" Opacity="0.9" Click="pauseAnimation" />
             <Button Content="Stop Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="1" Margin="240,15,15,15" Opacity="0.9" Click="stopAnimation" />
             <Button Content="Clear" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="1" Margin="380,15,15,15" Opacity="0.9" />
-
         </Grid>
 
         <Grid Grid.Row="2">
-            
+
             <!--<GroupBox Grid.Column="0" Grid.Row="0" Header="LiveStats" Margin="5,5,5,0">
                 <StackPanel>
                     <Label>asdf</Label>
@@ -112,11 +110,11 @@
                     <Label>asdf</Label>
                 </StackPanel>
             </GroupBox>-->
-            <TabControl Margin="5">
+            <!--<TabControl Margin="5">
                 <TabControl.Background>
                     <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                         <GradientStop Color="White" Offset="0"/>
-                        <GradientStop Color="#FFB3DCFF" Offset="1"/>
+                        <GradientStop Color="#FF878787" Offset="1"/>
                     </LinearGradientBrush>
                 </TabControl.Background>
                 <TabItem Header="LiveStatistics">
@@ -148,8 +146,22 @@
                         </StackPanel>
                     </ScrollViewer>
                 </TabItem>
-            </TabControl>
+            </TabControl>-->
+            <dragablz:TabablzControl>
+                <dragablz:TabablzControl.InterTabController>
+                    <dragablz:InterTabController />
+                </dragablz:TabablzControl.InterTabController>
+                <TabItem Header="HELLO">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Hello World</TextBlock>
+                </TabItem>
+                <TabItem Header="MATERIAL">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Material Design</TextBlock>
+                </TabItem>
+                <TabItem Header="DESIGN">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Looks Quite Nice</TextBlock>
+                </TabItem>
+            </dragablz:TabablzControl>
         </Grid>
-        
+
     </Grid>
 </Window>

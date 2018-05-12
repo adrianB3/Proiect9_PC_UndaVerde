@@ -17,7 +17,6 @@ namespace P9_UndaVerde
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     /// 
-
     public class credits
     {
         public int nr { get; set; }
@@ -26,12 +25,30 @@ namespace P9_UndaVerde
 
     public partial class MainWindow : Window
     {
-        SemaphoreSystem theSystem;
-        Animation carAnim, carAnim1, car90Anim, car90Anim2;
+        private readonly List<Point> _intersection1SemPoints = new List<Point>() {
+            new Point (45, 90),
+            new Point (35, 230),
+            new Point (230, 230 ),
+            new Point (235, 90 ),
+        };
+        private readonly List<Point> _intersection2SemPoints = new List<Point>() {
+            new Point (45, 465 ),
+            new Point (35, 630 ),
+            new Point (230, 635 ),
+            new Point (235, 470 ),
+        };
+        private readonly List<Point> _intersection3SemPoints = new List<Point>() {
+            new Point (45, 985 ),
+            new Point (35, 1120 ),
+            new Point (230, 1125 ),
+            new Point (235, 991 ),
+        };
 
-       
+        private Intersection _intersection1;
+        private Intersection _intersection2;
+        private Intersection _intersection3;
+        private Animation anim1;
 
-        private static System.Timers.Timer aTimer;
         public MainWindow()
         {
             InitializeComponent();
@@ -43,159 +60,28 @@ namespace P9_UndaVerde
             {
                 credits.Add(new credits() { Name = item , nr = index++});
             }
-
             theCreators.ItemsSource = credits;
+            _intersection1 = new Intersection(_intersection1SemPoints);
+            _intersection2 = new Intersection(_intersection2SemPoints);
+            _intersection3 = new Intersection(_intersection3SemPoints);
 
-            List<Point> coordinates = new List<Point>()
-            {
-               new Point (40, 100 ),
-               new Point (40, 300 ),
-               new Point (40, 470 ),
-               new Point (40, 680 ),
-               new Point (40, 990 ),
-            };
-
-            theSystem = new SemaphoreSystem(coordinates);
-
-    }
+            _intersection1.StartIntersectionSync();
+            _intersection2.StartIntersectionSync();
+            _intersection3.StartIntersectionSync();
+        }
         
-        private void aplicationExit(object sender, EventArgs e)
+        private void ApplicationExit(object sender, EventArgs e)
         {
             Application.Current.Shutdown();
         }
-
+        
         private void startAnimation(object sender, RoutedEventArgs e)
         {
-            var tokenSource = new CancellationTokenSource();
-            var ct = tokenSource.Token;
-            var UiSyncContext = TaskScheduler.FromCurrentSynchronizationContext();
-
-           
-           
-            Car car1 = new Car("car.png", "car1", 45, 35, 130, 0);
-            Car car2 = new Car("redcar.png", "car2", 45, 35, 160, 0);
-            Car train1 = new Car("Train.png", "train1", 140, 80, 180, 0);//train1
-            Car train2 = new Car("Train.png", "train2", 140, 80, 160, 0);//train2
-            Car car90_1 = new Car("car90.png", "car90_1", 35, 45, 0, 188);//top to bottom
-            Car car90_2 = new Car("car90.png", "car90_2", 35, 45, 0, 390);//top to bottom
-            Car redCar90_3 = new Car("redcar90.png", "redCar90_3", 35, 45, 390, 140);//bottom to top
-
-            carAnim = new Animation(new Point(-90,0));
-            carAnim1 = new Animation(new Point(-1240, 0));
-            car90Anim = new Animation(new Point(0, 1000));
-            car90Anim2 = new Animation(new Point(0, -440));
-
+            Car car1 = new Car("car.png","car1",45,25,140,0);
             car1.createImage();
-            car2.createImage();
-            train1.createImage();//train
-            train2.createImage();
-            car90_1.createImage();
-            car90_2.createImage();
-            redCar90_3.createImage();
-            theSystem.StartSystem();
-
-            carAnim.startAnimation(car1, 4, 200);           
-            carAnim1.startAnimation(car2, 3, 200);
-
-            carAnim1.startAnimation(train1, 3, 200);
-
-            carAnim.startAnimation(train2, 5, 200);
-            car90Anim.startAnimation(car90_1, 5, 200);
-            car90Anim.startAnimation(car90_2, 3, 200);
-            car90Anim2.startAnimation(redCar90_3, 4, 200);
-
-
-            carAnim.story.Completed += delegate {
-
-                carAnim.story.Remove();
-                Animation carAnim2 = new Animation(new Point(-1024, 0));
-                carAnim2.startAnimation(car1, 3, 200);
-            };
-
-            /*var t1 = Task.Factory.StartNew(() =>
-            {
-
-               pbCalculationProgress1.Value = 10;
-               Thread.Sleep(1000);
-
-            }, ct, TaskCreationOptions.None,UiSyncContext);*/
-
-            /*Dispatcher.BeginInvoke(new Action(delegate
-            {
-                for (int i = 0; i < 100; i++)
-                {
-                    pbCalculationProgress1.Value = i;
-                    Thread.Sleep(100);
-                }
-            }));
-
-            Progress<int> progress = new Progress<int>();
-            Task tsk = new Task(() =>
-            {
-                for (int i = 0; i <= 100; i++)
-                {
-                    ((IProgress<int>)progress).Report(i);
-                    Thread.Sleep(50);
-                }
-            });
-
-            progress.ProgressChanged += change;
-
-            tsk.Start();
-
-            Progress<int> progress1 = new Progress<int>();
-            Task tsk1 = new Task(() =>
-            {
-                int i = 0;
-                Thread.Sleep(1000);
-                i = 1;
-                ((IProgress<int>)progress).Report(i);
-            });
-            progress1.ProgressChanged += change1;
-
-           
-            BackgroundWorker worker = new BackgroundWorker();
-            pbCalculationProgress.Value = 0;
-            worker.WorkerReportsProgress = true;
-            worker.DoWork += worker_DoWork;
-            worker.ProgressChanged += worker_ProgressChanged;
-            worker.RunWorkerAsync(100);*/
-
-
+            anim1 = new Animation(new Point(0,0),new Point(-1000,0));
+            anim1.startAnimation(car1,5,0);
         }
-
-        
-
-        /*void worker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            for (int i = 0; i <= (int)e.Argument; i++)
-            {
-                int progressPercentage = i;
-                (sender as BackgroundWorker).ReportProgress(progressPercentage,i);              
-                Thread.Sleep(100);
-                e.Result = i.ToString();
-            }
-        }
-        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            pbCalculationProgress.Value = e.ProgressPercentage;
-            if (e.UserState != null)
-                labell.Content = e.UserState;
-        }
-
-        void change(object sender, int i)
-        {
-            pbCalculationProgress1.Value = i;
-        }
-
-        void change1(object sender, int i)
-        {
-            if(i == 1)
-            {
-                label1.Content = "I waited 1 second to get here";
-            }
-        }*/
-
 
         private void windowLoaded(object sender, RoutedEventArgs e)
         {
@@ -204,14 +90,12 @@ namespace P9_UndaVerde
 
         private void stopAnimation(object sender, RoutedEventArgs e)
         {
-            carAnim.stopAnimation();
-            carAnim1.stopAnimation();
+            anim1.resumeAnimation();
         }
 
         private void pauseAnimation(object sender, RoutedEventArgs e)
         {
-            carAnim.pauseAnimation();
-            carAnim1.pauseAnimation();
+            anim1.pauseAnimation();
         }
     }
 }
