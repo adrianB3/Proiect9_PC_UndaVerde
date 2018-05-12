@@ -1,5 +1,6 @@
 ﻿using P9_UndaVerde;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -40,11 +41,16 @@ namespace TrafficSimTM
 
         public void createImage()
         {            
-            Canvas canv = new Canvas();
-            Canvas.SetRight(_carImg, _positionFromRight);
-            Canvas.SetTop(_carImg, _positionFromTop);          
-            canv.Children.Add(_carImg);
-            mainWin.mapGrid.Children.Add(canv);
+            Task tsk = new Task(() =>
+            {
+                Canvas canv = new Canvas();
+                Canvas.SetRight(_carImg, _positionFromRight);
+                Canvas.SetTop(_carImg, _positionFromTop);
+                canv.Children.Add(_carImg);
+                mainWin.mapGrid.Children.Add(canv);
+            });
+
+            tsk.Start(TaskScheduler.FromCurrentSynchronizationContext());
         }
     }
 }

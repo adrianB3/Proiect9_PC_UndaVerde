@@ -25,9 +25,29 @@ namespace P9_UndaVerde
 
     public partial class MainWindow : Window
     {
-        SemaphoreSystem theSystem;
-        Animation carAnim, carAnim1, car90Anim, car90Anim2;
-      
+        private readonly List<Point> _intersection1SemPoints = new List<Point>() {
+            new Point (45, 90),
+            new Point (35, 230),
+            new Point (230, 230 ),
+            new Point (235, 90 ),
+        };
+        private readonly List<Point> _intersection2SemPoints = new List<Point>() {
+            new Point (45, 465 ),
+            new Point (35, 630 ),
+            new Point (230, 635 ),
+            new Point (235, 470 ),
+        };
+        private readonly List<Point> _intersection3SemPoints = new List<Point>() {
+            new Point (45, 985 ),
+            new Point (35, 1120 ),
+            new Point (230, 1125 ),
+            new Point (235, 991 ),
+        };
+
+        private Intersection _intersection1;
+        private Intersection _intersection2;
+        private Intersection _intersection3;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -39,71 +59,24 @@ namespace P9_UndaVerde
             {
                 credits.Add(new credits() { Name = item , nr = index++});
             }
-
             theCreators.ItemsSource = credits;
+            _intersection1 = new Intersection(_intersection1SemPoints);
+            _intersection2 = new Intersection(_intersection2SemPoints);
+            _intersection3 = new Intersection(_intersection3SemPoints);
 
-            List<Point> coordinates = new List<Point>()
-            {
-               new Point (40, 100 ),
-               new Point (40, 300 ),
-               new Point (40, 470 ),
-               new Point (40, 680 ),
-               new Point (40, 990 ),
-            };
-
-            theSystem = new SemaphoreSystem();
-
-    }       
-        private void aplicationExit(object sender, EventArgs e)
+            _intersection1.StartIntersectionSync();
+            _intersection2.StartIntersectionSync();
+            _intersection3.StartIntersectionSync();
+        }
+        
+        private void ApplicationExit(object sender, EventArgs e)
         {
             Application.Current.Shutdown();
         }
-
+        
         private void startAnimation(object sender, RoutedEventArgs e)
         {
-            var tokenSource = new CancellationTokenSource();
-            var ct = tokenSource.Token;
-            var UiSyncContext = TaskScheduler.FromCurrentSynchronizationContext();          
-           
-            Car car1 = new Car("car.png", "car1", 45, 35, 130, 0);
-            Car car2 = new Car("redcar.png", "car2", 45, 35, 160, 0);
-            Car train1 = new Car("Train.png", "train1", 140, 80, 180, 0);//train1
-            Car train2 = new Car("Train.png", "train2", 140, 80, 160, 0);//train2
-            Car car90_1 = new Car("car90.png", "car90_1", 35, 45, 0, 188);//top to bottom
-            Car car90_2 = new Car("car90.png", "car90_2", 35, 45, 0, 390);//top to bottom
-            Car redCar90_3 = new Car("redcar90.png", "redCar90_3", 35, 45, 390, 140);//bottom to top
-
-            carAnim = new Animation(new Point(-90,0));
-            carAnim1 = new Animation(new Point(-1240, 0));
-            car90Anim = new Animation(new Point(0, 1000));
-            car90Anim2 = new Animation(new Point(0, -440));
-
-            car1.createImage();
-            car2.createImage();
-            train1.createImage();//train
-            train2.createImage();
-            car90_1.createImage();
-            car90_2.createImage();
-            redCar90_3.createImage();
-            theSystem.StartSystem();
-
-            carAnim.startAnimation(car1, 4, 200);           
-            carAnim1.startAnimation(car2, 3, 200);
-
-            carAnim1.startAnimation(train1, 3, 200);
-
-            carAnim.startAnimation(train2, 5, 200);
-            car90Anim.startAnimation(car90_1, 5, 200);
-            car90Anim.startAnimation(car90_2, 3, 200);
-            car90Anim2.startAnimation(redCar90_3, 4, 200);
-
-
-            carAnim.story.Completed += delegate {
-
-                carAnim.story.Remove();
-                Animation carAnim2 = new Animation(new Point(-1024, 0));
-                carAnim2.startAnimation(car1, 3, 200);
-            };
+            
         }
 
         private void windowLoaded(object sender, RoutedEventArgs e)
@@ -113,14 +86,12 @@ namespace P9_UndaVerde
 
         private void stopAnimation(object sender, RoutedEventArgs e)
         {
-            carAnim.stopAnimation();
-            carAnim1.stopAnimation();
+            
         }
 
         private void pauseAnimation(object sender, RoutedEventArgs e)
         {
-            carAnim.pauseAnimation();
-            carAnim1.pauseAnimation();
+            
         }
     }
 }
