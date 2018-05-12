@@ -20,32 +20,32 @@ namespace TrafficSimTM
 
         };
         List<Point> _intersection2 = new List<Point>() {
-            new Point (40, 70 ),
-            new Point (30, 90 ),
-            new Point (105, 130 ),
-            new Point (200, 150 ),
+            new Point (45, 290 ),
+            new Point (33, 430),
+            new Point (230, 435 ),
+            new Point (235, 300 ),
 
         };
         List<Point> _intersection3 = new List<Point>() {
-            new Point (40, 70 ),
-            new Point (30, 90 ),
-            new Point (100, 130 ),
-            new Point (200, 150 ),
+            new Point (45, 465 ),
+            new Point (35, 630 ),
+            new Point (230, 635 ),
+            new Point (235, 470 ),
 
         };
         List<Point> _intersection4 = new List<Point>() {
-            new Point (40, 70 ),
-            new Point (30, 90 ),
-            new Point (100, 130 ),
-            new Point (200, 150 ),
+            new Point (45, 675 ),
+            new Point (35, 810 ),
+            new Point (230, 815 ),
+            new Point (235, 680 ),
 
         };
         List<Point> _intersection5 = new List<Point>() {
 
-            new Point (40, 70 ),
-            new Point (30, 90 ),
-            new Point (100, 130 ),
-            new Point (200, 150 ),
+            new Point (45, 985 ),
+            new Point (35, 1120 ),
+            new Point (230, 1125 ),
+            new Point (235, 991 ),
 
         };
         
@@ -60,10 +60,10 @@ namespace TrafficSimTM
         public SemaphoreSystem()
         {
             var intersection1 = new Intersection(_intersection1);
-           /* var intersection2 = new Intersection(_intersection2);
+           // var intersection2 = new Intersection(_intersection2);
             var intersection3 = new Intersection(_intersection3);
-            var intersection4 = new Intersection(_intersection4);
-            var intersection5 = new Intersection(_intersection5);*/
+           // var intersection4 = new Intersection(_intersection4);
+            var intersection5 = new Intersection(_intersection5);
 
         }
 
