@@ -1,0 +1,40 @@
+--- Generalitati ---
+
+I. Introducere:
+   - tema proiectului (cerinta intr-o forma mai scurta/rezumata)
+   - informatii generale despre semaforizarea inteligenta (cum functioneaza, unde se mai intalneste - atat la noi cat si in alte tari)
+
+II. Tehnologii utilizate:
+   - C# + de ce am ales sa lucram in acest limbaj 
+   - argumentare pentru folosirea programarii concurente + comunicarea dintre task-uri
+
+
+--- Despre aplicatie ---
+
+III. Specificatiile aplicatiei:     fara implementare !
+   - ce se cere la nivel de functii (in detaliu)
+   - proiectarea aplicatiei: scheme bloc + intre cine se realizeaza comunicarea + desenele de la design (variantele initiale)
+
+IV. Implementare:
+   - descriere cod <=> bucati de functii si explicatii la fiecare
+   
+V. Utilizarea sistemului:
+   - ce face sistemul (poze + descriere)
+   - ce face fiecare element (poze + descriere)
+   - poze cu varianta finala
+   
+VI. Testarea aplicatiei:
+   - tabel cu ce trebuie sa faca aplicatia - comparam cu ceea ce face
+   - probleme intampinate pe parcurs (aplicatia trebuia sa faca ceva dar face altceva)
+   - cum am rezolvat problemele
+
+VII. Concluzii:
+   - reluam partial introducerea (explicam ce am facut)
+   - cum am lucrat impreuna
+   - la ce ne-a ajutat proiectul
+
+VIII. Bibliografie:
+   - cartea de PC
+   - link-uri
+   
++ Realizarea prezentarii PowerPoint !
