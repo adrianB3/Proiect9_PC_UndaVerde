@@ -18,8 +18,9 @@ namespace TrafficSimTM
         private int _positionFromTop { get; set; }
         private int _positionFromRight { get; set; }
         public Image _carImg;
-        
-        public Car(string imgSource = "car.png", string name = "car", int width = 45, int height = 25, int positionFromTop = 0, int positionFromRight = 0)
+        public float _speed { get; set; } // _speed is a car statistic that represents the rate at which a car travels across a map. One _speed point translates to one hundred distance units traveled per second 
+
+        public Car(string imgSource = "car.png", string name = "car", int width = 45, int height = 25, int positionFromTop = 0, int positionFromRight = 0, float speed = 1)
         {
             _imgSource = imgSource;
             _name = name;
@@ -27,6 +28,7 @@ namespace TrafficSimTM
             _height = height;
             _positionFromTop = positionFromTop;
             _positionFromRight = positionFromRight;
+            _speed = speed;
             _carImg = new Image();
 
             BitmapImage carBitmap = new BitmapImage();

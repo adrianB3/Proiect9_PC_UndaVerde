@@ -77,10 +77,13 @@ namespace P9_UndaVerde
         
         private void startAnimation(object sender, RoutedEventArgs e)
         {
-            Car car1 = new Car("car.png","car1",45,25,140,0);
+            Point start = new Point(0, 0);
+            Point end = new Point(-1000, 0);
+
+            Car car1 = new Car("car.png","car1",45,25,140,0,1);
             car1.createImage();
-            anim1 = new Animation(new Point(0,0),new Point(-1000,0));
-            anim1.startAnimation(car1,5,0);
+            anim1 = new Animation(start,end);
+            anim1.startAnimation(car1, Convert.ToInt32(Math.Sqrt(Math.Pow(0.01 * end.X - 0.01 * start.X, 2) + Math.Pow(0.01 * end.Y - 0.01 * start.Y, 2)) * car1._speed), 2);
         }
 
         private void windowLoaded(object sender, RoutedEventArgs e)
