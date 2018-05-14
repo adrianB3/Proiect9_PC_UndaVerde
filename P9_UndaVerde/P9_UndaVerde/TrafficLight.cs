@@ -10,7 +10,7 @@ using System.Windows.Shapes;
 
 namespace TrafficSimTM
 {
-    class SemaphoreUI
+    class TrafficLight
     {
         MainWindow mainWin = Application.Current.Windows[0] as MainWindow;
         public bool _color { get; set; }
@@ -29,7 +29,7 @@ namespace TrafficSimTM
         Ellipse greenLight = new Ellipse();
         SolidColorBrush colorBrush1 = new SolidColorBrush();
 
-        public SemaphoreUI(string name = "", int positionFromTop = 0, int positionFromRight = 0, int delay = 0,string orientation = "normal", bool color = false, int greenWaitTime = 20, int redWaitTime = 20)
+        public TrafficLight(string name = "", int positionFromTop = 0, int positionFromRight = 0, int delay = 0,string orientation = "normal", bool color = false, int greenWaitTime = 20, int redWaitTime = 20)
         {
             _color = color;
             _greenWaitTime = greenWaitTime;
