@@ -87,28 +87,33 @@ namespace P9_UndaVerde
             tsk.Start(TaskScheduler.FromCurrentSynchronizationContext());
 
             Point start = new Point(0, 0);
-            Point end = new Point(-1000, 0);
+            Point end = new Point(-100, 0);
+
 
             car1 = new Car("car.png","car1",45,25,140,0,1);
             car1.createImage();
             anim1 = new Animation(start,end);
-            anim1.startAnimation(car1, Convert.ToInt32(Math.Sqrt(Math.Pow(0.01 * end.X - 0.01 * start.X, 2) + Math.Pow(0.01 * end.Y - 0.01 * start.Y, 2)) * car1._speed), 2);
 
-            anim1.story.Completed += onStoryCompleted;
+            Task tsk1 = new Task(async () =>
+            {
+                anim1.startAnimation(car1, Convert.ToInt32(Math.Sqrt(Math.Pow(0.01 * end.X - 0.01 * start.X, 2) + Math.Pow(0.01 * end.Y - 0.01 * start.Y, 2)) * car1._speed), 2);
+                anim1.story.Completed += (async (o, args) =>
+                {
+                    while(_intersection1._TrafficLights[0]._color == false)
+                    {
+                        await Task.Delay(100);
+                    }
+                    Animation anim2 = new Animation(new Point(-100, 0), new Point(-1200, 0));
+                    anim2.startAnimation(car1, 2, 0);
+                });
+            });
+
+            tsk1.Start(TaskScheduler.FromCurrentSynchronizationContext());
+
+            
 
         }
-
-        private void onStoryCompleted(object sender, EventArgs e)
-        {
-            Animation anim2 = new Animation(new Point(-1000, 0), new Point(-1200,0));
-            anim2.startAnimation(car1,1,0);
-        }
-
-        private void onStoryCompleted()
-        {
-
-        }
-
+        
         private void windowLoaded(object sender, RoutedEventArgs e)
         {
                      
