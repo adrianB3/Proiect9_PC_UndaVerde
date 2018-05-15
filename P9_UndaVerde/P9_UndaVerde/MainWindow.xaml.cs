@@ -90,10 +90,9 @@ namespace P9_UndaVerde
             Point end = new Point(-100, 0);
 
 
-            car1 = new Car("car.png","car1",45,25,140,0,1);
+            car1 = new Car("car.png","car1",45,25,140,0, 100);
             car1.createImage();
             anim1 = new Animation(start,end);
-
             Task tsk1 = new Task(async () =>
             {
                 anim1.startAnimation(car1, Convert.ToInt32(Math.Sqrt(Math.Pow(0.01 * end.X - 0.01 * start.X, 2) + Math.Pow(0.01 * end.Y - 0.01 * start.Y, 2)) * car1._speed), 2);
@@ -108,9 +107,7 @@ namespace P9_UndaVerde
                 });
             });
 
-            tsk1.Start(TaskScheduler.FromCurrentSynchronizationContext());
-
-            
+            tsk1.Start(TaskScheduler.FromCurrentSynchronizationContext());            
 
         }
         
