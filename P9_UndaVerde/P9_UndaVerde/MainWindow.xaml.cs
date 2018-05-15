@@ -89,10 +89,10 @@ namespace P9_UndaVerde
             Point start = new Point(0, 0);
             Point end = new Point(-1000, 0);
 
-            car1 = new Car("car.png","car1",45,25,140,0,1);
+            car1 = new Car("car.png","car1",45,25,140,0, 100);
             car1.createImage();
             anim1 = new Animation(start,end);
-            anim1.startAnimation(car1, Convert.ToInt32(Math.Sqrt(Math.Pow(0.01 * end.X - 0.01 * start.X, 2) + Math.Pow(0.01 * end.Y - 0.01 * start.Y, 2)) * car1._speed), 2);
+            anim1.startAnimation(car1,Animation.speedCalculation(start, end, car1), 2);
 
             anim1.story.Completed += onStoryCompleted;
 
