@@ -95,7 +95,7 @@ namespace P9_UndaVerde
             anim1 = new Animation(start,end);
             Task tsk1 = new Task(async () =>
             {
-                anim1.startAnimation(car1, Convert.ToInt32(Math.Sqrt(Math.Pow(0.01 * end.X - 0.01 * start.X, 2) + Math.Pow(0.01 * end.Y - 0.01 * start.Y, 2)) * car1._speed), 2);
+                anim1.startAnimation(car1, anim1.speedCalculation(car1), 2);
                 anim1.story.Completed += (async (o, args) =>
                 {
                     while(_intersection1._TrafficLights[0]._color == false)
@@ -103,7 +103,7 @@ namespace P9_UndaVerde
                         await Task.Delay(100);
                     }
                     Animation anim2 = new Animation(new Point(-100, 0), new Point(-1200, 0));
-                    anim2.startAnimation(car1, 2, 0);
+                    anim2.startAnimation(car1, anim2.speedCalculation(car1), 0);
                 });
             });
 

@@ -72,9 +72,9 @@ namespace TrafficSimTM
             story.Resume(mainWin);
         }
 
-        public static int speedCalculation(Point start, Point end, Car car)
+        public int speedCalculation(Car car)
         {         
-            return Convert.ToInt32(Math.Sqrt(Math.Pow(0.01 * end.X - 0.01 * start.X, 2) + Math.Pow(0.01 * end.Y - 0.01 * start.Y, 2)) * 5000 / Math.Pow(car._speed,1.8f));
+            return Convert.ToInt32(Math.Sqrt(Math.Pow(0.01 * _endPoint.X - 0.01 * _startPoint.X, 2) + Math.Pow(0.01 * _endPoint.Y - 0.01 * _startPoint.Y, 2)) * 5000 / Math.Pow(car._speed,1.8f));
         }
     }
 }
