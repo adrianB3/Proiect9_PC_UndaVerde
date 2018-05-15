@@ -85,6 +85,7 @@ namespace P9_UndaVerde
             });
 
             tsk.Start(TaskScheduler.FromCurrentSynchronizationContext());
+
             Point start = new Point(0, 0);
             Point end = new Point(-1000, 0);
 
