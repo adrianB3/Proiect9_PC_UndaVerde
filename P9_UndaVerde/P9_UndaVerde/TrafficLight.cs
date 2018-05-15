@@ -115,10 +115,30 @@ namespace TrafficSimTM
             return _color ? false : true;
         }
 
-        public void LightUp() {
-            canv.Children.Remove(redLight);
-            canv.Children.Remove(greenLight);
-            canv.Children.Add(_color ? greenLight : redLight);
+        public Task LightUp()
+        {
+            var tsk = new Task(async () =>
+            {
+                while (true)
+                {
+                    canv.Children.Remove(redLight);
+                    canv.Children.Remove(greenLight);
+                    if (_color)
+                    {
+                        canv.Children.Add(greenLight);
+                        await Task.Delay(3000);
+                        _color = false;
+                    }
+                    else
+                    {
+                        canv.Children.Add(redLight);
+                        await Task.Delay(3000);
+                        _color = true;
+                    }
+                }
+            });
+
+            return tsk;
         }
     }
 }

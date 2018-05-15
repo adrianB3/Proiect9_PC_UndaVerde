@@ -25,24 +25,22 @@ namespace TrafficSimTM
 
         public void StartIntersectionSync()
         {
-            /* TODO: Synchronize using a pair of semaphores as the critical resource with a SemaphoreSlim or other mehtod */
+            var listOfTasks = new List<Task>();
             foreach (var trafficLight in _TrafficLights)
             {
-                var tsk = new Task(async () =>
-                {
-                    while (true)
-                    {
-                        trafficLight.LightUp();
-                        await Task.Delay(3000);
-                        trafficLight._color = true;
-                        trafficLight.LightUp();
-                        await Task.Delay(3000);
-                        trafficLight._color = false;
-                    }
-                });
+                listOfTasks.Add(trafficLight.LightUp());
+            }
 
+            foreach (var tsk in listOfTasks)
+            {
+                _TrafficLights[0]._color = false;
+                _TrafficLights[1]._color = !_TrafficLights[0]._color;
+                _TrafficLights[2]._color = !_TrafficLights[0]._color;
+                _TrafficLights[3]._color = _TrafficLights[3]._color;
                 tsk.Start(TaskScheduler.FromCurrentSynchronizationContext());
             }
-        }
+            
+        
+        } 
     }
 }

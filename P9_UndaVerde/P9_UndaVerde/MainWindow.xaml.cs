@@ -65,11 +65,7 @@ namespace P9_UndaVerde
             _intersection2 = new Intersection(_intersection2SemPoints);
             _intersection3 = new Intersection(_intersection3SemPoints);
 
-            _intersection1.StartIntersectionSync();
-            _intersection2.StartIntersectionSync();
-            _intersection3.StartIntersectionSync();
-
-
+            
         }
         
         private void ApplicationExit(object sender, EventArgs e)
@@ -79,6 +75,16 @@ namespace P9_UndaVerde
         
         private void startAnimation(object sender, RoutedEventArgs e)
         {
+            Task tsk = new Task(async () =>
+            {
+                _intersection1.StartIntersectionSync();
+                await Task.Delay(1000);
+                _intersection2.StartIntersectionSync();
+                await Task.Delay(2000);
+                _intersection3.StartIntersectionSync();
+            });
+
+            tsk.Start(TaskScheduler.FromCurrentSynchronizationContext());
             Point start = new Point(0, 0);
             Point end = new Point(-1000, 0);
 
@@ -88,8 +94,6 @@ namespace P9_UndaVerde
             anim1.startAnimation(car1, Convert.ToInt32(Math.Sqrt(Math.Pow(0.01 * end.X - 0.01 * start.X, 2) + Math.Pow(0.01 * end.Y - 0.01 * start.Y, 2)) * car1._speed), 2);
 
             anim1.story.Completed += onStoryCompleted;
-
-
 
         }
 
