@@ -35,8 +35,8 @@ namespace TrafficSimTM
             {
                 _TrafficLights[0]._color = false;
                 _TrafficLights[1]._color = !_TrafficLights[0]._color;
-                _TrafficLights[2]._color = !_TrafficLights[0]._color;
-                _TrafficLights[3]._color = _TrafficLights[3]._color;
+                _TrafficLights[2]._color = _TrafficLights[0]._color;
+                _TrafficLights[3]._color = !_TrafficLights[0]._color;
                 tsk.Start(TaskScheduler.FromCurrentSynchronizationContext());
             }
             
