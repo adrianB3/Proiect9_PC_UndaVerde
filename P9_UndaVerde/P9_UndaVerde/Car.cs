@@ -1,5 +1,7 @@
 ﻿using P9_UndaVerde;
 using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,8 +21,16 @@ namespace TrafficSimTM
         private int _positionFromRight { get; set; }
         public Image _carImg;
         public float _speed { get; set; } // _speed is a car statistic that represents the rate at which a car travels across a map. One _speed point translates to one hundred distance units traveled per second 
-
-        public Car(string imgSource = "car.png", string name = "car", int width = 45, int height = 25, int positionFromTop = 0, int positionFromRight = 0, float speed = 1)
+        public List<Animation> _animationsQueue;
+        public Car(
+            List<Animation> animationsQueue, 
+            string imgSource = "car.png", 
+            string name = "car", 
+            int width = 45, 
+            int height = 25, 
+            int positionFromTop = 0, 
+            int positionFromRight = 0, 
+            float speed = 1)
         {
             _imgSource = imgSource;
             _name = name;
@@ -39,6 +49,7 @@ namespace TrafficSimTM
             _carImg.Width = _width;
             _carImg.Height = _height;
             _carImg.Name = _name;
+            _animationsQueue = animationsQueue;
         }
 
         public void createImage()
@@ -51,7 +62,6 @@ namespace TrafficSimTM
                 canv.Children.Add(_carImg);
                 mainWin.mapGrid.Children.Add(canv);
             });
-
             tsk.Start(TaskScheduler.FromCurrentSynchronizationContext());
         }
     }

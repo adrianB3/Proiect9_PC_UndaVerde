@@ -46,7 +46,6 @@ namespace TrafficSimTM
                     MatrixAnimationUsingPath mAnim = new MatrixAnimationUsingPath();
                     mAnim.PathGeometry = animPath;
                     mAnim.Duration = TimeSpan.FromSeconds(animationTime);
-
                     Storyboard.SetTargetName(mAnim, "carTransform");
                     Storyboard.SetTargetProperty(mAnim, new PropertyPath(MatrixTransform.MatrixProperty));
 
