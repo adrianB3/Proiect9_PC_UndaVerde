@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
@@ -86,28 +87,58 @@ namespace P9_UndaVerde
 
             tsk.Start(TaskScheduler.FromCurrentSynchronizationContext());
 
-            Point start = new Point(0, 0);
-            Point end = new Point(-100, 0);
+            /* car1 = new Car("car.png","car1",45,25,140,0, 100);
+             car1.createImage();
+             anim1 = new Animation(start,end);
+             Task tsk1 = new Task(async () =>
+             {
+                 anim1.startAnimation(car1, anim1.speedCalculation(car1), 2);
+                 anim1.story.Completed += (async (o, args) =>
+                 {
+                     while(_intersection1._TrafficLights[0].isRed())
+                     {
+                         await Task.Delay(100);
+                     }
+                     Animation anim2 = new Animation(new Point(-100, 0), new Point(-1200, 0));
+                     anim2.startAnimation(car1, anim2.speedCalculation(car1), 0);
+                 });
+             });
 
-
-            car1 = new Car("car.png","car1",45,25,140,0, 100);
-            car1.createImage();
-            anim1 = new Animation(start,end);
-            Task tsk1 = new Task(async () =>
+             tsk1.Start(TaskScheduler.FromCurrentSynchronizationContext());    */
+           
+            /*List<List<Animation>> lst = new List<List<Animation>>()
             {
-                anim1.startAnimation(car1, anim1.speedCalculation(car1), 2);
-                anim1.story.Completed += (async (o, args) =>
-                {
-                    while(_intersection1._TrafficLights[0]._color == false)
-                    {
-                        await Task.Delay(100);
-                    }
-                    Animation anim2 = new Animation(new Point(-100, 0), new Point(-1200, 0));
-                    anim2.startAnimation(car1, anim2.speedCalculation(car1), 0);
-                });
-            });
+               new List<Animation>() { new Animation(new Point(0, 0), new Point(-100, 0)), new Animation(new Point(-100, 0), new Point(-200, 0)) }
+            };
+            CountdownEvent cde = new CountdownEvent(2);
 
-            tsk1.Start(TaskScheduler.FromCurrentSynchronizationContext());            
+            void Consumer()
+            {
+                Task tsk2 = new Task(async () =>
+                {
+                    foreach (var ls in lst)
+                    {
+                        foreach (var anim in ls)
+                        {
+                            anim.startAnimation(car1, anim.speedCalculation(car1), 2);
+                            anim.story.Completed += (async (o, args) =>
+                            {
+                                while (_intersection1._TrafficLights[0].isRed())
+                                {
+                                    await Task.Delay(100);
+                                }
+                            });
+                        }
+                    }
+                });
+                tsk2.Start();
+                cde.Signal();
+            }
+
+            Task tsk1 = new Task(Consumer);
+            tsk1.Start(TaskScheduler.FromCurrentSynchronizationContext());
+
+            cde.Wait();*/
 
         }
         
