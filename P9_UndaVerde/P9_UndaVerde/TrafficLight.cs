@@ -124,14 +124,15 @@ namespace TrafficSimTM
                 {
                     canv.Children.Remove(redLight);
                     canv.Children.Remove(greenLight);
-                    if (_color)
+
+                    if (isGreen())
                     {
                         canv.Children.Add(greenLight);
                         await Task.Delay(5000);
                         _color = false;
                     }
                     else
-                    {
+                    {                      
                         canv.Children.Add(redLight);
                         await Task.Delay(5000);
                         _color = true;

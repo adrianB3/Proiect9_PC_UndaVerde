@@ -1,5 +1,6 @@
 ﻿using P9_UndaVerde;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -13,11 +14,13 @@ namespace TrafficSimTM
         public Intersection(List<Point> coordinates)
         {
             var coordinates1 = coordinates;
-            char i = 'a';           
-                _TrafficLights.Add(new TrafficLight("sem" + i++, (int)coordinates1[0].X, (int)coordinates1[0].Y,3000,"90left" ));
-                _TrafficLights.Add(new TrafficLight("sem" + i++, (int)coordinates1[1].X, (int)coordinates1[1].Y,3000,"inverse" ));
-                _TrafficLights.Add(new TrafficLight("sem" + i++, (int)coordinates1[2].X, (int)coordinates1[2].Y,3000,"90right" ));
-                _TrafficLights.Add(new TrafficLight("sem" + i++, (int)coordinates1[3].X, (int)coordinates1[3].Y,3000,"normal" ));
+            char i = 'a';
+            string[] directions = new[] {"90left", "inverse", "90right", "normal", "90left"};
+            int j = 0;
+            foreach (var point in coordinates1)
+            {
+                _TrafficLights.Add(new TrafficLight("sem" + i++, (int)point.X, (int)point.Y,3000,directions[j++]));
+            }
         }
 
         public void StartIntersectionSync()

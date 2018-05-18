@@ -22,7 +22,12 @@ namespace TrafficSimTM
         public Image _carImg;
         public float _speed { get; set; } // _speed is a car statistic that represents the rate at which a car travels across a map. One _speed point translates to one hundred distance units traveled per second 
         public List<Animation> _animationsList;
+        public int[] intersectionsTraveled = new int[2];
+        public int semType;
+        private Canvas canv;
         public Car(
+            int[] intTraveled,
+            int semT,
             List<Animation> animationsList, 
             string imgSource = "car.png", 
             string name = "car", 
@@ -30,7 +35,8 @@ namespace TrafficSimTM
             int height = 25, 
             int positionFromTop = 0, 
             int positionFromRight = 0, 
-            float speed = 1)
+            float speed = 1
+            )
         {
             _imgSource = imgSource;
             _name = name;
@@ -40,6 +46,8 @@ namespace TrafficSimTM
             _positionFromRight = positionFromRight;
             _speed = speed;
             _carImg = new Image();
+            intersectionsTraveled = intTraveled;
+            semType = semT;
 
             BitmapImage carBitmap = new BitmapImage();
             carBitmap.BeginInit();
@@ -50,19 +58,25 @@ namespace TrafficSimTM
             _carImg.Height = _height;
             _carImg.Name = _name;
             _animationsList = animationsList;
+            canv = new Canvas();
         }
 
         public void createImage()
         {            
             Task tsk = new Task(() =>
             {
-                Canvas canv = new Canvas();
+                
                 Canvas.SetRight(_carImg, _positionFromRight);
                 Canvas.SetTop(_carImg, _positionFromTop);
                 canv.Children.Add(_carImg);
                 mainWin.mapGrid.Children.Add(canv);
             });
             tsk.Start(TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        public void  removeImage()
+        {
+            canv.Children.Remove(_carImg);
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Timers;
+using System.Windows.Input;
 using TrafficSimTM;
 
 namespace P9_UndaVerde
@@ -42,6 +43,7 @@ namespace P9_UndaVerde
             new Point (35, 635 ),
             new Point (230, 645 ),
             new Point (235, 465 ),
+            new Point (120,600)
         };
         private readonly List<Point> _intersection3SemPoints = new List<Point>() {
             new Point (40, 980 ),
@@ -58,8 +60,12 @@ namespace P9_UndaVerde
             {new Point(0, 700),"C-tin Brancoveanu"},
         };
         private List<Intersection> Intersections = new List<Intersection>();
+
+
+        // Current Scenario data structures
         private List<Car> carsList = new List<Car>();
         private List<Task> listOfTasks = new List<Task>();
+        private List<startLocation> listOfStreets = new List<startLocation>();
 
 
         public MainWindow()
@@ -86,6 +92,7 @@ namespace P9_UndaVerde
             }
 
             StreetList.ItemsSource = startLocationsList;
+            listOfStreets.Add(new startLocation() {_name = "test", _startPoint = new Point(0,0)});
         }
          
         private void ApplicationExit(object sender, EventArgs e)
@@ -95,8 +102,6 @@ namespace P9_UndaVerde
         
         private void startAnimation(object sender, RoutedEventArgs e)
         {
-            
-
             List<Animation> Animations = new List<Animation>();
 
             Animations.Add(new Animation(new Point(0,0), new Point(-90,0)));
@@ -107,14 +112,25 @@ namespace P9_UndaVerde
             List<Animation> Animations1 = new List<Animation>();
 
             Animations1.Add(new Animation(new Point(0, 0), new Point(75, 0)));
-            Animations1.Add(new Animation(new Point(75, 0), new Point(550, 0)));
-            Animations1.Add(new Animation(new Point(550, 0), new Point(980, 0)));
+            Animations1.Add(new Animation(new Point(75, 0), new Point(530, 0)));
+            Animations1.Add(new Animation(new Point(550, 0), new Point(950, 0)));
             Animations1.Add(new Animation(new Point(980, 0), new Point(1250, 0)));
 
-            carsList.Add(new Car(Animations,"car.png","car",45,25,135,0,2));
-            carsList.Add(new Car(Animations, "redcar.png", "car1", 45, 25, 165, 0, 2));
-            carsList.Add(new Car(Animations1, "redcar180.png", "car2", 45, 25, 255, 1180, 2));
+            List<Animation> Animations2 = new List<Animation>();
+            Animations2.Add(new Animation(new Point(0,0), new Point(0,90)));
+            Animations2.Add(new Animation(new Point(0,90), new Point(0,700)));
 
+            List<Animation> Animations3 = new List<Animation>();
+            Animations3.Add(new Animation(new Point(0, 0), new Point(-400, 0)));
+            Animations3.Add(new Animation(new Point(-400, 0), new Point(-1200, 0)));
+
+            carsList.Add(new Car(new []{0,1,2},0,Animations,"car.png","car",45,25,135,0,200));
+            carsList.Add(new Car(new []{0, 1, 2}, 0, Animations, "redcar.png", "car1", 45, 25, 165, 0, 100));
+            carsList.Add(new Car(new []{2, 1, 0},2 ,Animations1, "redcar180.png", "car2", 45, 25, 255, 1180, 150));
+            carsList.Add(new Car(new []{1},1 ,Animations2, "car90.png", "car3", 65, 45, 0, 550, 120));
+            carsList.Add(new Car(new []{1},4 ,Animations3, "train.png", "train", 85, 55, 180, 0, 300));
+
+            CancellationTokenSource tokenSource = new CancellationTokenSource();
             
             foreach (var car in carsList)
             {
@@ -124,14 +140,14 @@ namespace P9_UndaVerde
                     int i = 0;
                     foreach (var animation in car._animationsList)
                     {
-                        animation.startAnimation(car,1,0);
-                        
-                        while (Intersections[i]._TrafficLights[0].isRed())
+                        animation.startAnimation(car, animation.speedCalculation(car), 0);
+                        await Task.Delay(animation.speedCalculation(car)*1000);
+                        while (Intersections[car.intersectionsTraveled[i]]._TrafficLights[car.semType].isRed())
                         {
-
-                          await Task.Delay(100);
+                            await Task.Delay(100);
                         }
-                        if(i<2)
+
+                        if (i < car.intersectionsTraveled.Length - 1)
                             i++;
                     }
                 }));
@@ -141,6 +157,7 @@ namespace P9_UndaVerde
             {
                 task.Start(TaskScheduler.FromCurrentSynchronizationContext());
             }
+
         }
         
         private void windowLoaded(object sender, RoutedEventArgs e)
@@ -179,6 +196,21 @@ namespace P9_UndaVerde
 
             //Animation MyAnimation = new Animation(new Point(-90, 0), new Point(-480, 0));
             //carsList.Add(new Car(animationsList[0],"car.png", "car", 45, 25, 135, 0, 2));
+        }
+
+        private void addStreet(object sender, MouseButtonEventArgs e)
+        {           
+            selectedItems.ItemsSource = listOfStreets;
+        }
+
+        private void clearScenario(object sender, RoutedEventArgs e)
+        {
+            foreach (var car in carsList)
+            {
+                car.removeImage();
+            }
+            carsList.Clear();
+            listOfTasks.Clear();
         }
     }
 }
