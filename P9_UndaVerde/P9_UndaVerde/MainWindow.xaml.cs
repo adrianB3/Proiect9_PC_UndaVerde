@@ -23,6 +23,11 @@ namespace P9_UndaVerde
         public int nr { get; set; }
         public string Name { get; set; }
     }
+    public class startLocation
+    {
+        public string _name { get; set; }
+        public Point _startPoint { get; set; }
+    }
 
     public partial class MainWindow : Window
     {
@@ -45,6 +50,13 @@ namespace P9_UndaVerde
             new Point (235, 991 ),
         };
 
+        public Dictionary<Point, string> _startLocations = new Dictionary<Point, string>() {
+            {new Point(140, 0),"Liviu Rebreanu RF"},
+            {new Point(140, 1200),"Liviu Rebreanu FR"},
+            {new Point(0, 200),"Cosminului"},
+            {new Point(0, 500),"Drubeta"},
+            {new Point(0, 700),"C-tin Brancoveanu"},
+        };
         private List<Intersection> Intersections = new List<Intersection>();
         private List<Car> carsList = new List<Car>();
         private List<Task> listOfTasks = new List<Task>();
@@ -65,9 +77,17 @@ namespace P9_UndaVerde
 
             Intersections.Add(new Intersection(_intersection1SemPoints));
             Intersections.Add(new Intersection(_intersection2SemPoints));
-            Intersections.Add(new Intersection(_intersection3SemPoints));     
+            Intersections.Add(new Intersection(_intersection3SemPoints));
+
+            List<startLocation> startLocationsList = new List<startLocation>();
+            foreach (var loc in _startLocations)
+            {
+                startLocationsList.Add(new startLocation() { _name = loc.Value, _startPoint = loc.Key});
+            }
+
+            StreetList.ItemsSource = startLocationsList;
         }
-        
+         
         private void ApplicationExit(object sender, EventArgs e)
         {
             Application.Current.Shutdown();

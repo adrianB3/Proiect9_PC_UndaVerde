@@ -58,8 +58,15 @@
                         <Fluent:DropDownButton.Background>
                             <ImageBrush ImageSource="Images/roadIcon.png" Stretch="UniformToFill" Opacity="0.2"/>
                         </Fluent:DropDownButton.Background>
-                        <ListBoxItem/>
+                        <ListView Name="StreetList">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding _name}"></GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
                     </Fluent:DropDownButton>
+
                     <Fluent:DropDownButton Header="CarType" AllowDrop="True" Width="90">
                         <Fluent:DropDownButton.Background>
                             <ImageBrush ImageSource="Images/car.png" Stretch="UniformToFill" Opacity="0.2"/>
