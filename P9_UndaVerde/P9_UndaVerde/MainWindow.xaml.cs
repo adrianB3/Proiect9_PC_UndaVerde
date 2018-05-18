@@ -33,7 +33,7 @@ namespace P9_UndaVerde
             new Point (235, 90 ),
         };
         private readonly List<Point> _intersection2SemPoints = new List<Point>() {
-            new Point (45, 465 ),
+            new Point (0, 465 ),
             new Point (35, 630 ),
             new Point (230, 635 ),
             new Point (235, 470 ),
