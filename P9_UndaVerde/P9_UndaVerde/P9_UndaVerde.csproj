@@ -153,6 +153,7 @@
     <Compile Include="Animation.cs" />
     <Compile Include="Car.cs" />
     <Compile Include="Intersection.cs" />
+    <Compile Include="Sensor.cs" />
     <Compile Include="TrafficLight.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

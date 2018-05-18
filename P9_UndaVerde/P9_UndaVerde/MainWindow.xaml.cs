@@ -108,6 +108,7 @@ namespace P9_UndaVerde
                         
                         while (Intersections[i]._TrafficLights[0].isRed())
                         {
+
                           await Task.Delay(100);
                         }
                         if(i<2)
@@ -155,6 +156,9 @@ namespace P9_UndaVerde
         private void AddCar(object sender, RoutedEventArgs e)
         {
             // TODO!!!!!!
+
+            //Animation MyAnimation = new Animation(new Point(-90, 0), new Point(-480, 0));
+            //carsList.Add(new Car(animationsList[0],"car.png", "car", 45, 25, 135, 0, 2));
         }
     }
 }
