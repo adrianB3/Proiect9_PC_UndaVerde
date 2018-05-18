@@ -75,16 +75,7 @@ namespace P9_UndaVerde
         
         private void startAnimation(object sender, RoutedEventArgs e)
         {
-            Task intersectionSyncTask = new Task(async () =>
-            {
-                foreach (var intersection in Intersections)
-                {
-                    intersection.StartIntersectionSync();
-                    await Task.Delay(2000);
-                }
-            });
-
-            intersectionSyncTask.Start(TaskScheduler.FromCurrentSynchronizationContext());
+            
 
             List<Animation> Animations = new List<Animation>();
 
@@ -144,6 +135,21 @@ namespace P9_UndaVerde
         private void pauseAnimation(object sender, RoutedEventArgs e)
         {
             
+        }
+
+        private void StartTrafficLightsSync(object sender, RoutedEventArgs e)
+        {
+            Task intersectionSyncTask = new Task(async () =>
+            {
+                foreach (var intersection in Intersections)
+                {
+                    intersection.StartIntersectionSync();
+                    await Task.Delay(2000);
+                }
+            });
+
+            intersectionSyncTask.Start(TaskScheduler.FromCurrentSynchronizationContext());
+
         }
     }
 }
