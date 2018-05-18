@@ -78,7 +78,7 @@
 
             <Fluent:RibbonTabItem Header="Semaphore Settings">
                 <Fluent:RibbonGroupBox Header="OtherGroup">
-                    <Button Margin="15" Opacity="0.8" Content="Just a button"/>
+                    <Button Margin="15" Opacity="0.8" Content="StartTrafficSync" Click="StartTrafficLightsSync"/>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="Other Settings">
