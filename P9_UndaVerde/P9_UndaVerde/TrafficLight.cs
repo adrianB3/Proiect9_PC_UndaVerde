@@ -13,6 +13,7 @@ namespace TrafficSimTM
     class TrafficLight
     {
         MainWindow mainWin = Application.Current.Windows[0] as MainWindow;
+
         public bool _color { get; set; }
         public int _greenWaitTime { get; set; }
         public int _redWaitTime { get; set; }

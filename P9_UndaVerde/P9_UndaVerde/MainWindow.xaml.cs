@@ -32,22 +32,22 @@ namespace P9_UndaVerde
     public partial class MainWindow : Window
     {
         private readonly List<Point> _intersection1SemPoints = new List<Point>() {
-            new Point (45, 90),
-            new Point (35, 230),
-            new Point (230, 230 ),
+            new Point (40, 85),
+            new Point (5, 235),
+            new Point (230, 240 ),
             new Point (235, 90 ),
         };
         private readonly List<Point> _intersection2SemPoints = new List<Point>() {
-            new Point (0, 465 ),
-            new Point (35, 630 ),
-            new Point (230, 635 ),
-            new Point (235, 470 ),
+            new Point (10, 455 ),
+            new Point (35, 635 ),
+            new Point (230, 645 ),
+            new Point (235, 465 ),
         };
         private readonly List<Point> _intersection3SemPoints = new List<Point>() {
-            new Point (45, 985 ),
-            new Point (35, 1120 ),
-            new Point (230, 1125 ),
-            new Point (235, 991 ),
+            new Point (40, 980 ),
+            new Point (35, 1130 ),
+            new Point (230, 1135 ),
+            new Point (240, 987 ),
         };
 
         public Dictionary<Point, string> _startLocations = new Dictionary<Point, string>() {
