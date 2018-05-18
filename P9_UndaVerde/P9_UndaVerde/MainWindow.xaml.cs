@@ -151,5 +151,10 @@ namespace P9_UndaVerde
             intersectionSyncTask.Start(TaskScheduler.FromCurrentSynchronizationContext());
 
         }
+
+        private void AddCar(object sender, RoutedEventArgs e)
+        {
+            // TODO!!!!!!
+        }
     }
 }
