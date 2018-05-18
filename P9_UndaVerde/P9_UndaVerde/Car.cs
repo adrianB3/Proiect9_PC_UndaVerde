@@ -21,9 +21,9 @@ namespace TrafficSimTM
         private int _positionFromRight { get; set; }
         public Image _carImg;
         public float _speed { get; set; } // _speed is a car statistic that represents the rate at which a car travels across a map. One _speed point translates to one hundred distance units traveled per second 
-        public List<Animation> _animationsQueue;
+        public List<Animation> _animationsList;
         public Car(
-            List<Animation> animationsQueue, 
+            List<Animation> animationsList, 
             string imgSource = "car.png", 
             string name = "car", 
             int width = 45, 
@@ -49,7 +49,7 @@ namespace TrafficSimTM
             _carImg.Width = _width;
             _carImg.Height = _height;
             _carImg.Name = _name;
-            _animationsQueue = animationsQueue;
+            _animationsList = animationsList;
         }
 
         public void createImage()
