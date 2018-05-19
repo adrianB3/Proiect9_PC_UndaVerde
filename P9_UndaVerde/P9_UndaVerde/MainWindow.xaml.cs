@@ -80,7 +80,7 @@ public class credits
             "Cosminului 1 --> Drubeta 2",
         };
         private List<Intersection> Intersections = new List<Intersection>();
-        private List<Sensor> Sensors = new List<Sensor>();
+        private ObservableCollection<Sensor> Sensors = new ObservableCollection<Sensor>();
 
         private char name = 'A';
         // Current Scenario data structures
@@ -88,7 +88,7 @@ public class credits
         private List<Task> listOfTasks = new List<Task>();
         ObservableCollection<Car> listOfBadCars = new ObservableCollection<Car>();
         ObservableCollection<selectedItem> selectedThings = new ObservableCollection<selectedItem>();
-      
+        CancellationTokenSource tokenSource = new CancellationTokenSource();
         public MainWindow()
         {
             InitializeComponent();
@@ -109,14 +109,16 @@ public class credits
             Sensors.Add(new Sensor(0,0,90,155));
             Sensors.Add(new Sensor(1,0,450,155));
             Sensors.Add(new Sensor(2,0,980,155));
-            Sensors.Add(new Sensor(3,0,1150,250));
-            Sensors.Add(new Sensor(4,0,650,250));
-            Sensors.Add(new Sensor(5,0,300,250));
+            Sensors.Add(new Sensor(2,2,1150,250));
+            Sensors.Add(new Sensor(1,2,650,250));
+            Sensors.Add(new Sensor(0,2,300,250));
 
             AvailableCarTypes.ItemsSource = AvailableVehicles;
             AvailablePathsListBox.ItemsSource = AvailablePaths;
             selectedItemsListView.ItemsSource = selectedThings;
             listBoxOfBadCars.ItemsSource = listOfBadCars;
+            sensorsListView.ItemsSource = Sensors;
+
         }
          
         private void ApplicationExit(object sender, EventArgs e)
@@ -127,10 +129,12 @@ public class credits
         private void startAnimation(object sender, RoutedEventArgs e)
         {
             
-            CancellationTokenSource tokenSource = new CancellationTokenSource();
-            
             foreach (var car in carsList)
             {
+                if (tokenSource.IsCancellationRequested)
+                {
+                    break;
+                }
                 car.createImage();
                 listOfTasks.Add(new Task(async () =>
                 {
@@ -138,8 +142,11 @@ public class credits
                     foreach (var animation in car._animationsList)
                     {
                         animation.startAnimation(car, animation.speedCalculation(car), 0);
-                        await Task.Delay(animation.speedCalculation(car)*1000);
-                        
+                        foreach (var sensor in Sensors)
+                        {
+                            sensor._Signal();
+                        }
+                        await Task.Delay(animation.speedCalculation(car)*1000);                      
                         while (Intersections[car.intSem[i].intersection]._TrafficLights[car.intSem[i].semType].isRed() && car._isABadCar == false)
                         {
                             await Task.Delay(100);
@@ -154,7 +161,8 @@ public class credits
                             }
                         }
                     }
-                }));
+                    
+                },tokenSource.Token));
             }
 
             foreach (var task in listOfTasks)
@@ -171,7 +179,7 @@ public class credits
 
         private void stopAnimation(object sender, RoutedEventArgs e)
         {
-            
+          //  tokenSource.Cancel();
         }
 
         private void StartTrafficLightsSync(object sender, RoutedEventArgs e)

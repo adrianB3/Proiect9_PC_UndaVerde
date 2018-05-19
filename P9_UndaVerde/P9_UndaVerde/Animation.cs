@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 
 namespace TrafficSimTM
@@ -15,8 +16,8 @@ namespace TrafficSimTM
     {
         MainWindow mainWin = Application.Current.Windows[0] as MainWindow;
         public Storyboard story = new Storyboard();
-        Point _endPoint;
-        Point _startPoint;
+        private Point _endPoint;
+        private Point _startPoint;
         private int _additionalAnims;
         object lock1 = new object();
 
@@ -29,31 +30,34 @@ namespace TrafficSimTM
 
         public void startAnimation(Car _animateObject, int animationTime, int delay)
         {
-                         
-            NameScope.SetNameScope(mainWin, new NameScope());
-            MatrixTransform carTransform = new MatrixTransform();
-            _animateObject._carImg.RenderTransform = carTransform;
-            mainWin.RegisterName("carTransform", carTransform);
+            Dispatcher.CurrentDispatcher.BeginInvoke(new Action(async () =>
+            {
+                NameScope.SetNameScope(mainWin, new NameScope());
+                MatrixTransform carTransform = new MatrixTransform();
+                _animateObject._carImg.RenderTransform = carTransform;
+                mainWin.RegisterName("carTransform", carTransform);
 
-            PathGeometry animPath = new PathGeometry();
-            PathFigure pathFigure = new PathFigure();
-            pathFigure.StartPoint = _startPoint;
-            pathFigure.Segments.Add(new LineSegment(_endPoint, false));
+                PathGeometry animPath = new PathGeometry();
+                PathFigure pathFigure = new PathFigure();
+                pathFigure.StartPoint = _startPoint;
+                pathFigure.Segments.Add(new LineSegment(_endPoint, false));
 
-            animPath.Figures.Add(pathFigure);
-            animPath.Freeze();
+                animPath.Figures.Add(pathFigure);
+                animPath.Freeze();
 
-            MatrixAnimationUsingPath mAnim = new MatrixAnimationUsingPath();
-            if (_additionalAnims == 1)
-                mAnim.DoesRotateWithTangent = true;
-            mAnim.PathGeometry = animPath;
-            mAnim.Duration = TimeSpan.FromSeconds(animationTime);
+                MatrixAnimationUsingPath mAnim = new MatrixAnimationUsingPath();
+                if (_additionalAnims == 1)
+                    mAnim.DoesRotateWithTangent = true;
+                mAnim.PathGeometry = animPath;
+                mAnim.Duration = TimeSpan.FromSeconds(animationTime);
 
-            Storyboard.SetTargetName(mAnim, "carTransform");
-            Storyboard.SetTargetProperty(mAnim, new PropertyPath(MatrixTransform.MatrixProperty));
+                Storyboard.SetTargetName(mAnim, "carTransform");
+                Storyboard.SetTargetProperty(mAnim, new PropertyPath(MatrixTransform.MatrixProperty));
 
-            story.Children.Add(mAnim);
-            story.Begin(mainWin, true);
+                story.Children.Add(mAnim);
+                await Task.Delay(delay);
+                story.Begin(mainWin, true);
+            }));                      
         }
 
         public void stopAnimation()

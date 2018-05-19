@@ -105,7 +105,7 @@
                 <TabItem Header="Scenario">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0" Margin="5">
@@ -123,8 +123,16 @@
                             </ScrollViewer>
                         </StackPanel>
                         <StackPanel Grid.Column="1" Margin="20,5,0,0">
-                            <TextBlock TextWrapping="Wrap" Text="Here we go"/>
-
+                            <ScrollViewer Height="120" Width="auto">
+                                <ListView Name="sensorsListView">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Sensor" DisplayMemberBinding="{Binding _indexSemafor}"></GridViewColumn>
+                                            <GridViewColumn Header="Current Count" DisplayMemberBinding="{Binding _numberOfCars}"></GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                         </ScrollViewer>
                         </StackPanel>
                     </Grid>
                 </TabItem>

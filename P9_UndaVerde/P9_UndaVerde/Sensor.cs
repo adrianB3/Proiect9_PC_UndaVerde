@@ -13,9 +13,9 @@ namespace TrafficSimTM
 
         MainWindow mainWin = Application.Current.Windows[0] as MainWindow;
 
-        public int _numberOfCars;
-        public int _indexIntersectie;
-        public int _indexSemafor;
+        public int _numberOfCars { get; set; }
+        public int _indexIntersectie { get; set; }
+        public int _indexSemafor { get; set; }
         Canvas canv = new Canvas();
         Ellipse blueLight = new Ellipse();
         ImageBrush colorBrush = new ImageBrush();
