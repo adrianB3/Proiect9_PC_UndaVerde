@@ -30,7 +30,7 @@ namespace TrafficSimTM
         Ellipse greenLight = new Ellipse();
         SolidColorBrush colorBrush1 = new SolidColorBrush();
 
-        public TrafficLight(string name = "", int positionFromTop = 0, int positionFromRight = 0, int delay = 0,string orientation = "normal", bool color = false, int greenWaitTime = 20, int redWaitTime = 20)
+        public TrafficLight(string name = "", int positionFromTop = 0, int positionFromRight = 0, int delay = 0,string orientation = "normal", bool color = false, int greenWaitTime = 5, int redWaitTime = 5)
         {
             _color = color;
             _greenWaitTime = greenWaitTime;
@@ -103,7 +103,11 @@ namespace TrafficSimTM
 
         public void increaseGreenTime()
         {
-            this._greenWaitTime += 10;
+            _greenWaitTime += 2;
+        }
+        public void decreaseGreenTime()
+        {
+            _greenWaitTime -= 2;
         }
 
         public bool isGreen()
@@ -128,13 +132,13 @@ namespace TrafficSimTM
                     if (isGreen())
                     {
                         canv.Children.Add(greenLight);
-                        await Task.Delay(5000);
+                        await Task.Delay(_greenWaitTime*1000);
                         _color = false;
                     }
                     else
                     {                      
                         canv.Children.Add(redLight);
-                        await Task.Delay(5000);
+                        await Task.Delay(_redWaitTime*1000);
                         _color = true;
                     }
                 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using TrafficSimTM;
 
@@ -11,16 +13,35 @@ namespace P9_UndaVerde
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    /// 
-    public class credits
+    ///
+public class credits
     {
         public int nr { get; set; }
         public string Name { get; set; }
     }
-    public class startLocation
+
+    public class selectedItem
     {
-        public string _name { get; set; }
-        public Point _startPoint { get; set; }
+        public string carType { get; set; }
+        public string path { get; set; }
+        public bool isBad { get; set; }
+        public int speed { get; set; }
+    }
+
+    public class SelectedPath
+    {
+        public List<Animation> Anims;
+        public List<ints> intersectionAndSemType;
+        public int posFromTop;
+        public int posFromRight;
+
+        public SelectedPath(List<Animation> anm, List<ints> ints, int posT, int posR)
+        {
+            Anims = anm;
+            intersectionAndSemType = ints;
+            posFromTop = posT;
+            posFromRight = posR;
+        }
     }
 
     public partial class MainWindow : Window
@@ -44,22 +65,30 @@ namespace P9_UndaVerde
             new Point (230, 1135 ),
             new Point (240, 987 ),
         };
-
-        public Dictionary<Point, string> _startLocations = new Dictionary<Point, string>() {
-            {new Point(140, 0),"Liviu Rebreanu RF"},
-            {new Point(140, 1200),"Liviu Rebreanu FR"},
-            {new Point(0, 200),"Cosminului"},
-            {new Point(0, 500),"Drubeta"},
-            {new Point(0, 700),"C-tin Brancoveanu"},
+        private List<string> AvailableVehicles = new List<string>() {"Grey car", "Red car", "Train"};
+        private List<string> AvailablePaths = new List<string>()
+        {
+            "L.Rebreanu Mart B1 --> L.Rebreanu Sag B1", 
+            "L.Rebreanu Mart B2 --> L.Rebreanu Sag B2",
+            "L.Rebreanu Mart B3 --> Drubeta 1",
+            "L.Rebreanu Mart B2 --> C-tin Brancoveanu 1",
+            "L.Rebreanu Sag B1 --> L.Rebreanu Mart B1",
+            "L.Rebreanu Sag B2 --> L.Rebreanu Mart B2",
+            "L.Rebreanu Sag B2 --> Drubeta",
+            "Drubeta 1 --> Drubeta 2",
+            "Cosminului 1 --> Drubeta 1",
+            "Cosminului 1 --> Drubeta 2",
         };
         private List<Intersection> Intersections = new List<Intersection>();
         private List<Sensor> Sensors = new List<Sensor>();
 
+        private char name = 'A';
         // Current Scenario data structures
         private List<Car> carsList = new List<Car>();
         private List<Task> listOfTasks = new List<Task>();
-        private List<startLocation> currentStartLocations = new List<startLocation>();
-
+        ObservableCollection<Car> listOfBadCars = new ObservableCollection<Car>();
+        ObservableCollection<selectedItem> selectedThings = new ObservableCollection<selectedItem>();
+      
         public MainWindow()
         {
             InitializeComponent();
@@ -77,20 +106,17 @@ namespace P9_UndaVerde
             Intersections.Add(new Intersection(_intersection2SemPoints));
             Intersections.Add(new Intersection(_intersection3SemPoints));
 
-            Sensors.Add(new Sensor(0,0,20,150));
-            Sensors.Add(new Sensor(1,0,450,150));
-            Sensors.Add(new Sensor(2,0,980,150));
-            Sensors.Add(new Sensor(3,0,1150,270));
+            Sensors.Add(new Sensor(0,0,90,155));
+            Sensors.Add(new Sensor(1,0,450,155));
+            Sensors.Add(new Sensor(2,0,980,155));
+            Sensors.Add(new Sensor(3,0,1150,250));
+            Sensors.Add(new Sensor(4,0,650,250));
+            Sensors.Add(new Sensor(5,0,300,250));
 
-            List<startLocation> startLocationsList = new List<startLocation>();
-            foreach (var loc in _startLocations)
-            {
-                startLocationsList.Add(new startLocation() { _name = loc.Value, _startPoint = loc.Key});
-            }
-
-            StreetList.ItemsSource = startLocationsList;
-            currentStartLocations.Add(new startLocation() {_name = "test", _startPoint = new Point(0,0)});
-
+            AvailableCarTypes.ItemsSource = AvailableVehicles;
+            AvailablePathsListBox.ItemsSource = AvailablePaths;
+            selectedItemsListView.ItemsSource = selectedThings;
+            listBoxOfBadCars.ItemsSource = listOfBadCars;
         }
          
         private void ApplicationExit(object sender, EventArgs e)
@@ -100,33 +126,7 @@ namespace P9_UndaVerde
         
         private void startAnimation(object sender, RoutedEventArgs e)
         {
-            List<Animation> Animations = new List<Animation>();
-
-            Animations.Add(new Animation(new Point(0,0), new Point(-90,0)));
-            Animations.Add(new Animation(new Point(-90,0), new Point(-480,0)));
-            Animations.Add(new Animation(new Point(-480,0), new Point(-985,0)));
-            Animations.Add(new Animation(new Point(-985,0), new Point(-1200,0)));
-
-            List<Animation> Animations1 = new List<Animation>();
-
-            Animations1.Add(new Animation(new Point(0, 0), new Point(75, 0)));
-            Animations1.Add(new Animation(new Point(75, 0), new Point(530, 0)));
-            Animations1.Add(new Animation(new Point(550, 0), new Point(950, 0)));
-            Animations1.Add(new Animation(new Point(980, 0), new Point(1250, 0)));
-
-            List<Animation> Animations2 = new List<Animation>();
-            Animations2.Add(new Animation(new Point(0,0), new Point(0,90)));
-            Animations2.Add(new Animation(new Point(0,90), new Point(0,700)));
-
-            List<Animation> Animations3 = new List<Animation>();
-            Animations3.Add(new Animation(new Point(0, 0), new Point(-400, 0)));
-            Animations3.Add(new Animation(new Point(-400, 0), new Point(-1200, 0)));
-
-            carsList.Add(new Car(new []{0,1,2},0,Animations,"car.png","car",45,25,135,0,200));
-            carsList.Add(new Car(new []{0, 1, 2}, 0, Animations, "redcar.png", "car1", 45, 25, 165, 0, 100));
-            carsList.Add(new Car(new []{2, 1, 0},2 ,Animations1, "redcar180.png", "car2", 45, 25, 255, 1180, 150));
-            carsList.Add(new Car(new []{1},1 ,Animations2, "car90.png", "car3", 65, 45, 0, 550, 120));
-            carsList.Add(new Car(new []{1},4 ,Animations3, "train.png", "train", 85, 55, 180, 0, 300));
+            
             CancellationTokenSource tokenSource = new CancellationTokenSource();
             
             foreach (var car in carsList)
@@ -139,13 +139,20 @@ namespace P9_UndaVerde
                     {
                         animation.startAnimation(car, animation.speedCalculation(car), 0);
                         await Task.Delay(animation.speedCalculation(car)*1000);
-                        while (Intersections[car.intersectionsTraveled[i]]._TrafficLights[car.semType].isRed())
+                        
+                        while (Intersections[car.intSem[i].intersection]._TrafficLights[car.intSem[i].semType].isRed() && car._isABadCar == false)
                         {
                             await Task.Delay(100);
                         }
-
-                        if (i < car.intersectionsTraveled.Length - 1)
+                        
+                        if (i < car.intSem.Count - 1)
+                        {
                             i++;
+                            if (car._isABadCar && Intersections[car.intSem[i].intersection]._TrafficLights[car.intSem[i].semType].isRed())
+                            {
+                                listOfBadCars.Add(car);
+                            }
+                        }
                     }
                 }));
             }
@@ -184,15 +191,107 @@ namespace P9_UndaVerde
 
         private void AddCar(object sender, RoutedEventArgs e)
         {
-            // TODO!!!!!!
+            string imgSource = "car.png";
+            int posT = 160;
+            int posR = 0;
+            List<Animation> Animations = new List<Animation>();
+            Animations.Add(new Animation(new Point(0, 0), new Point(-90, 0),0));
+            Animations.Add(new Animation(new Point(-90, 0), new Point(-480, 0),0));
+            Animations.Add(new Animation(new Point(-480, 0), new Point(-985, 0),0));
+            Animations.Add(new Animation(new Point(-985, 0), new Point(-1200, 0),0));
 
-            //Animation MyAnimation = new Animation(new Point(-90, 0), new Point(-480, 0));
-            //carsList.Add(new Car(animationsList[0],"car.png", "car", 45, 25, 135, 0, 2));
-        }
+            List<ints> dict = new List<ints>()
+            {
+                new ints() {intersection = 0, semType = 0},
+                new ints() {intersection = 1, semType = 0},
+                new ints() {intersection = 2, semType = 0},
+            };
 
-        private void addStreet(object sender, MouseButtonEventArgs e)
-        {           
-            selectedItems.ItemsSource = currentStartLocations;
+
+            SelectedPath pth = new SelectedPath(Animations, dict, posT, posR);
+            
+            if (AvailablePathsListBox.SelectedIndex == 0)
+            {
+                // L.Rebreanu Mart B1 --> L.Rebreanu Sag B1
+                posT = 160;
+                posR = 0;
+                pth = new SelectedPath(Animations, dict, posT, posR);
+            }
+
+
+            if (AvailablePathsListBox.SelectedIndex == 1)
+            {
+                // L.Rebreanu Mart B2 --> L.Rebreanu Sag B2
+                posT = 140;
+                posR = 0;
+                pth = new SelectedPath(Animations, dict, posT, posR);
+            }
+
+            if (AvailablePathsListBox.SelectedIndex == 2)
+            {
+                // L.Rebreanu Mart B3 --> Drubeta 1
+                posT = 140;
+                posR = 0;
+                List<Animation> Animations1 = new List<Animation>();
+                Animations1.Add(new Animation(new Point(0, 0), new Point(-90, 0),0));
+                Animations1.Add(new Animation(new Point(-90, 0), new Point(-280, 0),0));
+                Animations1.Add(new Animation(new Point(-280, 0), new Point(-290, -25),0));
+                Animations1.Add(new Animation(new Point(-290, -5), new Point(-500, -5),1));
+                Animations1.Add(new Animation(new Point(-500, -5), new Point(-500, -100),1));
+
+                List<ints> dict1 = new List<ints>()
+                {
+                    new ints() {intersection = 0, semType = 0},
+                    new ints() {intersection = 1, semType = 0},
+                };
+                pth = new SelectedPath(Animations1, dict1, posT, posR);
+            }
+
+            if (AvailablePathsListBox.SelectedIndex == 3)
+            {
+                // L.Rebreanu Mart B2 --> C-tin Brancoveanu 1
+                posT = 140;
+                posR = 0;
+                List<Animation> Animations2 = new List<Animation>();
+                Animations2.Add(new Animation(new Point(0, 0), new Point(-90, 0), 0));
+                Animations2.Add(new Animation(new Point(-90, 0), new Point(-470, 0), 0));
+                Animations2.Add(new Animation(new Point(-470, 0), new Point(-985, 0), 0));
+                Animations2.Add(new Animation(new Point(-1015, 0), new Point(-1015, -100), 1));
+
+                List<ints> dict2 = new List<ints>()
+                {
+                    new ints() {intersection = 0, semType = 0},
+                    new ints() {intersection = 1, semType = 0},
+                    new ints() {intersection = 2, semType = 0},
+                };
+                pth = new SelectedPath(Animations2, dict2, posT, posR);
+            }
+
+            if (AvailableCarTypes.SelectedItem.ToString() == "Grey car")
+            {
+                imgSource = "car.png";
+            }
+            if (AvailableCarTypes.SelectedItem.ToString() == "Red car")
+            {
+                imgSource = "redcar.png";
+            }
+            if (AvailableCarTypes.SelectedItem.ToString() == "Train")
+            {
+                imgSource = "Train.png";
+            }
+
+
+            selectedThings.Add(new selectedItem()
+            {
+                carType = AvailableCarTypes.SelectedItem.ToString(),
+                path = AvailablePathsListBox.SelectedItem.ToString(),
+                isBad = isBadCheckBox.IsChecked.Value,
+                speed = Int32.Parse(speedTextBox.Text)
+            });
+
+
+            carsList.Add(new Car(pth.intersectionAndSemType,pth.Anims,imgSource,"Vehicle" + name++,45,25,pth.posFromTop, pth.posFromRight, Int32.Parse(speedTextBox.Text), isBadCheckBox.IsChecked.Value));
+     
         }
 
         private void clearScenario(object sender, RoutedEventArgs e)
@@ -203,6 +302,8 @@ namespace P9_UndaVerde
             }
             carsList.Clear();
             listOfTasks.Clear();
+            selectedThings.Clear();
+            listOfBadCars.Clear(); // TODO: After the first simulation the bad cars are no longer added to the list of bad cars
         }
 
         private void StartSensorMonitor(object sender, RoutedEventArgs e)
@@ -218,6 +319,24 @@ namespace P9_UndaVerde
             foreach (var sensor in Sensors)
             {
                 sensor.stopSensor();
+            }
+        }
+
+        private void ActivateGreenWave(object sender, RoutedEventArgs e)
+        {
+            foreach (var intersection in Intersections)
+            {
+                intersection._TrafficLights[0].increaseGreenTime();
+                intersection._TrafficLights[2].increaseGreenTime();
+            }
+        }
+
+        private void DeactivateGreenWave(object sender, RoutedEventArgs e)
+        {
+            foreach (var intersection in Intersections)
+            {
+                intersection._TrafficLights[0].decreaseGreenTime();
+                intersection._TrafficLights[2].decreaseGreenTime();
             }
         }
     }

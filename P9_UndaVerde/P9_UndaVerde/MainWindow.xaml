@@ -54,44 +54,39 @@
             <!--Tabs-->
             <Fluent:RibbonTabItem Header="Settings" ActiveTabBackground="#FFDBE0FF">
                 <Fluent:RibbonGroupBox Header="Create Scenario">
-                    <Fluent:DropDownButton Header="Street" AllowDrop="True" Icon="Images/roadIcon.png" Width="90">
-                        <Fluent:DropDownButton.Background>
-                            <ImageBrush ImageSource="Images/roadIcon.png" Stretch="UniformToFill" Opacity="0.2"/>
-                        </Fluent:DropDownButton.Background>
-                        <ListView Name="StreetList">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn DisplayMemberBinding="{Binding _name}"></GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <EventSetter Event="MouseDown" Handler="addStreet"></EventSetter>
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                        </ListView>
-                    </Fluent:DropDownButton>
-
                     <Fluent:DropDownButton Header="CarType" AllowDrop="True" Width="90">
                         <Fluent:DropDownButton.Background>
                             <ImageBrush ImageSource="Images/car.png" Stretch="UniformToFill" Opacity="0.2"/>
                         </Fluent:DropDownButton.Background>
-                        <ListBoxItem/>
+                        <ListBox Name="AvailableCarTypes"/>
                     </Fluent:DropDownButton>
                     <Fluent:DropDownButton Header="Path" AllowDrop="True" Icon="Resources/car.png" Width="90">
                         <Fluent:DropDownButton.Background>
                             <ImageBrush ImageSource="Images/fireworks.png" Stretch="UniformToFill" Opacity="0.2"/>
                         </Fluent:DropDownButton.Background>
-                        <ListBoxItem/>
+                        <ListBox Name="AvailablePathsListBox"/>
                     </Fluent:DropDownButton>
-                    <Button Content="Add" Margin="10,20,10,10" Click="AddCar"></Button>
+                    <Label Content="Is the car Bad?"></Label>
+                    <CheckBox Name="isBadCheckBox" Width="30" Height="30"></CheckBox>
+                    <Label Content="Car Speed"></Label>
+                    <TextBox Name="speedTextBox" Text="" Width="auto" ></TextBox>
+                    <Button Content="Add" Click="AddCar" Margin="20"/>
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="TrafficLights Settings">
-                    <Button Margin="15" Content="StartTrafficLightsSync" Click="StartTrafficLightsSync"/>
+                    <Button Margin="15" Content="Start Traffic Lights Sync" Click="StartTrafficLightsSync"/>
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Sensors">
-                    <Button Margin="15" Content="Start Traffic Monitoring" Click="StartSensorMonitor"/>
-                    <Button Margin="15" Content="Stop Traffic Monitoring" Click="StopSensorMonitor"/>
+                    <StackPanel>
+                        <Button Margin="15,2,15,5" Content="Start Traffic Monitoring" Click="StartSensorMonitor"/>
+                        <Button Margin="15,2" Content="Stop Traffic Monitoring" Click="StopSensorMonitor"/>
+                    </StackPanel>
+                </Fluent:RibbonGroupBox>
+
+                <Fluent:RibbonGroupBox Header="Green Wave">
+                    <StackPanel>
+                        <Button Margin="15,2,15,5" Content="Activate" Click="ActivateGreenWave"/>
+                        <Button Margin="15,2,15,5" Content="Deactivate" Click="DeactivateGreenWave"/>
+                    </StackPanel>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
@@ -108,21 +103,42 @@
                     <dragablz:InterTabController />
                 </dragablz:TabablzControl.InterTabController>
                 <TabItem Header="Scenario">
-                    <StackPanel>
-                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,5,0,0" Text="Items Added"/>
-                        <ScrollViewer Height="100" Width="auto">
-                            <ListView Name="selectedItems">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn DisplayMemberBinding="{Binding }"></GridViewColumn>
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
-                        </ScrollViewer>
-                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Margin="5">
+                            <ScrollViewer Height="120" Width="auto">
+                                <ListView Name="selectedItemsListView">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Car Type" DisplayMemberBinding="{Binding carType}"></GridViewColumn>
+                                            <GridViewColumn Header="Selected Path" DisplayMemberBinding="{Binding path}"></GridViewColumn>
+                                            <GridViewColumn Header="Is this car Bad?" DisplayMemberBinding="{Binding isBad}"></GridViewColumn>
+                                            <GridViewColumn Header="Speed?" DisplayMemberBinding="{Binding speed}"></GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </ScrollViewer>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="20,5,0,0">
+                            <TextBlock TextWrapping="Wrap" Text="Here we go"/>
+
+                        </StackPanel>
+                    </Grid>
                 </TabItem>
                 <TabItem Header="Statistics">
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Material Design</TextBlock>
+                    <ScrollViewer Height="120" Width="auto">
+                        <ListView Name="listBoxOfBadCars">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding _name}"></GridViewColumn>
+                                    <GridViewColumn Header="Speed" DisplayMemberBinding="{Binding _speed}"></GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </ScrollViewer>
                 </TabItem>
             </dragablz:TabablzControl>
         </Grid>

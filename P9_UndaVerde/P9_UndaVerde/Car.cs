@@ -9,12 +9,17 @@ using System.Windows.Media.Imaging;
 
 namespace TrafficSimTM
 {
-    class Car
+    public struct ints
+    {
+        public int intersection;
+        public int semType;
+    }
+    public class Car
     {
         MainWindow mainWin = Application.Current.Windows[0] as MainWindow;
 
         private string _imgSource { get; set; }
-        private string _name { get; set; }
+        public string _name { get; set; }
         private int _width { get; set; }
         private int _height { get; set; }
         private int _positionFromTop { get; set; }
@@ -22,12 +27,11 @@ namespace TrafficSimTM
         public Image _carImg;
         public float _speed { get; set; } // _speed is a car statistic that represents the rate at which a car travels across a map. One _speed point translates to one hundred distance units traveled per second 
         public List<Animation> _animationsList;
-        public int[] intersectionsTraveled = new int[2];
-        public int semType;
+        public List<ints> intSem;
         private Canvas canv;
+        public bool _isABadCar;
         public Car(
-            int[] intTraveled,
-            int semT,
+            List<ints> intS,
             List<Animation> animationsList, 
             string imgSource = "car.png", 
             string name = "car", 
@@ -35,7 +39,8 @@ namespace TrafficSimTM
             int height = 25, 
             int positionFromTop = 0, 
             int positionFromRight = 0, 
-            float speed = 1
+            float speed = 50,
+            bool isBad = false
             )
         {
             _imgSource = imgSource;
@@ -46,9 +51,8 @@ namespace TrafficSimTM
             _positionFromRight = positionFromRight;
             _speed = speed;
             _carImg = new Image();
-            intersectionsTraveled = intTraveled;
-            semType = semT;
-
+            intSem = intS;
+            _isABadCar = isBad;
             BitmapImage carBitmap = new BitmapImage();
             carBitmap.BeginInit();
             carBitmap.UriSource = new Uri(@"pack://application:,,,/Images/" + _imgSource, UriKind.RelativeOrAbsolute);
