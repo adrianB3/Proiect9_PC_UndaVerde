@@ -89,6 +89,10 @@
                 <Fluent:RibbonGroupBox Header="TrafficLights Settings">
                     <Button Margin="15" Content="StartTrafficLightsSync" Click="StartTrafficLightsSync"/>
                 </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="Sensors">
+                    <Button Margin="15" Content="Start Traffic Monitoring" Click="StartSensorMonitor"/>
+                    <Button Margin="15" Content="Stop Traffic Monitoring" Click="StopSensorMonitor"/>
+                </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
         <Grid Grid.Row="1" Name="mapGrid">

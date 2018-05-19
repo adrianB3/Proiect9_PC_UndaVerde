@@ -1,36 +1,47 @@
-﻿using P9_UndaVerde;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using P9_UndaVerde;
 
 namespace TrafficSimTM
 {
-    class Sensor
+    public class Sensor
     {
 
         MainWindow mainWin = Application.Current.Windows[0] as MainWindow;
 
         public int _numberOfCars;
-
         public int _indexIntersectie;
         public int _indexSemafor;
+        Canvas canv = new Canvas();
+        Ellipse blueLight = new Ellipse();
+        ImageBrush colorBrush = new ImageBrush();
 
-        public bool _isCrowded()
-        {
-            if (_numberOfCars > 5)
-                return true;
-            else
-                return false;
-        }
-        public Sensor(int indexIntersectie, int indexSemafor)
+        public Sensor(int indexIntersectie, int indexSemafor, int positionFromRight, int positionFromTop)
         {
             _indexIntersectie = indexIntersectie;
             _indexSemafor = indexSemafor;
             _numberOfCars = 0;
+
+            colorBrush.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Images/blueLed.png", UriKind.RelativeOrAbsolute));
+            blueLight.Fill = new SolidColorBrush(Color.FromArgb(100,255,255,255));
+            blueLight.Width = 15;
+            blueLight.Height = 15;
+
+            Canvas.SetRight(blueLight, positionFromRight);
+            Canvas.SetTop(blueLight, positionFromTop);
+            canv.Children.Add(blueLight);
+            mainWin.mapGrid.Children.Add(canv);
+
         }
+        public bool _isCrowded()
+        {
+            return _numberOfCars > 5 ? true : false;
+        }
+        
         public void _Signal()
         {
             _numberOfCars++;
@@ -40,6 +51,14 @@ namespace TrafficSimTM
             _numberOfCars = 0;
         }
 
+        public void startSensor()
+        {
+            blueLight.Fill = colorBrush;
+        }
 
+        public void stopSensor()
+        {
+            blueLight.Fill = new SolidColorBrush(Color.FromArgb(100, 255, 255, 255));
+        }
     }
 }

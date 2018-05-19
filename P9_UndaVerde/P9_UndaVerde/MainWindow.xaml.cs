@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Timers;
 using System.Windows.Input;
 using TrafficSimTM;
 
@@ -60,13 +53,12 @@ namespace P9_UndaVerde
             {new Point(0, 700),"C-tin Brancoveanu"},
         };
         private List<Intersection> Intersections = new List<Intersection>();
-
+        private List<Sensor> Sensors = new List<Sensor>();
 
         // Current Scenario data structures
         private List<Car> carsList = new List<Car>();
         private List<Task> listOfTasks = new List<Task>();
-        private List<startLocation> listOfStreets = new List<startLocation>();
-
+        private List<startLocation> currentStartLocations = new List<startLocation>();
 
         public MainWindow()
         {
@@ -85,6 +77,11 @@ namespace P9_UndaVerde
             Intersections.Add(new Intersection(_intersection2SemPoints));
             Intersections.Add(new Intersection(_intersection3SemPoints));
 
+            Sensors.Add(new Sensor(0,0,20,150));
+            Sensors.Add(new Sensor(1,0,450,150));
+            Sensors.Add(new Sensor(2,0,980,150));
+            Sensors.Add(new Sensor(3,0,1150,270));
+
             List<startLocation> startLocationsList = new List<startLocation>();
             foreach (var loc in _startLocations)
             {
@@ -92,7 +89,8 @@ namespace P9_UndaVerde
             }
 
             StreetList.ItemsSource = startLocationsList;
-            listOfStreets.Add(new startLocation() {_name = "test", _startPoint = new Point(0,0)});
+            currentStartLocations.Add(new startLocation() {_name = "test", _startPoint = new Point(0,0)});
+
         }
          
         private void ApplicationExit(object sender, EventArgs e)
@@ -129,7 +127,6 @@ namespace P9_UndaVerde
             carsList.Add(new Car(new []{2, 1, 0},2 ,Animations1, "redcar180.png", "car2", 45, 25, 255, 1180, 150));
             carsList.Add(new Car(new []{1},1 ,Animations2, "car90.png", "car3", 65, 45, 0, 550, 120));
             carsList.Add(new Car(new []{1},4 ,Animations3, "train.png", "train", 85, 55, 180, 0, 300));
-
             CancellationTokenSource tokenSource = new CancellationTokenSource();
             
             foreach (var car in carsList)
@@ -170,11 +167,6 @@ namespace P9_UndaVerde
             
         }
 
-        private void pauseAnimation(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
         private void StartTrafficLightsSync(object sender, RoutedEventArgs e)
         {
             Task intersectionSyncTask = new Task(async () =>
@@ -200,7 +192,7 @@ namespace P9_UndaVerde
 
         private void addStreet(object sender, MouseButtonEventArgs e)
         {           
-            selectedItems.ItemsSource = listOfStreets;
+            selectedItems.ItemsSource = currentStartLocations;
         }
 
         private void clearScenario(object sender, RoutedEventArgs e)
@@ -211,6 +203,22 @@ namespace P9_UndaVerde
             }
             carsList.Clear();
             listOfTasks.Clear();
+        }
+
+        private void StartSensorMonitor(object sender, RoutedEventArgs e)
+        {
+            foreach (var sensor in Sensors)
+            {
+                sensor.startSensor();
+            }
+        }
+
+        private void StopSensorMonitor(object sender, RoutedEventArgs e)
+        {
+            foreach (var sensor in Sensors)
+            {
+                sensor.stopSensor();
+            }
         }
     }
 }
