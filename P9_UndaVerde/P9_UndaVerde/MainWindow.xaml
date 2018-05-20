@@ -109,25 +109,25 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0" Margin="5">
-                            <ScrollViewer Height="120" Width="auto">
+                            <ScrollViewer Height="120" Width="auto" CanContentScroll="True">
                                 <ListView Name="selectedItemsListView">
                                     <ListView.View>
                                         <GridView>
                                             <GridViewColumn Header="Car Type" DisplayMemberBinding="{Binding carType}"></GridViewColumn>
                                             <GridViewColumn Header="Selected Path" DisplayMemberBinding="{Binding path}"></GridViewColumn>
                                             <GridViewColumn Header="Is this car Bad?" DisplayMemberBinding="{Binding isBad}"></GridViewColumn>
-                                            <GridViewColumn Header="Speed?" DisplayMemberBinding="{Binding speed}"></GridViewColumn>
+                                            <GridViewColumn Header="Speed" DisplayMemberBinding="{Binding speed}"></GridViewColumn>
                                         </GridView>
                                     </ListView.View>
                                 </ListView>
                             </ScrollViewer>
                         </StackPanel>
-                        <StackPanel Grid.Column="1" Margin="20,5,0,0">
-                            <ScrollViewer Height="120" Width="auto">
+                        <StackPanel Grid.Column="1" Margin="5">
+                            <ScrollViewer Height="120" Width="auto" CanContentScroll="True">
                                 <ListView Name="sensorsListView">
                                     <ListView.View>
                                         <GridView>
-                                            <GridViewColumn Header="Sensor" DisplayMemberBinding="{Binding _indexSemafor}"></GridViewColumn>
+                                            <GridViewColumn Header="Sensor" DisplayMemberBinding="{Binding _name}"></GridViewColumn>
                                             <GridViewColumn Header="Current Count" DisplayMemberBinding="{Binding _numberOfCars}"></GridViewColumn>
                                         </GridView>
                                     </ListView.View>
@@ -142,6 +142,7 @@
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding _name}"></GridViewColumn>
+                                    
                                     <GridViewColumn Header="Speed" DisplayMemberBinding="{Binding _speed}"></GridViewColumn>
                                 </GridView>
                             </ListView.View>
@@ -152,3 +153,4 @@
         </Grid>
     </Grid>
 </Window>
+

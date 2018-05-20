@@ -12,24 +12,25 @@ namespace TrafficSimTM
 {
     class TrafficLight
     {
-        MainWindow mainWin = Application.Current.Windows[0] as MainWindow;
+        MainWindow mainWin = Application.Current.Windows[0] as MainWindow; // referinta catre fereastra principala
 
-        public bool _color { get; set; }
-        public int _greenWaitTime { get; set; }
-        public int _redWaitTime { get; set; }
+        public bool _color { get; set; } // culoarea curenta a semaforului
+        public int _greenWaitTime { get; set; } // timpul de asteptare pe verde
+        public int _redWaitTime { get; set; } // timpul de asteptare pe rosu
         public int _delay { get; set; }
-        private int _positionFromTop { get; set; }
-        private int _positionFromRight { get; set; }
-        private string _name { get; set; }
-        private string _orientation { get; set; }
+        private int _positionFromTop { get; set; } // pozitie fata de partea de sus a ferestrei
+        private int _positionFromRight { get; set; } // pozitie fata de partea de jos a ferestrei
+        private string _name { get; set; } // nume semafor
+        private string _orientation { get; set; } // orientare semafor (normal, 90 grade la dreapta/stanga, invers)
 
-        Canvas canv = new Canvas();
-        Ellipse redLight = new Ellipse();
-        SolidColorBrush colorBrush = new SolidColorBrush();
+        Canvas canv = new Canvas(); // obiect care va retine imaginea cu semaforul
+        Ellipse redLight = new Ellipse(); // forma ce va retine culoarea rosie
+        SolidColorBrush colorBrush = new SolidColorBrush(); // culoarea rosie
         
-        Ellipse greenLight = new Ellipse();
-        SolidColorBrush colorBrush1 = new SolidColorBrush();
+        Ellipse greenLight = new Ellipse(); // forma ce va retine culoare verde
+        SolidColorBrush colorBrush1 = new SolidColorBrush(); // culoarea verde
 
+        // Constructor semafor
         public TrafficLight(string name = "", int positionFromTop = 0, int positionFromRight = 0, int delay = 0,string orientation = "normal", bool color = false, int greenWaitTime = 5, int redWaitTime = 5)
         {
             _color = color;
@@ -53,7 +54,7 @@ namespace TrafficSimTM
 
             BitmapImage semBitmap = new BitmapImage();
             semBitmap.BeginInit();
-            
+            // pozitionare imagine semafor
             if (orientation == "normal")
             {
                 semBitmap.UriSource = new Uri(@"pack://application:,,,/Images/semaphore.png", UriKind.RelativeOrAbsolute);
@@ -97,14 +98,16 @@ namespace TrafficSimTM
 
             Canvas.SetRight(semImage, _positionFromRight);
             Canvas.SetTop(semImage, _positionFromTop);
-            canv.Children.Add(semImage);
-            mainWin.mapGrid.Children.Add(canv);            
+            canv.Children.Add(semImage); 
+            mainWin.mapGrid.Children.Add(canv); // adaugare semafor la fereastra principala       
         }
 
+        // functie ce mareste timpul de verde
         public void increaseGreenTime()
         {
             _greenWaitTime += 2;
         }
+        // functie ce micsoreaza timpul de verde
         public void decreaseGreenTime()
         {
             _greenWaitTime -= 2;
@@ -120,8 +123,10 @@ namespace TrafficSimTM
             return _color ? false : true;
         }
 
+        // functie ce aprinde culoarea rosie sau verde a semaforului
         public Task LightUp()
         {
+            // Task ce asigura functionarea independenta a fiecarui semafor
             var tsk = new Task(async () =>
             {
                 while (true)

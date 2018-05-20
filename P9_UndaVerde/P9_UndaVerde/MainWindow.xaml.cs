@@ -20,6 +20,7 @@ public class credits
         public string Name { get; set; }
     }
 
+    // clasa folosita pentru stocarea elementelor selectate de utilizator din meniu
     public class selectedItem
     {
         public string carType { get; set; }
@@ -28,6 +29,7 @@ public class credits
         public int speed { get; set; }
     }
 
+    // clasa folosita pentru stocarea Pathului si semafoarelor intalnite de o masinuta intr-o anumita animatie
     public class SelectedPath
     {
         public List<Animation> Anims;
@@ -46,6 +48,7 @@ public class credits
 
     public partial class MainWindow : Window
     {
+        // Coordonate Semafoare
         private readonly List<Point> _intersection1SemPoints = new List<Point>() {
             new Point (40, 85),
             new Point (5, 235),
@@ -65,19 +68,20 @@ public class credits
             new Point (230, 1135 ),
             new Point (240, 987 ),
         };
+        // Liste cu optiunile ce pot fi selectate de utilizator
         private List<string> AvailableVehicles = new List<string>() {"Grey car", "Red car", "Train"};
         private List<string> AvailablePaths = new List<string>()
         {
-            "L.Rebreanu Mart B1 --> L.Rebreanu Sag B1", 
-            "L.Rebreanu Mart B2 --> L.Rebreanu Sag B2",
-            "L.Rebreanu Mart B3 --> Drubeta 1",
-            "L.Rebreanu Mart B2 --> C-tin Brancoveanu 1",
-            "L.Rebreanu Sag B1 --> L.Rebreanu Mart B1",
-            "L.Rebreanu Sag B2 --> L.Rebreanu Mart B2",
-            "L.Rebreanu Sag B2 --> Drubeta",
-            "Drubeta 1 --> Drubeta 2",
-            "Cosminului 1 --> Drubeta 1",
-            "Cosminului 1 --> Drubeta 2",
+            "L.Rebreanu Mart B1 --> L.Rebreanu Sag B1", //0
+            "L.Rebreanu Mart B2 --> L.Rebreanu Sag B2", //1
+            "L.Rebreanu Mart B3 --> Drubeta 1", //2
+            "L.Rebreanu Mart B2 --> C-tin Brancoveanu 1", //3
+            "L.Rebreanu Sag B1 --> L.Rebreanu Mart B1", //4
+            "L.Rebreanu Sag B2 --> L.Rebreanu Mart B2", //5
+            "L.Rebreanu Sag B1 --> Drubeta 1", //6
+            "Drubeta 1 --> Drubeta 2", //7
+            "Cosminului 1 --> Drubeta 1", //8
+            "Cosminului 1 --> Drubeta 2", //9
         };
         private List<Intersection> Intersections = new List<Intersection>();
         private ObservableCollection<Sensor> Sensors = new ObservableCollection<Sensor>();
@@ -88,7 +92,7 @@ public class credits
         private List<Task> listOfTasks = new List<Task>();
         ObservableCollection<Car> listOfBadCars = new ObservableCollection<Car>();
         ObservableCollection<selectedItem> selectedThings = new ObservableCollection<selectedItem>();
-        CancellationTokenSource tokenSource = new CancellationTokenSource();
+        CancellationTokenSource tokenSource = new CancellationTokenSource(); // token folosit pentru oprirea unui anumit Task
         public MainWindow()
         {
             InitializeComponent();
@@ -106,12 +110,12 @@ public class credits
             Intersections.Add(new Intersection(_intersection2SemPoints));
             Intersections.Add(new Intersection(_intersection3SemPoints));
 
-            Sensors.Add(new Sensor(0,0,90,155));
-            Sensors.Add(new Sensor(1,0,450,155));
-            Sensors.Add(new Sensor(2,0,980,155));
-            Sensors.Add(new Sensor(2,2,1150,250));
-            Sensors.Add(new Sensor(1,2,650,250));
-            Sensors.Add(new Sensor(0,2,300,250));
+            Sensors.Add(new Sensor("Sensor1",0,0,90,155));
+            Sensors.Add(new Sensor("Sensor2", 1,0,450,155));
+            Sensors.Add(new Sensor("Sensor3", 2,0,980,155));
+            Sensors.Add(new Sensor("Sensor4", 2,2,1150,250));
+            Sensors.Add(new Sensor("Sensor5", 1,2,650,250));
+            Sensors.Add(new Sensor("Sensor6", 0,2,300,250));
 
             AvailableCarTypes.ItemsSource = AvailableVehicles;
             AvailablePathsListBox.ItemsSource = AvailablePaths;
@@ -121,14 +125,16 @@ public class credits
 
         }
          
+        // Event apelat la inchiderea ferestri
         private void ApplicationExit(object sender, EventArgs e)
         {
             Application.Current.Shutdown();
         }
         
+        // Event apelat la apasarea butonului "Start Simulation"
         private void startAnimation(object sender, RoutedEventArgs e)
         {
-            
+            // Creare task pentru fiecare masinuta
             foreach (var car in carsList)
             {
                 if (tokenSource.IsCancellationRequested)
@@ -136,17 +142,21 @@ public class credits
                     break;
                 }
                 car.createImage();
+                // Lista de taskuri care asigura deplasarea unuei masinute in mod paralel fata de celelalte masinute
                 listOfTasks.Add(new Task(async () =>
                 {
                     int i = 0;
                     foreach (var animation in car._animationsList)
                     {
+                        // Declansare secventa de animatii pentru fiecare masinuta
                         animation.startAnimation(car, animation.speedCalculation(car), 0);
                         foreach (var sensor in Sensors)
                         {
+                            sensor.startSensor();
                             sensor._Signal();
                         }
-                        await Task.Delay(animation.speedCalculation(car)*1000);                      
+                        await Task.Delay(animation.speedCalculation(car)*1000);  
+                        // daca semaforul la care a ajuns masinuta la un anumit moment este rosu, taskul asteapta ca acel semafor sa devina verde
                         while (Intersections[car.intSem[i].intersection]._TrafficLights[car.intSem[i].semType].isRed() && car._isABadCar == false)
                         {
                             await Task.Delay(100);
@@ -155,6 +165,7 @@ public class credits
                         if (i < car.intSem.Count - 1)
                         {
                             i++;
+                            // daca o anumita masinuta trece pe rosu este adaugata in lista masinutelor ce au trecut pe rosu
                             if (car._isABadCar && Intersections[car.intSem[i].intersection]._TrafficLights[car.intSem[i].semType].isRed())
                             {
                                 listOfBadCars.Add(car);
@@ -164,7 +175,7 @@ public class credits
                     
                 },tokenSource.Token));
             }
-
+            // pornire taskuri ptr fiecare masinuta
             foreach (var task in listOfTasks)
             {
                 task.Start(TaskScheduler.FromCurrentSynchronizationContext());
@@ -182,14 +193,16 @@ public class credits
           //  tokenSource.Cancel();
         }
 
+        // Event declansat la apasare butonului de aprindere a semafoarelor
         private void StartTrafficLightsSync(object sender, RoutedEventArgs e)
         {
+            // Task ce asigura pornirea sincronizarii fiecarei intersectii in paralel
             Task intersectionSyncTask = new Task(async () =>
             {
                 foreach (var intersection in Intersections)
                 {
                     intersection.StartIntersectionSync();
-                    await Task.Delay(2000);
+                    await Task.Delay(2000); 
                 }
             });
 
@@ -197,8 +210,10 @@ public class credits
 
         }
 
+        // Event declansat la apasare butonului Add din Meniu prin care este adaugata o noua masinuta in cadrul scenariului de simulare
         private void AddCar(object sender, RoutedEventArgs e)
         {
+            // Creare lista de animatii ptr fiecare traseu disponibil
             string imgSource = "car.png";
             int posT = 160;
             int posR = 0;
@@ -275,6 +290,64 @@ public class credits
                 pth = new SelectedPath(Animations2, dict2, posT, posR);
             }
 
+            if (AvailablePathsListBox.SelectedIndex == 4)
+            {
+                // L.Rebreanu Sag B1 --> L.Rebreanu Mart B1
+                posT = 260;
+                posR = 1200;
+                List<Animation> Animations3 = new List<Animation>();
+                Animations3.Add(new Animation(new Point(0, 0), new Point(60, 0), 0));
+                Animations3.Add(new Animation(new Point(60, 0), new Point(580, 0), 0));
+                Animations3.Add(new Animation(new Point(580, 0), new Point(950, 0), 0));
+                Animations3.Add(new Animation(new Point(950, 0), new Point(1200, 0), 0));
+
+                List<ints> dict3 = new List<ints>()
+                {
+                    new ints() {intersection = 2, semType = 0},
+                    new ints() {intersection = 1, semType = 0},
+                    new ints() {intersection = 0, semType = 0},
+                };
+                pth = new SelectedPath(Animations3, dict3, posT, posR);
+            }
+
+            if (AvailablePathsListBox.SelectedIndex == 5)
+            {
+                // L.Rebreanu Sag B2 --> L.Rebreanu Mart B2
+                posT = 260;
+                posR = 1200;
+                List<Animation> Animations4 = new List<Animation>();
+                Animations4.Add(new Animation(new Point(0, 0), new Point(60, 0), 0));
+                Animations4.Add(new Animation(new Point(60, 0), new Point(580, 0), 0));
+                Animations4.Add(new Animation(new Point(580, 0), new Point(950, 0), 0));
+                Animations4.Add(new Animation(new Point(950, 0), new Point(1200, 0), 0));
+
+                List<ints> dict4 = new List<ints>()
+                {
+                    new ints() {intersection = 2, semType = 0},
+                    new ints() {intersection = 1, semType = 0},
+                    new ints() {intersection = 0, semType = 0},
+                };
+                pth = new SelectedPath(Animations4, dict4, posT, posR);
+            }
+
+            if (AvailablePathsListBox.SelectedIndex == 6)
+            {
+                // L.Rebreanu Sag B1 --> Drubeta 1
+                posT = 230;
+                posR = 1200;
+                List<Animation> Animations5 = new List<Animation>();
+                Animations5.Add(new Animation(new Point(0, 0), new Point(60, 0), 0));
+                Animations5.Add(new Animation(new Point(60, 0), new Point(580, 0), 0));
+                Animations5.Add(new Animation(new Point(655, 0), new Point(655, -250), 1));
+
+                List<ints> dict5 = new List<ints>()
+                {
+                    new ints() {intersection = 2, semType = 0},
+                    new ints() {intersection = 1, semType = 0},
+                };
+                pth = new SelectedPath(Animations5, dict5, posT, posR);
+            }
+
             if (AvailableCarTypes.SelectedItem.ToString() == "Grey car")
             {
                 imgSource = "car.png";
@@ -302,6 +375,7 @@ public class credits
      
         }
 
+        // Event ce asigura reinitializarea unui scenariu
         private void clearScenario(object sender, RoutedEventArgs e)
         {
             foreach (var car in carsList)
@@ -314,6 +388,7 @@ public class credits
             listOfBadCars.Clear(); // TODO: After the first simulation the bad cars are no longer added to the list of bad cars
         }
 
+        // Event ce asigura pornirea senzorilor de monitorizare a traficului
         private void StartSensorMonitor(object sender, RoutedEventArgs e)
         {
             foreach (var sensor in Sensors)
@@ -330,12 +405,14 @@ public class credits
             }
         }
 
+        // Event ce asigura pornirea sistemului de Unda Verde
         private void ActivateGreenWave(object sender, RoutedEventArgs e)
         {
             foreach (var intersection in Intersections)
             {
                 intersection._TrafficLights[0].increaseGreenTime();
                 intersection._TrafficLights[2].increaseGreenTime();
+                // TODO: there are situations in witch all the traffic lights in an intersection are green
             }
         }
 
