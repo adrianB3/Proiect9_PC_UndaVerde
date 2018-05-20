@@ -14,12 +14,12 @@ namespace TrafficSimTM
         MainWindow mainWin = Application.Current.Windows[0] as MainWindow; // referinta catre fereastra principala
         public string _name { get; set; } // id senzor
         public int _numberOfCars { get; set; } // numar curent de masini citite
-        public int _indexIntersectie { get; set; }
-        public int _indexSemafor { get; set; }
-        public bool _isActivated { get; set; }
-        Canvas canv = new Canvas();
+        public int _indexIntersectie { get; set; } // retine indexul intersectiei unde se afla senzorul
+        public int _indexSemafor { get; set; } 
+        public bool _isActivated { get; set; } // variabila ce retine daca un senzor e activat sau nu
+        Canvas canv = new Canvas(); // container pentru alte forme
         Ellipse blueLight = new Ellipse(); // imaginea senzorului
-        ImageBrush colorBrush = new ImageBrush();
+        ImageBrush colorBrush = new ImageBrush(); // culoarea senzorului
         
         // Constructor clasa Senzor
         public Sensor(string name,int indexIntersectie, int indexSemafor, int positionFromRight, int positionFromTop)
@@ -37,7 +37,7 @@ namespace TrafficSimTM
             Canvas.SetRight(blueLight, positionFromRight);
             Canvas.SetTop(blueLight, positionFromTop);
             canv.Children.Add(blueLight);
-            mainWin.mapGrid.Children.Add(canv);
+            mainWin.mapGrid.Children.Add(canv); // adaugare canvas la fereastra principala
 
         }
 
