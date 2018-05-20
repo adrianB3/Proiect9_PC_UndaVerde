@@ -119,9 +119,9 @@ public class credits
             Sensors.Add(new Sensor("Sensor6", 0,2,300,250));
 
             speedPanels.Add(new SpeedPanel(60,60));
-            speedPanels.Add(new SpeedPanel(60,60));
-            speedPanels.Add(new SpeedPanel(60,60));
-            speedPanels.Add(new SpeedPanel(60,60));
+            speedPanels.Add(new SpeedPanel(35,420));
+            speedPanels.Add(new SpeedPanel(340,1150));
+            speedPanels.Add(new SpeedPanel(300,690));
 
             AvailableCarTypes.ItemsSource = AvailableVehicles;
             AvailablePathsListBox.ItemsSource = AvailablePaths;
