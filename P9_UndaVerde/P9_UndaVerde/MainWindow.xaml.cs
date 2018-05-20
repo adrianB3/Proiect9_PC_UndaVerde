@@ -84,6 +84,7 @@ public class credits
         };
         private List<Intersection> Intersections = new List<Intersection>();
         private ObservableCollection<Sensor> Sensors = new ObservableCollection<Sensor>();
+        private List<SpeedPanel> speedPanels = new List<SpeedPanel>();
 
         private char name = 'A';
         // Current Scenario data structures
@@ -116,6 +117,11 @@ public class credits
             Sensors.Add(new Sensor("Sensor4", 2,2,1150,250));
             Sensors.Add(new Sensor("Sensor5", 1,2,650,250));
             Sensors.Add(new Sensor("Sensor6", 0,2,300,250));
+
+            speedPanels.Add(new SpeedPanel(60,60));
+            speedPanels.Add(new SpeedPanel(60,60));
+            speedPanels.Add(new SpeedPanel(60,60));
+            speedPanels.Add(new SpeedPanel(60,60));
 
             AvailableCarTypes.ItemsSource = AvailableVehicles;
             AvailablePathsListBox.ItemsSource = AvailablePaths;
