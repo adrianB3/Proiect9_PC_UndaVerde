@@ -93,8 +93,8 @@
         <Grid Grid.Row="1" Name="mapGrid">
             <Image x:Name="map" Margin="0" Source="Resources/mapp2.png" Stretch="Fill"/>
             <Button Content="Start Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Grid.Row="1" Margin="15" Opacity="0.9" Click="startAnimation"/>
-            <Button Content="Stop Simulation" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="1" Margin="160,15,15,15" Opacity="0.9" Click="stopAnimation" />
-            <Button Content="Clear" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Margin="300,15,15,15" Opacity="0.9" Click="clearScenario" />
+            
+            <Button Content="Clear" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Margin="160,15,15,15" Opacity="0.9" Click="clearScenario" />
         </Grid>
 
         <Grid Grid.Row="2">
@@ -213,7 +213,6 @@
                                 <ListView.View>
                                     <GridView>
                                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding _name}"></GridViewColumn>
-
                                         <GridViewColumn Header="Speed" DisplayMemberBinding="{Binding _speed}"></GridViewColumn>
                                     </GridView>
                                 </ListView.View>

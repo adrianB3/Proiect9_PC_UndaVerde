@@ -79,8 +79,8 @@ public class credits
             "L.Rebreanu Sag B2 --> L.Rebreanu Mart B2", //5
             "L.Rebreanu Sag B1 --> Drubeta 1", //6
             "Drubeta 1 --> Drubeta 2", //7
-            "Cosminului 1 --> Drubeta 1", //8
-            "Cosminului 1 --> Drubeta 2", //9
+            "Linie Tramvai Mart --> Linie Tramvai Sag", //8
+            "Linie Tramvai Sag --> Linie Tramvai Mart", //9
         };
         private List<Intersection> Intersections = new List<Intersection>();
         private ObservableCollection<Sensor> Sensors = new ObservableCollection<Sensor>();
@@ -118,10 +118,10 @@ public class credits
             Sensors.Add(new Sensor("Sensor5", 1,2,650,250));
             Sensors.Add(new Sensor("Sensor6", 0,2,300,250));
 
-            speedPanels.Add(new SpeedPanel(60,60));
-            speedPanels.Add(new SpeedPanel(35,420));
-            speedPanels.Add(new SpeedPanel(340,1150));
-            speedPanels.Add(new SpeedPanel(300,690));
+            speedPanels.Add(new SpeedPanel(60,60,0,0));
+            speedPanels.Add(new SpeedPanel(35,420,1,0));
+            speedPanels.Add(new SpeedPanel(340,1150,2,2));
+            speedPanels.Add(new SpeedPanel(300,690,1,2));
 
             AvailableCarTypes.ItemsSource = AvailableVehicles;
             AvailablePathsListBox.ItemsSource = AvailablePaths;
@@ -154,22 +154,35 @@ public class credits
                     foreach (var animation in car._animationsList)
                     {
                         // Declansare secventa de animatii pentru fiecare masinuta
-                        animation.startAnimation(car, animation.speedCalculation(car), 0);
-                        foreach (var sensor in Sensors)
+                        animation.startAnimation(car, (int)animation.speedCalculation(car), 0);
+                        Parallel.ForEach(speedPanels, (speedPanel) =>
                         {
-                            sensor.startSensor();
-                            if (sensor._indexIntersectie == car.intSem[i].intersection &&
-                                sensor._indexSemafor == car.intSem[i].semType
+                            if (speedPanel._indexIntersectie == car.intSem[i].intersection &&
+                                speedPanel._indexSem == car.intSem[i].semType
                             )
+                                speedPanel.speed = (int) car._speed;
+                        });
+
+
+                        Parallel.ForEach(Sensors, (sensor) =>
+                        {
+                            if (sensor._isActivated)
                             {
-                                sensor._Signal();
-                            }                                             
-                        }
+                                if (sensor._indexIntersectie == car.intSem[i].intersection &&
+                                    sensor._indexSemafor == car.intSem[i].semType
+                                )
+                                {
+                                    sensor._Signal();
+                                }
+                            }
+                            
+                        });
+                        
                         if (Sensors[0]._isCrowded() && Sensors[3]._isCrowded())
                         {
                             ActivateGreenWave(new object(), new RoutedEventArgs());
                         }
-                        await Task.Delay(animation.speedCalculation(car)*1000);  
+                        await Task.Delay((int)animation.speedCalculation(car)*1000);  
                         // daca semaforul la care a ajuns masinuta la un anumit moment este rosu, taskul asteapta ca acel semafor sa devina verde
                         while (Intersections[car.intSem[i].intersection]._TrafficLights[car.intSem[i].semType].isRed() && car._isABadCar == false)
                         {
@@ -184,15 +197,23 @@ public class credits
                                 sensor._Reset();
                             }
                         }
-
-                        if (i < car.intSem.Count - 1)
+                        foreach (var speedPanel in speedPanels)
                         {
-                            i++;
+                            if (speedPanel._indexIntersectie == car.intSem[i].intersection &&
+                                speedPanel._indexSem == car.intSem[i].semType
+                            )
+                                speedPanel.speed = 0;
+                        }
+
+                        
+                        if (i < car.intSem.Count - 1)
+                        {                            
                             // daca o anumita masinuta trece pe rosu este adaugata in lista masinutelor ce au trecut pe rosu
                             if (car._isABadCar && Intersections[car.intSem[i].intersection]._TrafficLights[car.intSem[i].semType].isRed())
                             {
                                 listOfBadCars.Add(car);
                             }
+                            i++;
                         }
                     }
                     
@@ -225,6 +246,19 @@ public class credits
                 }                
                 
             },tokenSource.Token, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
+
+            Task.Factory.StartNew(async () =>
+            {
+                while (true)
+                {
+                    foreach (var speedPanel in speedPanels)
+                    {
+                        speedPanel.speedLabel.Content = speedPanel.speed.ToString();
+                    }
+                    await Task.Delay(100);
+                }
+
+            }, tokenSource.Token, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
         }
         
 
@@ -233,10 +267,6 @@ public class credits
                      
         }
 
-        private void stopAnimation(object sender, RoutedEventArgs e)
-        {
-          //  tokenSource.Cancel();
-        }
 
         // Event declansat la apasare butonului de aprindere a semafoarelor
         private void StartTrafficLightsSync(object sender, RoutedEventArgs e)
@@ -470,7 +500,7 @@ public class credits
                 List<Animation> Animations5 = new List<Animation>();
                 Animations5.Add(new Animation(new Point(0, 0), new Point(60, 0), 0));
                 Animations5.Add(new Animation(new Point(60, 0), new Point(580, 0), 0));
-                Animations5.Add(new Animation(new Point(655, 0), new Point(655, -200), 1));
+                Animations5.Add(new Animation(new Point(700, 0), new Point(700, -200), 1));
 
                 List<ints> dict5 = new List<ints>()
                 {
@@ -478,6 +508,93 @@ public class credits
                     new ints() {intersection = 1, semType = 2},
                 };
                 pth = new SelectedPath(Animations5, dict5, posT, posR);
+            }
+
+            if (AvailablePathsListBox.SelectedIndex == 7)
+            {
+                // Drubeta 1 --> Drubeta 2
+                if (AvailableCarTypes.SelectedItem.ToString() == "Grey car")
+                {
+                    imgSource = "car180.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Red car")
+                {
+                    imgSource = "redcar180.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Train")
+                {
+                    imgSource = "Train.png";
+                }
+                posT = 0;
+                posR = 520;
+                List<Animation> Animations6 = new List<Animation>();
+                Animations6.Add(new Animation(new Point(0, 0), new Point(0, 100), 1));
+                Animations6.Add(new Animation(new Point(0, 100), new Point(0, 500), 1));
+               
+
+                List<ints> dict6 = new List<ints>()
+                {
+                    new ints() {intersection = 1, semType = 1},
+                };
+                pth = new SelectedPath(Animations6, dict6, posT, posR);
+            }
+
+            if (AvailablePathsListBox.SelectedIndex == 8)
+            {
+                // Linie Tramvai Mart --> Linie Tramvai Sag
+                if (AvailableCarTypes.SelectedItem.ToString() == "Grey car")
+                {
+                    imgSource = "car.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Red car")
+                {
+                    imgSource = "redcar.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Train")
+                {
+                    imgSource = "train180.png";
+                }
+                posT = 180;
+                posR = 0;
+                List<Animation> Animations7 = new List<Animation>();
+                Animations7.Add(new Animation(new Point(0, 0), new Point(-470, 0), 0));
+                Animations7.Add(new Animation(new Point(-470,0), new Point(-1200, 0), 0));
+
+
+                List<ints> dict7 = new List<ints>()
+                {
+                    new ints() {intersection = 1, semType = 4},
+                };
+                pth = new SelectedPath(Animations7, dict7, posT, posR);
+            }
+
+            if (AvailablePathsListBox.SelectedIndex == 9)
+            {
+                // Linie Tramvai Sag --> Linie Tramvai Mart
+                if (AvailableCarTypes.SelectedItem.ToString() == "Grey car")
+                {
+                    imgSource = "car.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Red car")
+                {
+                    imgSource = "redcar.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Train")
+                {
+                    imgSource = "Train.png";
+                }
+                posT = 210;
+                posR = 1150;
+                List<Animation> Animations8 = new List<Animation>();
+                Animations8.Add(new Animation(new Point(0, 0), new Point(480, 0), 0));
+                Animations8.Add(new Animation(new Point(480, 0), new Point(1200, 0), 0));
+
+
+                List<ints> dict8 = new List<ints>()
+                {
+                    new ints() {intersection = 1, semType = 5},
+                };
+                pth = new SelectedPath(Animations8, dict8, posT, posR);
             }
 
             selectedThings.Add(new selectedItem()
@@ -503,7 +620,7 @@ public class credits
             carsList.Clear();
             listOfTasks.Clear();
             selectedThings.Clear();
-            listOfBadCars.Clear(); // TODO: After the first simulation the bad cars are no longer added to the list of bad cars
+            listOfBadCars.Clear();
         }
 
         // Event ce asigura pornirea senzorilor de monitorizare a traficului
@@ -530,7 +647,8 @@ public class credits
             {
                 intersection._TrafficLights[0].increaseGreenTime();
                 intersection._TrafficLights[2].increaseGreenTime();
-                // TODO: there are situations in witch all the traffic lights in an intersection are green
+                intersection._TrafficLights[1].increaseRedTime();
+                intersection._TrafficLights[3].increaseRedTime();
             }
         }
 
@@ -540,6 +658,8 @@ public class credits
             {
                 intersection._TrafficLights[0].decreaseGreenTime();
                 intersection._TrafficLights[2].decreaseGreenTime();
+                intersection._TrafficLights[1].decreaseRedTime();
+                intersection._TrafficLights[3].decreaseRedTime();
             }
         }
     }

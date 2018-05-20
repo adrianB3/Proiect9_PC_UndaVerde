@@ -65,9 +65,6 @@ namespace TrafficSimTM
             _carImg.Name = _name;
             ToolTip tl = new ToolTip
             {
-                IsEnabled = true,
-                IsOpen = true,
-                StaysOpen = true,
                 Content = _name
             };
             _carImg.ToolTip = tl;
