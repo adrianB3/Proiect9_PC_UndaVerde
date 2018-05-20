@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Ink;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using P9_UndaVerde;
@@ -19,13 +14,13 @@ namespace TrafficSimTM
         public int _positionFromTop { get; set; } // pozitii fata de fereastra
         public int _positionFromRight { get; set; }
         public int speed { get; set; } // viteza curenta citita de senzor
-        public int _indexIntersectie { get; set; } 
+        public int _indexIntersectie { get; set; } // indexul intersectiei unde se afla senzorul
         public int _indexSem { get; set; }
 
         public Canvas canv;
         public Rectangle speedBoard; // panoul unde se afiseaza viteza
         public Label speedLabel; 
-        SolidColorBrush whiteBrush = new SolidColorBrush();
+        SolidColorBrush whiteBrush = new SolidColorBrush(); // culoare panoului
 
         // Constructor clasa speedpanel
         public SpeedPanel(int positionFromTop, int positionFromRight, int indexIntersectie, int indexSem)
@@ -52,9 +47,10 @@ namespace TrafficSimTM
             Canvas.SetRight(speedBoard, positionFromRight);
             Canvas.SetTop(speedLabel, _positionFromTop);
             Canvas.SetRight(speedLabel, positionFromRight);
-            canv.Children.Add(speedBoard);
-            canv.Children.Add(speedLabel);
-            mainWin.mapGrid.Children.Add(canv);
+
+            canv.Children.Add(speedBoard); // se adauga panelul la canvas
+            canv.Children.Add(speedLabel); // se adauga labelul la canvas
+            mainWin.mapGrid.Children.Add(canv); // se adauga canvasul la fereastra principala
         }
     }
 }

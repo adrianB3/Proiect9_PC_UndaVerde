@@ -33,8 +33,8 @@ namespace TrafficSimTM
 
         // Constuctor clasa masina
         public Car(
-            List<ints> intS,
-            List<Animation> animationsList, 
+            List<ints> intS, // lista intersectii si semafoare 
+            List<Animation> animationsList, // secventa animatii
             string imgSource = "car.png", 
             string name = "car", 
             int width = 45, 
