@@ -4,8 +4,6 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using TrafficSimTM;
 
 namespace P9_UndaVerde
@@ -60,7 +58,8 @@ public class credits
             new Point (35, 635 ),
             new Point (230, 645 ),
             new Point (235, 465 ),
-            new Point (120,600)
+            new Point (120,600),
+            new Point (140,600)
         };
         private readonly List<Point> _intersection3SemPoints = new List<Point>() {
             new Point (40, 980 ),
@@ -93,6 +92,7 @@ public class credits
         ObservableCollection<Car> listOfBadCars = new ObservableCollection<Car>();
         ObservableCollection<selectedItem> selectedThings = new ObservableCollection<selectedItem>();
         CancellationTokenSource tokenSource = new CancellationTokenSource(); // token folosit pentru oprirea unui anumit Task
+
         public MainWindow()
         {
             InitializeComponent();
@@ -121,7 +121,6 @@ public class credits
             AvailablePathsListBox.ItemsSource = AvailablePaths;
             selectedItemsListView.ItemsSource = selectedThings;
             listBoxOfBadCars.ItemsSource = listOfBadCars;
-            sensorsListView.ItemsSource = Sensors;
 
         }
          
@@ -142,7 +141,7 @@ public class credits
                     break;
                 }
                 car.createImage();
-                // Lista de taskuri care asigura deplasarea unuei masinute in mod paralel fata de celelalte masinute
+                // Lista de taskuri care asigura deplasarea unei masinute in mod paralel fata de celelalte masinute
                 listOfTasks.Add(new Task(async () =>
                 {
                     int i = 0;
@@ -153,7 +152,16 @@ public class credits
                         foreach (var sensor in Sensors)
                         {
                             sensor.startSensor();
-                            sensor._Signal();
+                            if (sensor._indexIntersectie == car.intSem[i].intersection &&
+                                sensor._indexSemafor == car.intSem[i].semType
+                            )
+                            {
+                                sensor._Signal();
+                            }                                             
+                        }
+                        if (Sensors[0]._isCrowded() && Sensors[3]._isCrowded())
+                        {
+                            ActivateGreenWave(new object(), new RoutedEventArgs());
                         }
                         await Task.Delay(animation.speedCalculation(car)*1000);  
                         // daca semaforul la care a ajuns masinuta la un anumit moment este rosu, taskul asteapta ca acel semafor sa devina verde
@@ -161,7 +169,16 @@ public class credits
                         {
                             await Task.Delay(100);
                         }
-                        
+                        foreach (var sensor in Sensors)
+                        {
+                            if (sensor._indexIntersectie == car.intSem[i].intersection &&                               
+                                sensor._indexSemafor == car.intSem[i].semType
+                            )
+                            {
+                                sensor._Reset();
+                            }
+                        }
+
                         if (i < car.intSem.Count - 1)
                         {
                             i++;
@@ -175,14 +192,36 @@ public class credits
                     
                 },tokenSource.Token));
             }
+
             // pornire taskuri ptr fiecare masinuta
             foreach (var task in listOfTasks)
             {
                 task.Start(TaskScheduler.FromCurrentSynchronizationContext());
             }
 
+            Task.Factory.StartNew(async () =>
+            {
+                while (true)
+                {
+                    ProgressBar1.Value = Sensors[0]._numberOfCars;
+                    label1.Content = Sensors[0]._numberOfCars;
+                    ProgressBar2.Value = Sensors[1]._numberOfCars;
+                    label2.Content = Sensors[1]._numberOfCars;
+                    ProgressBar3.Value = Sensors[2]._numberOfCars;
+                    label3.Content = Sensors[2]._numberOfCars;
+                    ProgressBar4.Value = Sensors[3]._numberOfCars;
+                    label4.Content = Sensors[3]._numberOfCars;
+                    ProgressBar5.Value = Sensors[4]._numberOfCars;
+                    label5.Content = Sensors[4]._numberOfCars;
+                    ProgressBar6.Value = Sensors[5]._numberOfCars;
+                    label6.Content = Sensors[5]._numberOfCars;
+                    await Task.Delay(100);
+                }                
+                
+            },tokenSource.Token, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
         }
         
+
         private void windowLoaded(object sender, RoutedEventArgs e)
         {
                      
@@ -238,6 +277,18 @@ public class credits
                 // L.Rebreanu Mart B1 --> L.Rebreanu Sag B1
                 posT = 160;
                 posR = 0;
+                if (AvailableCarTypes.SelectedItem.ToString() == "Grey car")
+                {
+                    imgSource = "car.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Red car")
+                {
+                    imgSource = "redcar.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Train")
+                {
+                    imgSource = "Train.png";
+                }
                 pth = new SelectedPath(Animations, dict, posT, posR);
             }
 
@@ -245,6 +296,18 @@ public class credits
             if (AvailablePathsListBox.SelectedIndex == 1)
             {
                 // L.Rebreanu Mart B2 --> L.Rebreanu Sag B2
+                if (AvailableCarTypes.SelectedItem.ToString() == "Grey car")
+                {
+                    imgSource = "car.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Red car")
+                {
+                    imgSource = "redcar.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Train")
+                {
+                    imgSource = "Train.png";
+                }
                 posT = 140;
                 posR = 0;
                 pth = new SelectedPath(Animations, dict, posT, posR);
@@ -255,12 +318,25 @@ public class credits
                 // L.Rebreanu Mart B3 --> Drubeta 1
                 posT = 140;
                 posR = 0;
+                if (AvailableCarTypes.SelectedItem.ToString() == "Grey car")
+                {
+                    imgSource = "car.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Red car")
+                {
+                    imgSource = "redcar.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Train")
+                {
+                    imgSource = "Train.png";
+                }
                 List<Animation> Animations1 = new List<Animation>();
                 Animations1.Add(new Animation(new Point(0, 0), new Point(-90, 0),0));
                 Animations1.Add(new Animation(new Point(-90, 0), new Point(-280, 0),0));
                 Animations1.Add(new Animation(new Point(-280, 0), new Point(-290, -25),0));
-                Animations1.Add(new Animation(new Point(-290, -5), new Point(-500, -5),1));
-                Animations1.Add(new Animation(new Point(-500, -5), new Point(-500, -100),1));
+                Animations1.Add(new Animation(new Point(-290, -5), new Point(-400, -5),1));
+                Animations1.Add(new Animation(new Point(-400, -5), new Point(-400, -20),1));
+                Animations1.Add(new Animation(new Point(-500, -20), new Point(-500, -100),1));
 
                 List<ints> dict1 = new List<ints>()
                 {
@@ -272,6 +348,18 @@ public class credits
 
             if (AvailablePathsListBox.SelectedIndex == 3)
             {
+                if (AvailableCarTypes.SelectedItem.ToString() == "Grey car")
+                {
+                    imgSource = "car.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Red car")
+                {
+                    imgSource = "redcar.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Train")
+                {
+                    imgSource = "Train.png";
+                }
                 // L.Rebreanu Mart B2 --> C-tin Brancoveanu 1
                 posT = 140;
                 posR = 0;
@@ -290,9 +378,23 @@ public class credits
                 pth = new SelectedPath(Animations2, dict2, posT, posR);
             }
 
+           
             if (AvailablePathsListBox.SelectedIndex == 4)
             {
                 // L.Rebreanu Sag B1 --> L.Rebreanu Mart B1
+                if (AvailableCarTypes.SelectedItem.ToString() == "Grey car")
+                {
+                    imgSource = "car180.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Red car")
+                {
+                    imgSource = "redcar180.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Train")
+                {
+                    imgSource = "Train.png";
+                }
+                
                 posT = 260;
                 posR = 1200;
                 List<Animation> Animations3 = new List<Animation>();
@@ -303,9 +405,9 @@ public class credits
 
                 List<ints> dict3 = new List<ints>()
                 {
-                    new ints() {intersection = 2, semType = 0},
-                    new ints() {intersection = 1, semType = 0},
-                    new ints() {intersection = 0, semType = 0},
+                    new ints() {intersection = 2, semType = 2},
+                    new ints() {intersection = 1, semType = 2},
+                    new ints() {intersection = 0, semType = 2},
                 };
                 pth = new SelectedPath(Animations3, dict3, posT, posR);
             }
@@ -313,19 +415,31 @@ public class credits
             if (AvailablePathsListBox.SelectedIndex == 5)
             {
                 // L.Rebreanu Sag B2 --> L.Rebreanu Mart B2
+                if (AvailableCarTypes.SelectedItem.ToString() == "Grey car")
+                {
+                    imgSource = "car180.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Red car")
+                {
+                    imgSource = "redcar180.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Train")
+                {
+                    imgSource = "Train.png";
+                }
                 posT = 260;
                 posR = 1200;
                 List<Animation> Animations4 = new List<Animation>();
-                Animations4.Add(new Animation(new Point(0, 0), new Point(60, 0), 0));
-                Animations4.Add(new Animation(new Point(60, 0), new Point(580, 0), 0));
-                Animations4.Add(new Animation(new Point(580, 0), new Point(950, 0), 0));
-                Animations4.Add(new Animation(new Point(950, 0), new Point(1200, 0), 0));
+                Animations4.Add(new Animation(new Point(0, 0), new Point(60, 0), 1));
+                Animations4.Add(new Animation(new Point(60, 0), new Point(580, 0), 1));
+                Animations4.Add(new Animation(new Point(580, 0), new Point(950, 0), 1));
+                Animations4.Add(new Animation(new Point(950, 0), new Point(1200, 0), 1));
 
                 List<ints> dict4 = new List<ints>()
                 {
-                    new ints() {intersection = 2, semType = 0},
-                    new ints() {intersection = 1, semType = 0},
-                    new ints() {intersection = 0, semType = 0},
+                    new ints() {intersection = 2, semType = 2},
+                    new ints() {intersection = 1, semType = 2},
+                    new ints() {intersection = 0, semType = 2},
                 };
                 pth = new SelectedPath(Animations4, dict4, posT, posR);
             }
@@ -333,34 +447,32 @@ public class credits
             if (AvailablePathsListBox.SelectedIndex == 6)
             {
                 // L.Rebreanu Sag B1 --> Drubeta 1
+                if (AvailableCarTypes.SelectedItem.ToString() == "Grey car")
+                {
+                    imgSource = "car180.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Red car")
+                {
+                    imgSource = "redcar180.png";
+                }
+                if (AvailableCarTypes.SelectedItem.ToString() == "Train")
+                {
+                    imgSource = "Train.png";
+                }
                 posT = 230;
                 posR = 1200;
                 List<Animation> Animations5 = new List<Animation>();
                 Animations5.Add(new Animation(new Point(0, 0), new Point(60, 0), 0));
                 Animations5.Add(new Animation(new Point(60, 0), new Point(580, 0), 0));
-                Animations5.Add(new Animation(new Point(655, 0), new Point(655, -250), 1));
+                Animations5.Add(new Animation(new Point(655, 0), new Point(655, -200), 1));
 
                 List<ints> dict5 = new List<ints>()
                 {
-                    new ints() {intersection = 2, semType = 0},
-                    new ints() {intersection = 1, semType = 0},
+                    new ints() {intersection = 2, semType = 2},
+                    new ints() {intersection = 1, semType = 2},
                 };
                 pth = new SelectedPath(Animations5, dict5, posT, posR);
             }
-
-            if (AvailableCarTypes.SelectedItem.ToString() == "Grey car")
-            {
-                imgSource = "car.png";
-            }
-            if (AvailableCarTypes.SelectedItem.ToString() == "Red car")
-            {
-                imgSource = "redcar.png";
-            }
-            if (AvailableCarTypes.SelectedItem.ToString() == "Train")
-            {
-                imgSource = "Train.png";
-            }
-
 
             selectedThings.Add(new selectedItem()
             {

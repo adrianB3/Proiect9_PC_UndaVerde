@@ -124,30 +124,105 @@
                         </StackPanel>
                         <StackPanel Grid.Column="1" Margin="5">
                             <ScrollViewer Height="120" Width="auto" CanContentScroll="True">
-                                <ListView Name="sensorsListView">
-                                    <ListView.View>
-                                        <GridView>
-                                            <GridViewColumn Header="Sensor" DisplayMemberBinding="{Binding _name}"></GridViewColumn>
-                                            <GridViewColumn Header="Current Count" DisplayMemberBinding="{Binding _numberOfCars}"></GridViewColumn>
-                                        </GridView>
-                                    </ListView.View>
-                                </ListView>
-                         </ScrollViewer>
+                                <ListBox>
+                                    <ListBoxItem>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="5*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="Sensor1" Grid.Column="0"></Label>
+                                            <Label Name="label1" Grid.Column="1"></Label>
+                                            <ProgressBar Minimum="0" Maximum="5" Name="ProgressBar1" Height="20" Width="303" Grid.Column="2"></ProgressBar>
+                                        </Grid>
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="5*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="Sensor2" Grid.Column="0"></Label>
+                                            <Label Name="label2" Grid.Column="1"></Label>
+                                            <ProgressBar Minimum="0" Maximum="5" Name="ProgressBar2" Height="20" Width="303" Grid.Column="2"></ProgressBar>
+                                        </Grid>
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="5*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="Sensor3" Grid.Column="0"></Label>
+                                            <Label Name="label3" Grid.Column="1"></Label>
+                                            <ProgressBar Minimum="0" Maximum="5" Name="ProgressBar3" Height="20" Width="303" Grid.Column="2"></ProgressBar>
+                                        </Grid>
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="5*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="Sensor4" Grid.Column="0"></Label>
+                                            <Label Name="label4" Grid.Column="1"></Label>
+                                            <ProgressBar Minimum="0" Maximum="5" Name="ProgressBar4" Height="20" Width="303" Grid.Column="2"></ProgressBar>
+                                        </Grid>
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="5*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="Sensor5" Grid.Column="0"></Label>
+                                            <Label Name="label5" Grid.Column="1"></Label>
+                                            <ProgressBar Minimum="0" Maximum="5" Name="ProgressBar5" Height="20" Width="303" Grid.Column="2"></ProgressBar>
+                                        </Grid>
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="5*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="Sensor6" Grid.Column="0"></Label>
+                                            <Label Name="label6" Grid.Column="1"></Label>
+                                            <ProgressBar Minimum="0" Maximum="5" Name="ProgressBar6" Height="20" Width="303" Grid.Column="2"></ProgressBar>
+                                        </Grid>
+                                    </ListBoxItem>
+                                </ListBox>
+                            </ScrollViewer>
                         </StackPanel>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Statistics">
-                    <ScrollViewer Height="120" Width="auto">
-                        <ListView Name="listBoxOfBadCars">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding _name}"></GridViewColumn>
-                                    
-                                    <GridViewColumn Header="Speed" DisplayMemberBinding="{Binding _speed}"></GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    </ScrollViewer>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <ScrollViewer Height="120" Width="auto" Grid.Column="0">
+                            <ListView Name="listBoxOfBadCars">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding _name}"></GridViewColumn>
+
+                                        <GridViewColumn Header="Speed" DisplayMemberBinding="{Binding _speed}"></GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </ScrollViewer>
+                        <StackPanel Grid.Column="1">
+                            
+                        </StackPanel>
+                    </Grid>
                 </TabItem>
             </dragablz:TabablzControl>
         </Grid>

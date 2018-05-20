@@ -1,6 +1,5 @@
 ﻿using P9_UndaVerde;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -51,7 +50,7 @@ namespace TrafficSimTM
             greenLight.Fill = colorBrush1;
             greenLight.Width = 13;
             greenLight.Height = 13;
-
+            Image cameraImage = new Image();
             BitmapImage semBitmap = new BitmapImage();
             semBitmap.BeginInit();
             // pozitionare imagine semafor
@@ -62,6 +61,7 @@ namespace TrafficSimTM
                 Canvas.SetTop(redLight, _positionFromTop + 55);
                 Canvas.SetRight(greenLight, _positionFromRight + 13);
                 Canvas.SetTop(greenLight, _positionFromTop + 80);
+
             }
             if (orientation == "90left")
             {
@@ -70,6 +70,7 @@ namespace TrafficSimTM
                 Canvas.SetTop(redLight, _positionFromTop + 68);
                 Canvas.SetRight(greenLight, _positionFromRight);
                 Canvas.SetTop(greenLight, _positionFromTop + 68);
+
             }
             if (orientation == "90right")
             {
@@ -78,6 +79,7 @@ namespace TrafficSimTM
                 Canvas.SetTop(redLight, _positionFromTop + 68);
                 Canvas.SetRight(greenLight, _positionFromRight + 25);
                 Canvas.SetTop(greenLight, _positionFromTop + 68);
+
             }
             if (orientation == "inverse")
             {
@@ -86,6 +88,7 @@ namespace TrafficSimTM
                 Canvas.SetTop(redLight, _positionFromTop + 80);
                 Canvas.SetRight(greenLight, _positionFromRight + 13);
                 Canvas.SetTop(greenLight, _positionFromTop + 55);
+
             }
             semBitmap.EndInit();
             Image semImage = new Image
@@ -96,9 +99,11 @@ namespace TrafficSimTM
                 Name = _name
             };
 
+            
             Canvas.SetRight(semImage, _positionFromRight);
             Canvas.SetTop(semImage, _positionFromTop);
             canv.Children.Add(semImage); 
+   
             mainWin.mapGrid.Children.Add(canv); // adaugare semafor la fereastra principala       
         }
 

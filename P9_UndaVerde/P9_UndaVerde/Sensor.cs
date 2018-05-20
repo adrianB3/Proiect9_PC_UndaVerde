@@ -19,12 +19,13 @@ namespace TrafficSimTM
         Canvas canv = new Canvas();
         Ellipse blueLight = new Ellipse();
         ImageBrush colorBrush = new ImageBrush();
+        
 
         public Sensor(string name,int indexIntersectie, int indexSemafor, int positionFromRight, int positionFromTop)
         {
             _indexIntersectie = indexIntersectie;
             _indexSemafor = indexSemafor;
-            _numberOfCars = 3;
+            _numberOfCars = 0;
             _name = name;
             colorBrush.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Images/blueLed.png", UriKind.RelativeOrAbsolute));
             blueLight.Fill = new SolidColorBrush(Color.FromArgb(100,255,255,255));
@@ -45,13 +46,9 @@ namespace TrafficSimTM
         public void _Signal()
         {
             _numberOfCars++;
-            Progress<int> prog = new Progress<int>();
-            ((IProgress<int>)prog).Report(_numberOfCars);
-            prog.ProgressChanged += (sender, reportedData) =>
-            {
+            
+        }
 
-            };
-        }    
         public void _Reset()
         {
             _numberOfCars = 0;

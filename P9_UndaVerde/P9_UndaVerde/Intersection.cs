@@ -16,7 +16,7 @@ namespace TrafficSimTM
         {
             var coordinates1 = coordinates;
             char i = 'a';
-            string[] directions = new[] {"90left", "inverse", "90right", "normal", "90left"};
+            string[] directions = new[] {"90left", "inverse", "90right", "normal", "90left", "90right"};
             int j = 0;
             foreach (var point in coordinates1)
             {
