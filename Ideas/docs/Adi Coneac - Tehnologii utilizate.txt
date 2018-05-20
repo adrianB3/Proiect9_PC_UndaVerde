@@ -1,0 +1,8 @@
+Tehnologii utilizate
+
+Pentru acest proiect am decis ca limbajul de programare utilizat sa fie C# cunoscut si ca C Sharp.
+Am decis sa folosim C# deoarece acest limbaj a fost creat pentru a fi simplu si usor de realizat dar si datorita popularitatii sale in randul firmelor si a programatorilor.
+C# este un limbaj de programare orientat-obiect conceput de Microsoft la sfâr?itul anilor 90. A fost conceput ca un concurent pentru limbajul Java. Ca ?i acesta, C# este un derivat al limbajului de programare C++.
+
+Pentru a ne usura munca si pentru a avea fiecare la datele proiectului si munca fiecarui coleg am folosit Git Hub.
+Github este foarte util pentru proiecte opensource datorita multelor feature-uri pt colaborare pe care le are (issue tracking, merge requests, etc).
