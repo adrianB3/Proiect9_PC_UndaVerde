@@ -50,9 +50,9 @@ namespace TrafficSimTM
             greenLight.Fill = colorBrush1;
             greenLight.Width = 13;
             greenLight.Height = 13;
-            Image cameraImage = new Image();
+            
             BitmapImage semBitmap = new BitmapImage();
-            semBitmap.BeginInit();
+            semBitmap.BeginInit();//
             // pozitionare imagine semafor
             if (orientation == "normal")
             {
@@ -99,7 +99,7 @@ namespace TrafficSimTM
                 Name = _name
             };
 
-            
+
             Canvas.SetRight(semImage, _positionFromRight);
             Canvas.SetTop(semImage, _positionFromTop);
             canv.Children.Add(semImage); 
@@ -139,7 +139,7 @@ namespace TrafficSimTM
         }
 
         // functie ce aprinde culoarea rosie sau verde a semaforului
-        public Task LightUp()
+        public Task LightUp()//o actiune ce sse executa asincron
         {
             // Task ce asigura functionarea independenta a fiecarui semafor
             var tsk = new Task(async () =>
@@ -164,7 +164,7 @@ namespace TrafficSimTM
                 }
             });
 
-            return tsk;
+            return tsk;//returneaza pt a fi activat din clasa intersectie
         }
     }
 }

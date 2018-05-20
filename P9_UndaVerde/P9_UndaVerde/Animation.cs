@@ -13,7 +13,7 @@ namespace TrafficSimTM
     public class Animation
     {
         MainWindow mainWin = Application.Current.Windows[0] as MainWindow; // referinta catre fereastra principala
-        public Storyboard story = new Storyboard();                         // Obiect ce retine o anumita animatie       
+        public Storyboard story = new Storyboard();   // Obiect ce retine o anumita animatie       
         private Point _startPoint; // punct de pornire al animatiei
         private Point _endPoint; // punct de oprire al animatiei
         private int _additionalAnims; // optiuni ptr animatie (urmarirea tangentei)
@@ -57,21 +57,6 @@ namespace TrafficSimTM
                 await Task.Delay(delay);
                 story.Begin(mainWin, true); // incepere animatie
             }));                      
-        }
-
-        public void stopAnimation()
-        {
-            story.Stop(mainWin);
-        }
-
-        public void pauseAnimation()
-        {
-            story.Pause(mainWin);
-        }
-
-        public void resumeAnimation()
-        {
-            story.Resume(mainWin);
         }
 
         public double speedCalculation(Car car)
