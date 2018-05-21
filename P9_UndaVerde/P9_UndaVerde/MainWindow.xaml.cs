@@ -271,14 +271,17 @@ public class credits
         // Event declansat la apasare butonului de aprindere a semafoarelor
         private void StartTrafficLightsSync(object sender, RoutedEventArgs e)
         {
-            int i = 0;
+            var delays = new[] {0, 11000, 17000};
+            
             // Task ce asigura pornirea sincronizarii fiecarei intersectii in paralel
             Task intersectionSyncTask = new Task(async () =>
             {
+                int i = 0;
                 foreach (var intersection in Intersections)
                 {
+                    await Task.Delay(delays[i]);
                     intersection.StartIntersectionSync();
-                    await Task.Delay(2000); 
+                    i++;
                 }
             });
 

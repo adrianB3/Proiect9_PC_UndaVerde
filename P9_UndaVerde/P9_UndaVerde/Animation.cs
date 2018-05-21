@@ -61,7 +61,7 @@ namespace TrafficSimTM
 
         public double speedCalculation(Car car)
         {         
-            return (Math.Sqrt(Math.Pow(0.01 * _endPoint.X - 0.01 * _startPoint.X, 2) + Math.Pow(0.01 * _endPoint.Y - 0.01 * _startPoint.Y, 2)) * 5000 / Math.Pow(car._speed,1.5f));
+            return (Math.Sqrt(Math.Pow(0.01 * _endPoint.X - 0.01 * _startPoint.X, 2) + Math.Pow(0.01 * _endPoint.Y - 0.01 * _startPoint.Y, 2))*250 / car._speed);
         }
     }
 }
