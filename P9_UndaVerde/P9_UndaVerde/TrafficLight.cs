@@ -110,22 +110,22 @@ namespace TrafficSimTM
         // functie ce mareste timpul de verde
         public void increaseGreenTime()
         {
-            _greenWaitTime += 2;
+            _greenWaitTime += 5;
         }
         // functie ce micsoreaza timpul de verde
         public void decreaseGreenTime()
         {
-            _greenWaitTime -= 2;
+            _greenWaitTime -= 5;
         }
 
         public void increaseRedTime()
         {
-            _redWaitTime += 2;
+            _redWaitTime += 5;
         }
         // functie ce micsoreaza timpul de verde
         public void decreaseRedTime()
         {
-            _redWaitTime -= 2;
+            _redWaitTime -= 5;
         }
 
         public bool isGreen()

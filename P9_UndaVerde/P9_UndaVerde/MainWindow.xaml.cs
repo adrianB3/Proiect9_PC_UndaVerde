@@ -271,6 +271,7 @@ public class credits
         // Event declansat la apasare butonului de aprindere a semafoarelor
         private void StartTrafficLightsSync(object sender, RoutedEventArgs e)
         {
+            int i = 0;
             // Task ce asigura pornirea sincronizarii fiecarei intersectii in paralel
             Task intersectionSyncTask = new Task(async () =>
             {
@@ -650,6 +651,8 @@ public class credits
                 intersection._TrafficLights[1].increaseRedTime();
                 intersection._TrafficLights[3].increaseRedTime();
             }
+            Intersections[1]._TrafficLights[4].increaseGreenTime();
+            Intersections[1]._TrafficLights[5].increaseGreenTime();
         }
 
         private void DeactivateGreenWave(object sender, RoutedEventArgs e)
@@ -661,6 +664,8 @@ public class credits
                 intersection._TrafficLights[1].decreaseRedTime();
                 intersection._TrafficLights[3].decreaseRedTime();
             }
+            Intersections[1]._TrafficLights[4].decreaseGreenTime();
+            Intersections[1]._TrafficLights[5].decreaseGreenTime();
         }
     }
 }
